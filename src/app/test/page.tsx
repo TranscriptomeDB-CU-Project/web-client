@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const AcceptButton = styled.button`
   background-color: green;
+  font-family: inherit;
 `
 
 const Test = () => {
