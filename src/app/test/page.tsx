@@ -1,10 +1,11 @@
 'use client'
 
+import { PRIMARY, TYPOGRAPHY } from '@/common/theme'
 import styled from 'styled-components'
 
 const AcceptButton = styled.button`
-  background-color: green;
-  font-family: inherit;
+  background-color: ${PRIMARY[500]};
+  ${TYPOGRAPHY.body2}
 `
 
 const Test = () => {
