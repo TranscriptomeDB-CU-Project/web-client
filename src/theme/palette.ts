@@ -44,3 +44,5 @@ export const PALETTE = {
   RED,
   BLUE,
 }
+
+export type Colors = keyof typeof PALETTE
