@@ -5,4 +5,4 @@ type RemovePrefix<T> = {
 }
 
 export type Variants<S extends JSXElementConstructor<any>, T> = Partial<RemovePrefix<T>> &
-  Omit<ComponentProps<S>, keyof T>
+  Omit<ComponentProps<S>, keyof T | keyof RemovePrefix<T>>
