@@ -1,11 +1,11 @@
-import { ComponentProps } from 'react'
 import { StyledButton } from './styled'
 import { Colors } from '@/theme'
+import { Variants } from '@/utils/types/variants'
 
 export interface ButtonVariants {
-  size: 'small' | 'medium' | 'large'
-  color: Colors
-  filled?: boolean
+  $size: 'small' | 'medium' | 'large'
+  $color: Colors
+  $filled?: boolean
 }
 
-export type ButtonProps = Partial<ButtonVariants> & Omit<ComponentProps<typeof StyledButton>, 'size' | 'color'>
+export type ButtonProps = Variants<typeof StyledButton, ButtonVariants>

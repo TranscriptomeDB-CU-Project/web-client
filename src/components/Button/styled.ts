@@ -15,12 +15,12 @@ const SIZE = {
   `,
 }
 
-const getBgColor = ({ color, filled }: ButtonVariants) => {
+const getBgColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
   if (color === 'PRIMARY') return filled ? PALETTE.PRIMARY[700] : PALETTE.PRIMARY[100]
   return filled ? PALETTE[color][500] : PALETTE[color][100]
 }
 
-const getColor = ({ color, filled }: ButtonVariants) => {
+const getColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
   if (color === 'PRIMARY') return filled ? PALETTE.PRIMARY[50] : PALETTE.PRIMARY[800]
   return filled ? PALETTE[color][100] : PALETTE[color][500]
 }
@@ -30,7 +30,7 @@ export const StyledButton = styled.button<ButtonVariants>`
   cursor: pointer;
   border-radius: 5px;
   ${TYPOGRAPHY.body1}
-  ${({ size }) => SIZE[size]}
+  ${({ $size }) => SIZE[$size]}
   color: ${getColor};
   background-color: ${getBgColor};
 `

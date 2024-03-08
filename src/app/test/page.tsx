@@ -12,17 +12,16 @@ const AcceptButton = styled.button`
 const Test = () => {
   return (
     <div>
-      <h1>Test</h1>
-      <h1>Test</h1>
-      <h1>Test</h1>
-      <Button>Accept</Button>
-      <Button color="RED">Accept</Button>
-      <Button color="BLUE" size="medium">
-        Accept
-      </Button>
-      <Button filled size="large">
-        Accept
-      </Button>
+      <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <Button>Accept</Button>
+        <Button color="RED">Accept</Button>
+        <Button color="BLUE" size="medium">
+          Accept
+        </Button>
+        <Button filled size="large">
+          Accept
+        </Button>
+      </div>
     </div>
   )
 }
