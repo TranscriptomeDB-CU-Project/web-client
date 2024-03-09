@@ -29,12 +29,16 @@ export const WHITE = '#ffffff'
 
 export const RED = {
   100: '#FFDADA',
+  200: '#FFC9C4',
   500: '#F26363',
+  600: '#E74C4C',
 }
 
 export const BLUE = {
   100: '#D6DFFF',
+  200: '#BDD8FF',
   500: '#4D6AB3',
+  600: '#3A4D8C',
 }
 
 export const PALETTE = {

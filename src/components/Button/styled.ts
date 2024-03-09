@@ -22,6 +22,11 @@ const getBgColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
   return filled ? getPaletteColor(color, 500) : getPaletteColor(color, 100)
 }
 
+const getHoverColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
+  if (color === 'primary') return filled ? PALETTE.PRIMARY[800] : PALETTE.PRIMARY[200]
+  return filled ? getPaletteColor(color, 600) : getPaletteColor(color, 200)
+}
+
 const getColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
   if (color === 'primary') return filled ? PALETTE.PRIMARY[50] : PALETTE.PRIMARY[800]
   return filled ? getPaletteColor(color, 100) : getPaletteColor(color, 500)
@@ -35,4 +40,8 @@ export const StyledButton = styled.button<ButtonVariants>`
   ${({ $size }) => SIZE[$size]}
   color: ${getColor};
   background-color: ${getBgColor};
+
+  &:hover {
+    background-color: ${getHoverColor};
+  }
 `
