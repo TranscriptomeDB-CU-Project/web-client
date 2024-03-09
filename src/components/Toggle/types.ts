@@ -3,7 +3,7 @@ import { Variants } from '@/utils/types/variants'
 import { ToggleContainer } from './styled'
 
 export interface ToggleVariants {
-  $color?: boolean
+  $color?: 'red' | 'green'
 }
 
 export interface ToggleProps extends Variants<typeof ToggleContainer, ToggleVariants> {
