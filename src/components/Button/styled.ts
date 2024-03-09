@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { PALETTE, TYPOGRAPHY } from '@/theme'
+import { getPaletteColor, PALETTE, TYPOGRAPHY } from '@/theme'
 
 import { ButtonVariants } from './types'
 
@@ -18,13 +18,13 @@ const SIZE = {
 }
 
 const getBgColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
-  if (color === 'PRIMARY') return filled ? PALETTE.PRIMARY[700] : PALETTE.PRIMARY[100]
-  return filled ? PALETTE[color][500] : PALETTE[color][100]
+  if (color === 'primary') return filled ? PALETTE.PRIMARY[700] : PALETTE.PRIMARY[100]
+  return filled ? getPaletteColor(color, 500) : getPaletteColor(color, 100)
 }
 
 const getColor = ({ $color: color, $filled: filled }: ButtonVariants) => {
-  if (color === 'PRIMARY') return filled ? PALETTE.PRIMARY[50] : PALETTE.PRIMARY[800]
-  return filled ? PALETTE[color][100] : PALETTE[color][500]
+  if (color === 'primary') return filled ? PALETTE.PRIMARY[50] : PALETTE.PRIMARY[800]
+  return filled ? getPaletteColor(color, 100) : getPaletteColor(color, 500)
 }
 
 export const StyledButton = styled.button<ButtonVariants>`
