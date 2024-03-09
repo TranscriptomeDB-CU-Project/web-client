@@ -71,12 +71,12 @@ export const getPaletteColor = (color: PaletteColor, shade: Shade) => {
 type MyPaths<T extends object> = keyof T extends infer K
   ? K extends string & keyof T
     ? T[K] extends object
-      ? `${Lowercase<K>}${PrependDot<MyPaths<T[K]>>}`
+      ? `${Lowercase<K>}${PrependDash<MyPaths<T[K]>>}`
       : never
     : K
   : never
 
-type PrependDot<T> = [T] extends [never] ? '' : `-${T & number}`
+type PrependDash<T> = [T] extends [never] ? '' : `-${T & number}`
 
 export type Colors = MyPaths<typeof PALETTE> | 'white'
 
