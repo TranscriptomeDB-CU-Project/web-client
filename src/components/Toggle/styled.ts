@@ -1,25 +1,25 @@
 import styled from 'styled-components'
 
-import { PALETTE, TYPOGRAPHY } from '@/theme'
-
+import Text from '../Text'
 import { ToggleVariants } from './types'
 
 const getColor = ({ $color }: ToggleVariants) => {
-  if ($color === undefined) return PALETTE.PRIMARY[950]
-  return $color ? PALETTE.PRIMARY[800] : PALETTE.RED[500]
+  if ($color === undefined) return 'primary-950'
+  return $color ? 'primary-800' : 'red-500'
 }
 
 const getBackgroundColor = ({ $color }: ToggleVariants) => {
-  if ($color === undefined) return PALETTE.PRIMARY[50]
-  return $color ? PALETTE.PRIMARY[100] : PALETTE.RED[100]
+  if ($color === undefined) return 'primary-50'
+  return $color ? 'primary-100' : 'red-100'
 }
 
-export const ToggleContainer = styled.button<ToggleVariants>`
+export const ToggleContainer = styled(Text).attrs<ToggleVariants>(({ $color }) => ({
+  variant: 'body1',
+  color: getColor({ $color }),
+  bg: getBackgroundColor({ $color }),
+}))`
   border: none;
   border-radius: 5px;
   padding: 3px 10px;
   cursor: pointer;
-  background-color: ${getBackgroundColor};
-  color: ${getColor};
-  ${TYPOGRAPHY.body1}
 `

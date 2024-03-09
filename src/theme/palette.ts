@@ -45,4 +45,41 @@ export const PALETTE = {
   BLUE,
 }
 
-export type Colors = keyof typeof PALETTE
+export type PaletteColor = Lowercase<keyof typeof PALETTE>
+
+type SubKey<T extends object> = keyof T extends infer K
+  ? K extends string & keyof T
+    ? T[K] extends object
+      ? MyPaths<T[K]> & number
+      : never
+    : K
+  : never
+
+type Shade = SubKey<typeof PALETTE>
+
+export const getPaletteColor = (color: PaletteColor, shade: Shade) => {
+  if (color === 'white') return WHITE
+  return PALETTE[color.toUpperCase() as keyof typeof PALETTE][shade as keyof (typeof PALETTE)[keyof typeof PALETTE]]
+}
+
+// modify from  https://stackoverflow.com/questions/71944996/typescript-create-union-type-based-on-existence-of-sub-keys-in-an-object
+
+type MyPaths<T extends object> = keyof T extends infer K
+  ? K extends string & keyof T
+    ? T[K] extends object
+      ? `${Lowercase<K>}${PrependDot<MyPaths<T[K]>>}`
+      : never
+    : K
+  : never
+
+type PrependDot<T> = [T] extends [never] ? '' : `-${T & number}`
+
+export type Colors = MyPaths<typeof PALETTE> | 'white'
+
+export const getColor = (color: Colors) => {
+  if (color === 'white') return WHITE
+  const [palette, shade] = color.split('-')
+  return PALETTE[palette.toLocaleUpperCase() as keyof typeof PALETTE][
+    Number(shade) as keyof (typeof PALETTE)[keyof typeof PALETTE]
+  ]
+}

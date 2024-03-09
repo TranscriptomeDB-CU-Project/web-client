@@ -18,8 +18,8 @@ const Test = () => {
     <div>
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <Button>Accept</Button>
-        <Button color="RED">Accept</Button>
-        <Button color="BLUE" size="medium">
+        <Button color="red">Accept</Button>
+        <Button color="blue" size="medium">
           Accept
         </Button>
         <Button filled size="large">
