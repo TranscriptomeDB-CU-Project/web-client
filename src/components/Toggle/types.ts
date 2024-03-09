@@ -1,4 +1,5 @@
 import { Variants } from '@/utils/types/variants'
+
 import { ToggleContainer } from './styled'
 
 export interface ToggleVariants {
