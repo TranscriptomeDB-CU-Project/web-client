@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import Button from '@/components/Button'
+import Pagination from '@/components/Pagination'
 import Toggle from '@/components/Toggle'
 
 const Test = () => {
@@ -10,6 +11,8 @@ const Test = () => {
   const onToggle = () => {
     setToggle((prev) => (prev === 'First Value' ? 'Second Value' : 'First Value'))
   }
+
+  const [page, setPage] = useState(1)
 
   return (
     <div>
@@ -28,6 +31,8 @@ const Test = () => {
         <Toggle value={toggle} onToggle={onToggle} />
         <Toggle value={toggle} onToggle={onToggle} color={toggle == 'First Value'} />
       </div>
+
+      <Pagination page={page} maxPage={5} onChange={setPage} />
     </div>
   )
 }
