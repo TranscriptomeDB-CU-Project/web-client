@@ -4,6 +4,8 @@ import { useState } from 'react'
 
 import Button from '@/components/Button'
 import Pagination from '@/components/Pagination'
+import Select from '@/components/Select'
+import TextField from '@/components/TextField'
 import Toggle from '@/components/Toggle'
 
 const Test = () => {
@@ -13,6 +15,7 @@ const Test = () => {
   }
 
   const [page, setPage] = useState(1)
+  const [text, setText] = useState('')
 
   return (
     <div>
@@ -33,6 +36,9 @@ const Test = () => {
       </div>
 
       <Pagination page={page} maxPage={5} onChange={setPage} />
+      <Select value="Select" />
+      <TextField placeholder="hello" value={text} onChange={setText} />
+      <TextField placeholder="hello" value={text} onChange={setText} search />
     </div>
   )
 }
