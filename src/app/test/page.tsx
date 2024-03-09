@@ -1,6 +1,6 @@
 'use client'
 
-import { PRIMARY, TYPOGRAPHY } from '@/common/theme'
+import { PRIMARY, TYPOGRAPHY } from '@/theme'
 import styled from 'styled-components'
 
 const AcceptButton = styled.button`
