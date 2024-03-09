@@ -1,6 +1,7 @@
 import { MouseEvent, useState } from 'react'
-import { ButtonProps } from './types'
+
 import { StyledButton } from './styled'
+import { ButtonProps } from './types'
 
 const Button = ({ size = 'small', color = 'PRIMARY', filled, onClick, ...props }: ButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)

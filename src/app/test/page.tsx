@@ -1,15 +1,9 @@
 'use client'
 
+import { useState } from 'react'
+
 import Button from '@/components/Button'
 import Toggle from '@/components/Toggle'
-import { PRIMARY, TYPOGRAPHY } from '@/theme'
-import { useState } from 'react'
-import styled from 'styled-components'
-
-const AcceptButton = styled.button`
-  background-color: ${PRIMARY[500]};
-  ${TYPOGRAPHY.body2}
-`
 
 const Test = () => {
   const [toggle, setToggle] = useState('First Value')

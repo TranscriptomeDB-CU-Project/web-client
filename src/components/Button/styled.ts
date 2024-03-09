@@ -1,5 +1,7 @@
-import { Colors, PALETTE, TYPOGRAPHY } from '@/theme'
 import styled, { css } from 'styled-components'
+
+import { PALETTE, TYPOGRAPHY } from '@/theme'
+
 import { ButtonVariants } from './types'
 
 const SIZE = {

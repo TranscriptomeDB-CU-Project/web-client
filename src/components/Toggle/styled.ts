@@ -1,7 +1,8 @@
-import { PALETTE, TYPOGRAPHY } from '@/theme'
 import styled from 'styled-components'
+
+import { PALETTE, TYPOGRAPHY } from '@/theme'
+
 import { ToggleVariants } from './types'
-import { get } from 'http'
 
 const getColor = ({ $color }: ToggleVariants) => {
   if ($color === undefined) return PALETTE.PRIMARY[950]

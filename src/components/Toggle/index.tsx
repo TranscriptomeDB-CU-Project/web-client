@@ -1,6 +1,5 @@
-import React from 'react'
-import { ToggleProps } from './types'
 import { ToggleContainer } from './styled'
+import { ToggleProps } from './types'
 
 const Toggle = ({ onToggle, value, color }: ToggleProps) => {
   return (
