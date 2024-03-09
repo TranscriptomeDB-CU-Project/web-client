@@ -5,12 +5,12 @@ import { ToggleVariants } from './types'
 
 const getColor = ({ $color }: ToggleVariants) => {
   if ($color === undefined) return 'primary-950'
-  return $color ? 'primary-800' : 'red-500'
+  return $color == 'green' ? 'primary-800' : 'red-500'
 }
 
 const getBackgroundColor = ({ $color }: ToggleVariants) => {
   if ($color === undefined) return 'primary-50'
-  return $color ? 'primary-100' : 'red-100'
+  return $color == 'green' ? 'primary-100' : 'red-100'
 }
 
 export const ToggleContainer = styled(Text).attrs<ToggleVariants>(({ $color }) => ({
@@ -22,4 +22,5 @@ export const ToggleContainer = styled(Text).attrs<ToggleVariants>(({ $color }) =
   border-radius: 5px;
   padding: 3px 10px;
   cursor: pointer;
+  user-select: none;
 `

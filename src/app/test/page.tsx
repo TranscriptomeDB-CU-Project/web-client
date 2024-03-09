@@ -29,7 +29,7 @@ const Test = () => {
 
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <Toggle value={toggle} onToggle={onToggle} />
-        <Toggle value={toggle} onToggle={onToggle} color={toggle == 'First Value'} />
+        <Toggle value={toggle} onToggle={onToggle} color={toggle == 'First Value' ? 'red' : 'green'} />
       </div>
 
       <Pagination page={page} maxPage={5} onChange={setPage} />
