@@ -17,6 +17,14 @@ const Test = () => {
   const [page, setPage] = useState(1)
   const [text, setText] = useState('')
 
+  const getSuggestions = async (query: string) => {
+    if (!query) return []
+    const suggestion = ['hello', 'world', 'this', 'is', 'a', 'test']
+    return suggestion.filter((s) => s.includes(query))
+  }
+
+  const [values, setValues] = useState<string[]>([])
+
   return (
     <div>
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
@@ -37,8 +45,24 @@ const Test = () => {
 
       <Pagination page={page} maxPage={5} onChange={setPage} />
       <Select value="Select" />
-      <TextField placeholder="hello" value={text} onChange={setText} />
-      <TextField placeholder="hello" value={text} onChange={setText} search />
+      <TextField placeholder="with suggestion" value={text} onChange={setText} getSuggestions={getSuggestions} />
+      <TextField placeholder="no suggestion" value={text} onChange={setText} search />
+      <TextField
+        placeholder="with loading & add on select"
+        value={text}
+        onChange={setText}
+        getSuggestions={getSuggestions}
+        onSelectSuggestion={(value) => {
+          setText('')
+          setValues((prev) => [...prev, value])
+        }}
+        isLoading
+      />
+      <div>
+        {values.map((value, index) => (
+          <div key={index}>{value}</div>
+        ))}
+      </div>
     </div>
   )
 }

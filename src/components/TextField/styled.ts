@@ -10,6 +10,7 @@ export const InputContainer = styled.div`
   padding: 2px 5px;
   align-items: center;
   gap: 5px;
+  position: relative;
 `
 
 export const StyledInput = styled.input`

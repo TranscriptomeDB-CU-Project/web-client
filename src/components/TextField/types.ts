@@ -3,4 +3,8 @@ export interface TextFieldProps {
   value: string
   placeholder?: string
   search?: boolean
+
+  getSuggestions?: (value: string) => Promise<string[]>
+  onSelectSuggestion?: (value: string) => void
+  isLoading?: boolean
 }
