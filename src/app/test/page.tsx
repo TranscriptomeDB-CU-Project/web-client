@@ -1,20 +1,33 @@
 'use client'
 
-import { PRIMARY, TYPOGRAPHY } from '@/theme'
-import styled from 'styled-components'
+import { useState } from 'react'
 
-const AcceptButton = styled.button`
-  background-color: ${PRIMARY[500]};
-  ${TYPOGRAPHY.body2}
-`
+import Button from '@/components/Button'
+import Toggle from '@/components/Toggle'
 
 const Test = () => {
+  const [toggle, setToggle] = useState('First Value')
+  const onToggle = () => {
+    setToggle((prev) => (prev === 'First Value' ? 'Second Value' : 'First Value'))
+  }
+
   return (
     <div>
-      <h1>Test</h1>
-      <h1>Test</h1>
-      <h1>Test</h1>
-      <AcceptButton>Accept</AcceptButton>
+      <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <Button>Accept</Button>
+        <Button color="RED">Accept</Button>
+        <Button color="BLUE" size="medium">
+          Accept
+        </Button>
+        <Button filled size="large">
+          Accept
+        </Button>
+      </div>
+
+      <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <Toggle value={toggle} onToggle={onToggle} />
+        <Toggle value={toggle} onToggle={onToggle} color={toggle == 'First Value'} />
+      </div>
     </div>
   )
 }
