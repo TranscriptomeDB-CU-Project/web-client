@@ -1,3 +1,8 @@
 export interface SelectProps {
-  value: string
+  value: any
+  items: {
+    value: any
+    label: string
+  }[]
+  onChange: (value: any) => void
 }

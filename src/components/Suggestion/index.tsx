@@ -14,7 +14,7 @@ const Suggestion = ({ suggestions, isLoading, onSelect }: SuggestionProps) => {
           key={index}
           onClick={(e: MouseEvent<HTMLDivElement>) => {
             e.stopPropagation()
-            onSelect(suggestion)
+            onSelect(suggestion, index)
           }}
         >
           {suggestion}

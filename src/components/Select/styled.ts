@@ -5,6 +5,7 @@ import Text from '../Text'
 export const SelectContainer = styled(Text).attrs({
   bg: 'primary-50',
 })`
+  position: relative;
   display: flex;
   align-items: center;
   padding: 3px 10px;

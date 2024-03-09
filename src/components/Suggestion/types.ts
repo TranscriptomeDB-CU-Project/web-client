@@ -1,5 +1,5 @@
 export interface SuggestionProps {
   suggestions?: string[]
   isLoading?: boolean
-  onSelect: (value: string) => void
+  onSelect: (value: string, idx: number) => void
 }

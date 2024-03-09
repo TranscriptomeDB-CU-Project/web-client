@@ -24,6 +24,7 @@ const Test = () => {
   }
 
   const [values, setValues] = useState<string[]>([])
+  const [choice, setChoice] = useState<number>(1)
 
   return (
     <div>
@@ -44,7 +45,14 @@ const Test = () => {
       </div>
 
       <Pagination page={page} maxPage={5} onChange={setPage} />
-      <Select value="Select" />
+      <Select
+        value={choice}
+        items={[
+          { value: 1, label: 'First Value' },
+          { value: 2, label: 'Second Value' },
+        ]}
+        onChange={setChoice}
+      />
       <TextField placeholder="with suggestion" value={text} onChange={setText} getSuggestions={getSuggestions} />
       <TextField placeholder="no suggestion" value={text} onChange={setText} search />
       <TextField
