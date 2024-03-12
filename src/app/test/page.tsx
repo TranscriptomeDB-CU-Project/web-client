@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Button from '@/components/Button'
 import Pagination from '@/components/Pagination'
 import Select from '@/components/Select'
+import Switch from '@/components/Switch'
 import TextField from '@/components/TextField'
 import Toggle from '@/components/Toggle'
 
@@ -71,6 +72,7 @@ const Test = () => {
           <div key={index}>{value}</div>
         ))}
       </div>
+      <Switch />
     </div>
   )
 }
