@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
 import Pagination from '@/components/Pagination'
+import RadioBox from '@/components/RadioBox'
 import Select from '@/components/Select'
 import Switch from '@/components/Switch'
 import TextField from '@/components/TextField'
@@ -75,6 +76,10 @@ const Test = () => {
       </div>
       <Switch />
       <Checkbox />
+      <RadioBox />
+      <RadioBox />
+      <RadioBox />
+      <RadioBox />
     </div>
   )
 }
