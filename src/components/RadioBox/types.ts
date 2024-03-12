@@ -1,4 +1,4 @@
 export interface RadioBoxProps {
   checked?: boolean
-  handleChecked?: () => void
+  handleChecked?: (checked: boolean) => void
 }

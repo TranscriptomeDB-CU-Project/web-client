@@ -1,4 +1,4 @@
 export interface CheckboxProps {
   checked?: boolean
-  handleChecked?: () => void
+  handleChecked?: (checked: boolean) => void
 }
