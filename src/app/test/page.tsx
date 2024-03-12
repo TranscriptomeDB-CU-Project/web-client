@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import Button from '@/components/Button'
+import Checkbox from '@/components/Checkbox'
 import Pagination from '@/components/Pagination'
 import Select from '@/components/Select'
 import Switch from '@/components/Switch'
@@ -73,6 +74,7 @@ const Test = () => {
         ))}
       </div>
       <Switch />
+      <Checkbox />
     </div>
   )
 }
