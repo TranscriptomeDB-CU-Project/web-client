@@ -7,6 +7,7 @@ export const SwitchContainer = styled.input.attrs({ type: 'checkbox' })`
   height: 25px;
   position: relative;
   appearance: none;
+  margin: 0;
 
   &:before {
     content: ' ';
@@ -26,7 +27,7 @@ export const SwitchContainer = styled.input.attrs({ type: 'checkbox' })`
     content: ' ';
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-51%);
     left: 3px;
     width: 20px;
     height: 20px;
