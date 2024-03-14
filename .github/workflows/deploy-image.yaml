@@ -6,13 +6,18 @@ on:
       - main
       - dev
 
+permissions:
+  contents: read # for checkout
+
 jobs:
   release:
     name: Build and push Docker image
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
       packages: write
+      pull-requests: write # to be able to comment on released pull requests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
