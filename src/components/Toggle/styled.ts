@@ -23,4 +23,6 @@ export const ToggleContainer = styled(Text).attrs<ToggleVariants>(({ $color }) =
   padding: 3px 10px;
   cursor: pointer;
   user-select: none;
+  text-align: center;
+  white-space: nowrap;
 `
