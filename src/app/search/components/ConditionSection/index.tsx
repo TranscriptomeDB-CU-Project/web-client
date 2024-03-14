@@ -2,31 +2,35 @@
 
 import React from 'react'
 
-import Button from '@/components/Button'
+import Switch from '@/components/Switch'
+import Text from '@/components/Text'
+import useSwitch from '@/hooks/useSwitch'
 
 import { useSearch } from '../../context/SearchContext'
 import { ConditionGroup } from '../../types'
-import ConditionItem from '../ConditionItem'
-import { ConditionItemContainer } from './styled'
+import SimpleCondition from '../SimpleCondition'
+import { Container, TitleContainer } from './styled'
 
 const ConditionSection = () => {
   const actions = useSearch()
+  const complex = useSwitch()
 
   const rootGroup = actions.getItem('root') as ConditionGroup | null
 
   if (!rootGroup) return null
 
   return (
-    <div>
-      <ConditionItemContainer>
-        {rootGroup.conditions.map((conditionId, idx) => (
-          <ConditionItem key={conditionId} id={conditionId} excludeOperator={idx === 0} />
-        ))}
-      </ConditionItemContainer>
-      <Button onClick={() => actions.addItem('condition', 'root')} size="medium">
-        Add Condition
-      </Button>
-    </div>
+    <Container>
+      <TitleContainer>
+        <Text variant="h2" style={{ flexGrow: 1 }}>
+          Condition
+        </Text>
+
+        <Text variant="h3">Complex</Text>
+        <Switch checked={complex.state} onChange={complex.toggle} />
+      </TitleContainer>
+      {!complex.state && <SimpleCondition />}
+    </Container>
   )
 }
 

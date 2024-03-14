@@ -1,8 +1,19 @@
 import styled from 'styled-components'
 
-export const ConditionItemContainer = styled.div`
-  display: grid;
-  grid-template-columns: minmax(60px, min-content) minmax(65px, min-content) 1fr min-content 1fr min-content;
+import { PALETTE } from '@/theme'
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 24px;
+
+  border: 1px solid ${PALETTE.BLACK[200]};
+  border-radius: 10px;
+`
+
+export const TitleContainer = styled.div`
+  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 `
