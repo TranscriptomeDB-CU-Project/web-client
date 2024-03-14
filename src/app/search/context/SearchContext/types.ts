@@ -1,4 +1,3 @@
-import { GetTokenRequestDTO } from '@/dto/types'
 import useSwitch from '@/hooks/useSwitch'
 
 import { Condition, ConditionGroup } from '../../types'
@@ -12,5 +11,5 @@ export interface ISearchContext {
   removeItem: (id: string) => void
   reset: () => void
   complex: ReturnType<typeof useSwitch>
-  constructQuery: () => GetTokenRequestDTO
+  getToken: () => void
 }

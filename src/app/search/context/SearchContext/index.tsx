@@ -10,7 +10,18 @@ export const useSearch = () => useContext(SearchContext)
 
 export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
   const actions = useCondition()
-  const { constructQuery } = useQuery(actions, actions.complex.state)
+  const { constructQuery, validate } = useQuery(actions, actions.complex.state)
 
-  return <SearchContext.Provider value={{ ...actions, constructQuery }}>{children}</SearchContext.Provider>
+  const getToken = () => {
+    const error = validate('root')
+
+    if (error) {
+      console.error('error', error)
+      return
+    }
+
+    console.log(constructQuery())
+  }
+
+  return <SearchContext.Provider value={{ ...actions, getToken }}>{children}</SearchContext.Provider>
 }

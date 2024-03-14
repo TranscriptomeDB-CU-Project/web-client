@@ -74,8 +74,26 @@ const useQuery = (actions: ReturnType<typeof useCondition>, isComplex: boolean) 
     return currentGroup
   }
 
+  const validate = (id: string): string | null => {
+    const item = actions.getItem(id)
+    if (actions.getType(id) === 'condition') {
+      const condition = item as Condition
+      if (condition.key === '' || condition.value === '') return 'Please fill all Columns and Keywords'
+    } else {
+      const group = item as ConditionGroup
+      if (group.conditions.length === 0) return 'Please remove the group with no conditions'
+      for (const childId of group.conditions) {
+        const error = validate(childId)
+        if (error) return error
+      }
+    }
+
+    return null
+  }
+
   return {
     constructQuery,
+    validate,
   }
 }
 
