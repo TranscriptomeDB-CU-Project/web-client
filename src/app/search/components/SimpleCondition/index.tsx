@@ -29,7 +29,7 @@ const SimpleCondition = () => {
           </Text>
           <div />
           {rootGroup.conditions.map((conditionId, idx) => (
-            <ConditionItem key={conditionId} id={conditionId} excludeOperator={idx === 0} />
+            <ConditionItem key={conditionId} id={conditionId} hideOperator={idx === 0} />
           ))}
         </ConditionItemContainer>
       )}

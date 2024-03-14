@@ -11,7 +11,7 @@ import { MATCH_TYPE_ITEMS } from '../../constants'
 import useCondition from './hooks/useCondition'
 import { ConditionProps } from './types'
 
-const ConditionItem = ({ id, excludeOperator }: ConditionProps) => {
+const ConditionItem = ({ id, excludeOperator, hideOperator }: ConditionProps) => {
   const items = useCondition(id)
   if (!items) return null
 
@@ -21,7 +21,11 @@ const ConditionItem = ({ id, excludeOperator }: ConditionProps) => {
 
   return (
     <>
-      {excludeOperator ? <div /> : <Toggle value={capitalize(operator)} onToggle={toggleOperator} />}
+      {excludeOperator || hideOperator ? (
+        hideOperator && <div />
+      ) : (
+        <Toggle value={capitalize(operator)} onToggle={toggleOperator} />
+      )}
       <Toggle value={include ? 'is' : 'is not'} color={include ? 'green' : 'red'} onToggle={toggleInclude} />
       <TextField value={key} onChange={setField('key')} />
       <Select value={matchType} items={MATCH_TYPE_ITEMS} onChange={setField('matchType')} />

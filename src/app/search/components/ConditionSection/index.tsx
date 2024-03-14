@@ -8,6 +8,7 @@ import useSwitch from '@/hooks/useSwitch'
 
 import { useSearch } from '../../context/SearchContext'
 import { ConditionGroup } from '../../types'
+import ConditionGroupItem from '../ConditionGroupItem'
 import SimpleCondition from '../SimpleCondition'
 import { Container, TitleContainer } from './styled'
 
@@ -19,6 +20,11 @@ const ConditionSection = () => {
 
   if (!rootGroup) return null
 
+  const handleToggle = () => {
+    actions.reset()
+    complex.toggle()
+  }
+
   return (
     <Container>
       <TitleContainer>
@@ -27,9 +33,9 @@ const ConditionSection = () => {
         </Text>
 
         <Text variant="h3">Complex</Text>
-        <Switch checked={complex.state} onChange={complex.toggle} />
+        <Switch checked={complex.state} onChange={handleToggle} />
       </TitleContainer>
-      {!complex.state && <SimpleCondition />}
+      {complex.state ? <ConditionGroupItem id="root" /> : <SimpleCondition />}
     </Container>
   )
 }
