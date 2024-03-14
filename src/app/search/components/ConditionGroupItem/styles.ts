@@ -17,7 +17,8 @@ export const GroupContainer = styled.div`
   gap: 10px;
   border: 1px solid ${PALETTE.PRIMARY[600]};
   border-radius: 5px;
-  grid-column: span 5;
+  grid-column: 1 / -1;
+  min-width: min-content;
 `
 
 export const HeaderContainer = styled.div`

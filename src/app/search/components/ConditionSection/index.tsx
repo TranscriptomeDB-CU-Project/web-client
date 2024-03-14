@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import Switch from '@/components/Switch'
 import Text from '@/components/Text'
@@ -16,14 +16,14 @@ const ConditionSection = () => {
   const actions = useSearch()
   const complex = useSwitch()
 
+  useEffect(() => {
+    actions.reset()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complex.state])
+
   const rootGroup = actions.getItem('root') as ConditionGroup | null
 
   if (!rootGroup) return null
-
-  const handleToggle = () => {
-    actions.reset()
-    complex.toggle()
-  }
 
   return (
     <Container>
@@ -33,9 +33,15 @@ const ConditionSection = () => {
         </Text>
 
         <Text variant="h3">Complex</Text>
-        <Switch checked={complex.state} onChange={handleToggle} />
+        <Switch checked={complex.state} onChange={complex.toggle} />
       </TitleContainer>
-      {complex.state ? <ConditionGroupItem id="root" /> : <SimpleCondition />}
+      {complex.state ? (
+        <div style={{ overflowY: 'auto' }}>
+          <ConditionGroupItem id="root" />
+        </div>
+      ) : (
+        <SimpleCondition />
+      )}
     </Container>
   )
 }
