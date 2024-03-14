@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react'
 
+import useSwitch from '@/hooks/useSwitch'
 import { id } from '@/utils/id'
 
 import { Condition, ConditionGroup, MatchType, Operator } from '../../../types'
 
 const useCondition = () => {
   const [conditionMap, setConitionMap] = useState<{ [key: string]: Condition | ConditionGroup }>({})
+  const complex = useSwitch()
+
+  useEffect(() => {
+    reset()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complex.state])
 
   const getNewItem = (type: 'condition' | 'group', parentId: string): Condition | ConditionGroup => {
     if (type === 'condition') {
@@ -39,6 +46,10 @@ const useCondition = () => {
       setConitionMap({ ...conditionMap })
     }
 
+    if (type === 'group') {
+      addItem('condition', data.id)
+    }
+
     return data.id
   }
 
@@ -50,12 +61,13 @@ const useCondition = () => {
   const getItem = (id: string) => conditionMap[id]
   const getType = (id: string) => {
     const item = getItem(id)
+    if (!item) return null
     return item.id.startsWith('condition') ? 'condition' : 'group'
   }
 
   const getParent = (id: string) => {
     const condition = getItem(id)
-    if (condition.id === 'root') {
+    if (!condition || condition.id === 'root') {
       return null
     }
     return getItem(condition.parentId) as ConditionGroup
@@ -68,19 +80,28 @@ const useCondition = () => {
         removeChild(conditionId)
       }
     }
-  }
 
-  const removeItem = (id: string) => {
-    removeChild(id)
-    const parent = getParent(id)
-    if (parent) {
-      parent.conditions = parent.conditions.filter((conditionId) => conditionId !== id)
-      setItem(parent)
-    }
     delete conditionMap[id]
   }
 
+  const removeItem = (id: string) => {
+    const parent = getParent(id)
+    if (parent) {
+      parent.conditions = parent.conditions.filter((conditionId) => conditionId !== id)
+      conditionMap[parent.id] = parent
+    }
+
+    removeChild(id)
+    setConitionMap({ ...conditionMap })
+  }
+
+  const justReset = useSwitch()
   const reset = () => {
+    setConitionMap({})
+    justReset.toggle()
+  }
+
+  useEffect(() => {
     setItem({
       id: 'root',
       parentId: 'root',
@@ -89,12 +110,8 @@ const useCondition = () => {
     })
 
     addItem('condition', 'root')
-  }
-
-  useEffect(() => {
-    reset()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [justReset.state])
 
   return {
     addItem,
@@ -104,6 +121,8 @@ const useCondition = () => {
     getParent,
     reset,
     removeItem,
+    complex,
+    conditionMap,
   }
 }
 
