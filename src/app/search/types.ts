@@ -23,4 +23,5 @@ export interface ConditionGroup {
   id: string
   parentId: string
   conditions: string[]
+  operator: Operator
 }

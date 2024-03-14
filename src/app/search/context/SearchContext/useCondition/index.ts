@@ -23,6 +23,7 @@ const useCondition = () => {
         id: `group-${id()}`,
         parentId,
         conditions: [],
+        operator: Operator.AND,
       }
     }
   }
@@ -84,6 +85,7 @@ const useCondition = () => {
       id: 'root',
       parentId: 'root',
       conditions: [],
+      operator: Operator.AND,
     })
 
     addItem('condition', 'root')
