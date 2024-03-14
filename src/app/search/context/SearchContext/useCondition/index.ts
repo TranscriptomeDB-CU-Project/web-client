@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { id } from '@/utils/id'
 
-import { Condition, ConditionGroup, MatchType, Operator } from '../types'
+import { Condition, ConditionGroup, MatchType, Operator } from '../../../types'
 
 const useCondition = () => {
   const [conditionMap, setConitionMap] = useState<{ [key: string]: Condition | ConditionGroup }>({})
