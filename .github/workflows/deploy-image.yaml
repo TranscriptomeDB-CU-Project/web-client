@@ -3,7 +3,6 @@ name: Deploy web image
 on:
   push:
     branches:
-      - main
       - dev
     tags:
       - 'v*.*.*'
