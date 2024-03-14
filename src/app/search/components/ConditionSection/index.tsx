@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
+import Button from '@/components/Button'
 import Switch from '@/components/Switch'
 import Text from '@/components/Text'
-import useSwitch from '@/hooks/useSwitch'
 
 import { useSearch } from '../../context/SearchContext'
 import { ConditionGroup } from '../../types'
@@ -13,15 +13,9 @@ import SimpleCondition from '../SimpleCondition'
 import { Container, TitleContainer } from './styled'
 
 const ConditionSection = () => {
-  const actions = useSearch()
-  const complex = useSwitch()
+  const { complex, getItem, getToken } = useSearch()
 
-  useEffect(() => {
-    actions.reset()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complex.state])
-
-  const rootGroup = actions.getItem('root') as ConditionGroup | null
+  const rootGroup = getItem('root') as ConditionGroup | null
 
   if (!rootGroup) return null
 
@@ -42,6 +36,9 @@ const ConditionSection = () => {
       ) : (
         <SimpleCondition />
       )}
+      <Button size="large" onClick={getToken} filled style={{ alignSelf: 'flex-end' }}>
+        Next (This is a button for test only)
+      </Button>
     </Container>
   )
 }
