@@ -6,7 +6,7 @@ import { id } from '@/utils/id'
 import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '../../../types'
 
 const useCondition = () => {
-  const [conditionMap, setConitionMap] = useState<{ [key: string]: Condition | ConditionGroup }>({})
+  const [conditionMap, setConditionMap] = useState<{ [key: string]: Condition | ConditionGroup }>({})
   const complex = useSwitch()
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const useCondition = () => {
       parent.conditions.push(data.id)
       setItem(parent)
     } else {
-      setConitionMap({ ...conditionMap })
+      setConditionMap({ ...conditionMap })
     }
 
     if (type === ConditionType.GROUP) {
@@ -57,7 +57,7 @@ const useCondition = () => {
 
   const setItem = (data: ConditionGroup | Condition) => {
     conditionMap[data.id] = data
-    setConitionMap({ ...conditionMap })
+    setConditionMap({ ...conditionMap })
   }
 
   const getItem = (id: string) => conditionMap[id]
@@ -90,12 +90,12 @@ const useCondition = () => {
     }
 
     removeChild(id)
-    setConitionMap({ ...conditionMap })
+    setConditionMap({ ...conditionMap })
   }
 
   const justReset = useSwitch()
   const reset = () => {
-    setConitionMap({})
+    setConditionMap({})
     justReset.toggle()
   }
 
