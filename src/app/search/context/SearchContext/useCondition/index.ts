@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import useSwitch from '@/hooks/useSwitch'
 import { id } from '@/utils/id'
@@ -101,7 +101,14 @@ const useCondition = () => {
     justReset.toggle()
   }
 
+  const skipFirstRender = useRef(true)
+
   useEffect(() => {
+    if (skipFirstRender.current) {
+      skipFirstRender.current = false
+      return
+    }
+
     setItem({
       id: 'root',
       parentId: 'root',
