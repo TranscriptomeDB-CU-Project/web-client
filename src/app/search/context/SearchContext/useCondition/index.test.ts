@@ -137,6 +137,18 @@ describe('useCondition', () => {
         },
       })
     })
+
+    test('should not allow if append condition to condition', async () => {
+      const { default: useCondition } = await import('.')
+
+      const { result } = renderHook(() => useCondition())
+
+      const id = result.current.addItem('condition', 'root')
+
+      const newItem = result.current.addItem('condition', id)
+
+      expect(newItem).toBeNull()
+    })
   })
 
   describe('getItem()', () => {
