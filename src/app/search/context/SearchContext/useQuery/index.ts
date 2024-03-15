@@ -3,9 +3,9 @@ import { GetTokenRequestDTO, ParameterCondition, ParamsWithOps } from '@/dto/typ
 
 import useCondition from '../useCondition'
 
-const useQuery = (actions: ReturnType<typeof useCondition>, isComplex: boolean) => {
+const useQuery = (actions: ReturnType<typeof useCondition>) => {
   const constructQuery = (): GetTokenRequestDTO => {
-    if (isComplex) {
+    if (actions.complex.state) {
       return {
         query: constructComplex('root'),
       }
