@@ -17,6 +17,7 @@ export interface Condition {
   value: string
   matchType: MatchType
   include: boolean
+  type: ConditionType.SINGLE
 }
 
 export interface ConditionGroup {
@@ -24,4 +25,10 @@ export interface ConditionGroup {
   parentId: string
   conditions: string[]
   operator: Operator
+  type: ConditionType.GROUP
+}
+
+export enum ConditionType {
+  GROUP = 'GROUP',
+  SINGLE = 'SINGLE',
 }

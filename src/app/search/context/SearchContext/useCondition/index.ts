@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import useSwitch from '@/hooks/useSwitch'
 import { id } from '@/utils/id'
 
-import { Condition, ConditionGroup, MatchType, Operator } from '../../../types'
+import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '../../../types'
 
 const useCondition = () => {
   const [conditionMap, setConitionMap] = useState<{ [key: string]: Condition | ConditionGroup }>({})
@@ -14,28 +14,30 @@ const useCondition = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complex.state])
 
-  const getNewItem = (type: 'condition' | 'group', parentId: string): Condition | ConditionGroup => {
-    if (type === 'condition') {
+  const getNewItem = (type: ConditionType, parentId: string): Condition | ConditionGroup => {
+    if (type === ConditionType.SINGLE) {
       return {
-        id: `condition-${id()}`,
+        id: id(),
         parentId,
         key: '',
         value: '',
         matchType: MatchType.CONTAINS,
         include: true,
         operator: Operator.AND,
+        type: ConditionType.SINGLE,
       }
     } else {
       return {
-        id: `group-${id()}`,
+        id: id(),
         parentId,
         conditions: [],
         operator: Operator.AND,
+        type: ConditionType.GROUP,
       }
     }
   }
 
-  const addItem = (type: 'condition' | 'group', parentId: string): string => {
+  const addItem = (type: ConditionType, parentId: string): string => {
     const data = getNewItem(type, parentId)
     conditionMap[data.id] = data
     const parent = getParent(data.id)
@@ -46,8 +48,8 @@ const useCondition = () => {
       setConitionMap({ ...conditionMap })
     }
 
-    if (type === 'group') {
-      addItem('condition', data.id)
+    if (type === ConditionType.GROUP) {
+      addItem(ConditionType.SINGLE, data.id)
     }
 
     return data.id
@@ -59,23 +61,19 @@ const useCondition = () => {
   }
 
   const getItem = (id: string) => conditionMap[id]
-  const getType = (id: string) => {
-    const item = getItem(id)
-    if (!item) return null
-    return item.id.startsWith('condition') ? 'condition' : 'group'
-  }
 
   const getParent = (id: string) => {
     const condition = getItem(id)
     if (!condition || condition.id === 'root') {
       return null
     }
+
     return getItem(condition.parentId) as ConditionGroup
   }
 
   const removeChild = (id: string) => {
-    if (getType(id) === 'group') {
-      const item = getItem(id) as ConditionGroup
+    const item = getItem(id)
+    if (item.type === ConditionType.GROUP) {
       for (const conditionId of item.conditions) {
         removeChild(conditionId)
       }
@@ -114,9 +112,10 @@ const useCondition = () => {
       parentId: 'root',
       conditions: [],
       operator: Operator.AND,
+      type: ConditionType.GROUP,
     })
 
-    addItem('condition', 'root')
+    addItem(ConditionType.SINGLE, 'root')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [justReset.state])
 
@@ -124,7 +123,6 @@ const useCondition = () => {
     addItem,
     setItem,
     getItem,
-    getType,
     getParent,
     reset,
     removeItem,

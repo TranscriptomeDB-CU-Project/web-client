@@ -1,4 +1,4 @@
-import { Condition, ConditionGroup } from '@/app/search/types'
+import { Condition, ConditionGroup, ConditionType } from '@/app/search/types'
 import { GetTokenRequestDTO, ParameterCondition, ParamsWithOps } from '@/dto/types'
 
 import useCondition from '../useCondition'
@@ -30,21 +30,20 @@ const useQuery = (actions: ReturnType<typeof useCondition>, isComplex: boolean) 
   }
 
   const constructComplex = (id: string): ParamsWithOps | ParameterCondition => {
-    if (actions.getType(id) === 'condition') {
+    if (actions.getItem(id).type === ConditionType.SINGLE) {
       return constructCondition(id)
-    } else {
-      console.log(id)
-      const params: (ParamsWithOps | ParameterCondition)[] = []
-      const group = actions.getItem(id) as ConditionGroup
+    }
 
-      for (const childId of group.conditions) {
-        params.push(constructComplex(childId))
-      }
+    const params: (ParamsWithOps | ParameterCondition)[] = []
+    const group = actions.getItem(id) as ConditionGroup
 
-      return {
-        params,
-        op: group.operator,
-      }
+    for (const childId of group.conditions) {
+      params.push(constructComplex(childId))
+    }
+
+    return {
+      params,
+      op: group.operator,
     }
   }
 
@@ -76,7 +75,7 @@ const useQuery = (actions: ReturnType<typeof useCondition>, isComplex: boolean) 
 
   const validate = (id: string): string | null => {
     const item = actions.getItem(id)
-    if (actions.getType(id) === 'condition') {
+    if (item.type === ConditionType.SINGLE) {
       const condition = item as Condition
       if (condition.key === '' || condition.value === '') return 'Please fill all Columns and Keywords'
     } else {

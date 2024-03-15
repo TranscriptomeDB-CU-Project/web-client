@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { Condition } from '@/app/search/types'
+import { Condition, ConditionType } from '@/app/search/types'
 
 class Counter {
   private static _id = 0
@@ -51,10 +51,10 @@ describe('useCondition', () => {
     test('should return null when condition is valid', async () => {
       const { resultUseCondition, resultUseQuery } = await importUseQuery()
 
-      const firstConditionId = resultUseCondition.result.current.addItem('condition', 'root')
-      const secondConditionId = resultUseCondition.result.current.addItem('condition', 'root')
+      const firstConditionId = resultUseCondition.result.current.addItem(ConditionType.SINGLE, 'root')
+      const secondConditionId = resultUseCondition.result.current.addItem(ConditionType.SINGLE, 'root')
 
-      const initialCondition = resultUseCondition.result.current.getItem('condition-1') as Condition
+      const initialCondition = resultUseCondition.result.current.getItem('1') as Condition
       initialCondition.key = 'name1'
       initialCondition.value = 'test'
 
@@ -85,12 +85,12 @@ describe('useCondition', () => {
       let prevGroup = 'root'
 
       for (let i = 0; i < 20; ++i) {
-        prevGroup = resultUseCondition.result.current.addItem('group', prevGroup)
+        prevGroup = resultUseCondition.result.current.addItem(ConditionType.GROUP, prevGroup)
       }
 
       for (const key in resultUseCondition.result.current.conditionMap) {
-        if (resultUseCondition.result.current.getType(key) === 'condition') {
-          const item = resultUseCondition.result.current.getItem(key) as Condition
+        const item = resultUseCondition.result.current.getItem(key)
+        if (item.type === ConditionType.SINGLE) {
           item.key = 'name'
           item.value = 'test'
 
@@ -98,8 +98,8 @@ describe('useCondition', () => {
         }
       }
 
-      resultUseCondition.result.current.removeItem('group-40')
-      resultUseCondition.result.current.removeItem('condition-39')
+      resultUseCondition.result.current.removeItem('40')
+      resultUseCondition.result.current.removeItem('39')
       resultUseQuery.rerender({
         actions: resultUseCondition.result.current,
         isComplex: resultUseCondition.result.current.complex.state,
@@ -113,7 +113,7 @@ describe('useCondition', () => {
     test('should return error message if there is empty key-value', async () => {
       const { resultUseQuery, resultUseCondition } = await importUseQuery()
 
-      const conditionId = resultUseCondition.result.current.addItem('condition', 'root')
+      const conditionId = resultUseCondition.result.current.addItem(ConditionType.SINGLE, 'root')
       const condition = resultUseCondition.result.current.getItem(conditionId) as Condition
       condition.key = 'name'
       condition.value = ''
