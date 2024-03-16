@@ -5,4 +5,5 @@ export interface TextProps {
   color?: Colors
   bg?: Colors
   fontSize?: string
+  center?: boolean
 }

@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import React, { useMemo } from 'react'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 import useSwitch from '@/hooks/useSwitch'
 import { PALETTE } from '@/theme'
@@ -21,11 +22,13 @@ const Select = ({ value, items, onChange }: SelectProps) => {
   }
 
   return (
-    <SelectContainer onClick={suggestionState.setOn}>
-      <div style={{ flexGrow: 1, textAlign: 'center' }}>{label}</div>
-      <Icon icon="mdi:expand-more" fontSize={24} color={PALETTE.PRIMARY[700]} />
-      {suggestionState.state && <Suggestion suggestions={items.map((item) => item.label)} onSelect={handleSelect} />}
-    </SelectContainer>
+    <OutsideClickHandler onOutsideClick={suggestionState.setOff}>
+      <SelectContainer onClick={suggestionState.setOn}>
+        <div style={{ flexGrow: 1, textAlign: 'center' }}>{label}</div>
+        <Icon icon="mdi:expand-more" fontSize={24} color={PALETTE.PRIMARY[700]} />
+        {suggestionState.state && <Suggestion suggestions={items.map((item) => item.label)} onSelect={handleSelect} />}
+      </SelectContainer>
+    </OutsideClickHandler>
   )
 }
 
