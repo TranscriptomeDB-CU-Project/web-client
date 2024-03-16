@@ -7,6 +7,7 @@ import { PALETTE } from '@/theme'
 import { capitalize } from '@/utils/capitalize'
 
 import { useSearch } from '../../context/SearchContext'
+import { ConditionType } from '../../types'
 import ConditionItem from '../ConditionItem'
 import useConditionGroup from './hooks/useConditionGroup'
 import { ConditionItemContainer, GroupContainer, HeaderContainer } from './styles'
@@ -41,7 +42,8 @@ const ConditionGroupItem = ({ id }: ConditionGroupProps) => {
       </HeaderContainer>
       <ConditionItemContainer>
         {conditions.map((id) => {
-          if (actions.getType(id) === 'condition') return <ConditionItem key={id} id={id} excludeOperator />
+          if (actions.getItem(id)?.type === ConditionType.SINGLE)
+            return <ConditionItem key={id} id={id} excludeOperator />
           return <ConditionGroupItem key={id} id={id} />
         })}
       </ConditionItemContainer>

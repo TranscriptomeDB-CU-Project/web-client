@@ -1,5 +1,5 @@
 import { useSearch } from '@/app/search/context/SearchContext'
-import { ConditionGroup, Operator } from '@/app/search/types'
+import { ConditionGroup, ConditionType, Operator } from '@/app/search/types'
 
 const useConditionGroup = (id: string) => {
   const actions = useSearch()
@@ -13,8 +13,8 @@ const useConditionGroup = (id: string) => {
     actions.setItem({ ...conditionGroup, operator })
   }
 
-  const addCondition = () => actions.addItem('condition', id)
-  const addGroup = () => actions.addItem('group', id)
+  const addCondition = () => actions.addItem(ConditionType.SINGLE, id)
+  const addGroup = () => actions.addItem(ConditionType.GROUP, id)
   const removeGroup = () => actions.removeItem(id)
 
   return { conditionGroup, toggleOperator, addCondition, addGroup, removeGroup }

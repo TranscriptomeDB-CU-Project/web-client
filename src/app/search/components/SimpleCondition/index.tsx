@@ -6,7 +6,7 @@ import Button from '@/components/Button'
 import Text from '@/components/Text'
 
 import { useSearch } from '../../context/SearchContext'
-import { ConditionGroup } from '../../types'
+import { ConditionGroup, ConditionType } from '../../types'
 import ConditionItem from '../ConditionItem'
 import { ConditionItemContainer } from './styled'
 
@@ -33,7 +33,11 @@ const SimpleCondition = () => {
           ))}
         </ConditionItemContainer>
       )}
-      <Button onClick={() => actions.addItem('condition', 'root')} size="medium" style={{ alignSelf: 'flex-end' }}>
+      <Button
+        onClick={() => actions.addItem(ConditionType.SINGLE, 'root')}
+        size="medium"
+        style={{ alignSelf: 'flex-end' }}
+      >
         Add Condition
       </Button>
     </>
