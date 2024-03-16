@@ -30,7 +30,7 @@ const ConditionSection = () => {
         <Switch checked={complex.state} onChange={complex.toggle} />
       </TitleContainer>
       {complex.state ? (
-        <div style={{ overflowY: 'auto' }}>
+        <div style={{ overflowX: 'auto' }}>
           <ConditionGroupItem id="root" />
         </div>
       ) : (
