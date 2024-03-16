@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - dev
-      
+
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -24,3 +24,22 @@ jobs:
 
       - name: Build test
         run: yarn build
+
+  unit-tests:
+    name: Run Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Run Test
+        run: yarn vitest run
