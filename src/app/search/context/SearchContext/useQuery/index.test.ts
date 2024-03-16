@@ -1,144 +1,219 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
-import { Condition, ConditionType } from '@/app/search/types'
+import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '@/app/search/types'
+import useSwitch from '@/hooks/useSwitch'
+import { Counter, mockId } from '@/utils/test/mockId'
 
-class Counter {
-  private static _id = 0
+import { getMockCondition, getMockConditionGroup } from './mock'
 
-  static id() {
-    this._id += 1
-    return this._id.toString()
-  }
+describe('useCondition', async () => {
+  mockId()
 
-  static reset() {
-    this._id = 0
-  }
-}
+  const { default: useQuery } = await import('.')
+  const { default: useCondition } = await import('../useCondition')
 
-describe('useCondition', () => {
-  beforeEach(() => {
-    vi.mock('@/utils/id', () => {
-      return {
-        id: () => {
-          return Counter.id()
-        },
+  const renderUseQuery = async (isComplex?: boolean) => {
+    const items: Record<string, Condition | ConditionGroup> = {}
+    items['root'] = getMockConditionGroup('root', 'root')
+
+    const mockGetItem = vi.fn().mockImplementation((id: string) => items[id]) as (
+      id: string,
+    ) => Condition | ConditionGroup
+
+    const addItem = (type: ConditionType, parent: string, others?: Partial<Condition | ConditionGroup>) => {
+      const itemId = Counter.id()
+      const parentItem = items[parent] as ConditionGroup
+      parentItem.conditions.push(itemId)
+      if (type === ConditionType.SINGLE) {
+        items[itemId] = { ...getMockCondition(itemId, parent), ...others } as Condition
+      } else {
+        items[itemId] = { ...getMockConditionGroup(itemId, parent), ...others } as ConditionGroup
       }
-    })
-
-    return () => {
-      vi.restoreAllMocks()
-      Counter.reset()
+      return itemId
     }
-  })
 
-  const importUseQuery = async () => {
-    const { default: useQuery } = await import('.')
-    const { default: useCondition } = await import('../useCondition')
+    const getHook = () => {
+      const hook = renderHook(() =>
+        useQuery({
+          getItem: mockGetItem,
+          complex: {
+            state: isComplex ?? false,
+          } as ReturnType<typeof useSwitch>,
+        } as ReturnType<typeof useCondition>),
+      )
+      return hook.result.current
+    }
 
-    const resultUseCondition = renderHook(() => useCondition())
-    const resultUseQuery = renderHook(({ actions, isComplex }) => useQuery(actions, isComplex), {
-      initialProps: {
-        actions: resultUseCondition.result.current,
-        isComplex: resultUseCondition.result.current.complex.state,
-      },
+    const constructQuery = () => getHook().constructQuery()
+
+    const validate = (id: string) => getHook().validate(id)
+
+    return {
+      addItem,
+      constructQuery,
+      validate,
+    }
+  }
+
+  describe('constructQuery()', async () => {
+    test('should create ParameterCondition from Condition correctly', async () => {
+      const { addItem, constructQuery } = await renderUseQuery()
+
+      const condition: Condition = {
+        id: '1',
+        type: ConditionType.SINGLE,
+        key: 'name',
+        value: 'test',
+        include: false,
+        matchType: MatchType.CONTAINS,
+        operator: Operator.AND,
+        parentId: 'root',
+      }
+
+      addItem(ConditionType.SINGLE, 'root', condition)
+
+      expect(constructQuery()).toEqual({
+        query: {
+          key: 'name',
+          valuetype: 'STRING',
+          condition: {
+            include: false,
+            matchtype: MatchType.CONTAINS,
+            value: 'test',
+          },
+        },
+      })
     })
 
-    return { resultUseCondition, resultUseQuery }
-  }
+    describe('simple query', async () => {
+      test('should return ParameterCondition when there is only one condition', async () => {
+        const { constructQuery, addItem } = await renderUseQuery()
+        addItem(ConditionType.SINGLE, 'root')
+
+        expect(constructQuery()).toMatchObject({
+          query: {
+            key: '1',
+          },
+        })
+      })
+
+      test('should return ParamsWithOps when there are multiple conditions', async () => {
+        const { constructQuery, addItem } = await renderUseQuery()
+
+        addItem(ConditionType.SINGLE, 'root')
+        addItem(ConditionType.SINGLE, 'root')
+        addItem(ConditionType.SINGLE, 'root')
+        expect(constructQuery()).toMatchObject({
+          query: {
+            op: Operator.AND,
+            params: [{ key: '1' }, { key: '2' }, { key: '3' }],
+          },
+        })
+      })
+
+      test('should split into multiple ParamsWithOps when there are different operators', async () => {
+        const { constructQuery, addItem } = await renderUseQuery()
+
+        addItem(ConditionType.SINGLE, 'root')
+        addItem(ConditionType.SINGLE, 'root')
+        addItem(ConditionType.SINGLE, 'root', { operator: Operator.OR })
+        addItem(ConditionType.SINGLE, 'root')
+        addItem(ConditionType.SINGLE, 'root')
+
+        expect(constructQuery()).toMatchObject({
+          query: {
+            op: Operator.AND,
+            params: [
+              {
+                op: Operator.OR,
+                params: [
+                  {
+                    op: Operator.AND,
+                    params: [{ key: '1' }, { key: '2' }],
+                  },
+                  { key: '3' },
+                ],
+              },
+              { key: '4' },
+              { key: '5' },
+            ],
+          },
+        })
+      })
+    })
+
+    describe('complex query', async () => {
+      test('should return complex query correctly', async () => {
+        const { constructQuery, addItem } = await renderUseQuery(true)
+
+        addItem(ConditionType.SINGLE, 'root')
+        const groupId1 = addItem(ConditionType.GROUP, 'root')
+        addItem(ConditionType.SINGLE, groupId1)
+        const groupId2 = addItem(ConditionType.GROUP, groupId1, { operator: Operator.OR })
+        addItem(ConditionType.SINGLE, groupId2)
+        addItem(ConditionType.SINGLE, 'root')
+
+        expect(constructQuery()).toMatchObject({
+          query: {
+            op: Operator.AND,
+            params: [
+              { key: '1' },
+              {
+                op: Operator.AND,
+                params: [
+                  { key: '3' },
+                  {
+                    params: [{ key: '5' }],
+                    op: Operator.OR,
+                  },
+                ],
+              },
+              { key: '6' },
+            ],
+          },
+        })
+      })
+    })
+  })
 
   describe('validate()', async () => {
     test('should return null when condition is valid', async () => {
-      const { resultUseCondition, resultUseQuery } = await importUseQuery()
+      const { addItem, validate } = await renderUseQuery()
 
-      const firstConditionId = resultUseCondition.result.current.addItem(ConditionType.SINGLE, 'root')
-      const secondConditionId = resultUseCondition.result.current.addItem(ConditionType.SINGLE, 'root')
+      addItem(ConditionType.SINGLE, 'root')
+      addItem(ConditionType.SINGLE, 'root')
+      addItem(ConditionType.SINGLE, 'root')
 
-      const initialCondition = resultUseCondition.result.current.getItem('1') as Condition
-      initialCondition.key = 'name1'
-      initialCondition.value = 'test'
-
-      const firstCondition = resultUseCondition.result.current.getItem(firstConditionId) as Condition
-      firstCondition.key = 'name2'
-      firstCondition.value = 'test'
-
-      const secondCondition = resultUseCondition.result.current.getItem(secondConditionId) as Condition
-      secondCondition.key = 'name3'
-      secondCondition.value = 'test'
-
-      resultUseCondition.result.current.setItem(firstCondition)
-      resultUseCondition.result.current.setItem(secondCondition)
-
-      resultUseQuery.rerender({
-        actions: resultUseCondition.result.current,
-        isComplex: resultUseCondition.result.current.complex.state,
-      })
-
-      const result = resultUseQuery.result.current.validate('root')
-
-      expect(result).toBeNull()
+      expect(validate('root')).toBeNull()
     })
 
     test('should return error message if there is empty group', async () => {
-      const { resultUseQuery, resultUseCondition } = await importUseQuery()
+      const { addItem, validate } = await renderUseQuery()
 
       let prevGroup = 'root'
 
       for (let i = 0; i < 20; ++i) {
-        prevGroup = resultUseCondition.result.current.addItem(ConditionType.GROUP, prevGroup)
+        prevGroup = addItem(ConditionType.GROUP, prevGroup)
       }
 
-      for (const key in resultUseCondition.result.current.conditionMap) {
-        const item = resultUseCondition.result.current.getItem(key)
-        if (item.type === ConditionType.SINGLE) {
-          item.key = 'name'
-          item.value = 'test'
-
-          resultUseCondition.result.current.setItem(item)
-        }
-      }
-
-      resultUseCondition.result.current.removeItem('40')
-      resultUseCondition.result.current.removeItem('39')
-      resultUseQuery.rerender({
-        actions: resultUseCondition.result.current,
-        isComplex: resultUseCondition.result.current.complex.state,
-      })
-
-      const result = resultUseQuery.result.current.validate('root')
-
-      expect(result).toEqual('Please remove the group with no conditions')
+      expect(validate('root')).toEqual('Please remove the group with no conditions')
     })
 
-    test('should return error message if there is empty key-value', async () => {
-      const { resultUseQuery, resultUseCondition } = await importUseQuery()
+    test('should return error message if there is empty key', async () => {
+      const { validate, addItem } = await renderUseQuery()
 
-      const conditionId = resultUseCondition.result.current.addItem(ConditionType.SINGLE, 'root')
-      const condition = resultUseCondition.result.current.getItem(conditionId) as Condition
-      condition.key = 'name'
-      condition.value = ''
-      resultUseCondition.result.current.setItem(condition)
+      addItem(ConditionType.SINGLE, 'root', { key: '' })
 
-      resultUseQuery.rerender({
-        actions: resultUseCondition.result.current,
-        isComplex: resultUseCondition.result.current.complex.state,
-      })
+      expect(validate('root')).toEqual('Please fill all Columns and Keywords')
+    })
 
-      const result = resultUseQuery.result.current.validate('root')
+    test('should return error message if there is empty value', async () => {
+      const { validate, addItem } = await renderUseQuery()
 
-      expect(result).toEqual('Please fill all Columns and Keywords')
+      addItem(ConditionType.SINGLE, 'root', { value: '' })
 
-      condition.key = ''
-      condition.value = 'value'
-
-      resultUseCondition.result.current.setItem(condition)
-      resultUseQuery.rerender({
-        actions: resultUseCondition.result.current,
-        isComplex: resultUseCondition.result.current.complex.state,
-      })
-
-      const result2 = resultUseQuery.result.current.validate('root')
-      expect(result2).toEqual('Please fill all Columns and Keywords')
+      expect(validate('root')).toEqual('Please fill all Columns and Keywords')
     })
   })
 })

@@ -1,36 +1,11 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { Condition, ConditionType, MatchType, Operator } from '@/app/search/types'
-
-class Counter {
-  private static _id = 0
-
-  static id() {
-    this._id += 1
-    return this._id.toString()
-  }
-
-  static reset() {
-    this._id = 0
-  }
-}
+import { mockId } from '@/utils/test/mockId'
 
 describe('useCondition', () => {
-  beforeEach(() => {
-    vi.mock('@/utils/id', () => {
-      return {
-        id: () => {
-          return Counter.id()
-        },
-      }
-    })
-
-    return () => {
-      vi.restoreAllMocks()
-      Counter.reset()
-    }
-  })
+  mockId()
 
   test('should render default state correctly', async () => {
     const { default: useCondition } = await import('.')
