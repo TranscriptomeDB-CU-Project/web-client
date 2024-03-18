@@ -91,11 +91,10 @@ export interface GetSamplesRequestDTO {
 export interface GetSamplesResponseDTO {
   page: number
   maxpage: number
-  data: ({
+  data: {
     id: string
-  } & {
     [key: string]: any
-  })[]
+  }[]
 }
 
 export interface GetGroupSamplesRequestDTO {

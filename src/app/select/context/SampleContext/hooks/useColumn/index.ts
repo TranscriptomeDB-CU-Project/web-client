@@ -5,10 +5,12 @@ import { Column } from '@/app/select/types'
 import { OrderDirection } from '@/dto/types'
 import useSwitch from '@/hooks/useSwitch'
 
-const useColumn = (token: string) => {
+import { IUseColumn } from './types'
+
+const useColumn = (token: string): IUseColumn => {
   const [columns, setColumns] = useState<Map<string, Column>>(new Map())
-  const [selectedColumns, setSelectedColumns] = useState<{ id: string; query: string }[]>([])
-  const [sortBy, setSortBy] = useState<{ columnId: string; direction: OrderDirection }>()
+  const [selectedColumns, setSelectedColumns] = useState<{ name: string; query: string }[]>([])
+  const [sortBy, setSortBy] = useState<{ columnName: string; direction: OrderDirection }>()
   const isFetching = useSwitch(true)
 
   useEffect(() => {
@@ -16,13 +18,13 @@ const useColumn = (token: string) => {
       isFetching.setOn()
       const main = await ColumnApi.getByToken(token)
       main.forEach((column) => {
-        columns.set(column.id, column)
+        columns.set(column.colname, column)
       })
       setColumns(new Map(columns))
 
       const secondary = await ColumnApi.getSecondaryByToken(token)
       secondary.forEach((column) => {
-        columns.set(column.id, column)
+        columns.set(column.colname, column)
       })
       setColumns(new Map(columns))
       isFetching.setOff()
@@ -32,49 +34,48 @@ const useColumn = (token: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
-  const add = (id: string) => {
-    setSelectedColumns((prev) => [...prev, { id, query: '' }])
+  const add = (name: string) => {
+    setSelectedColumns((prev) => [...prev, { name, query: '' }])
   }
 
-  const remove = (columnId: string) => {
-    setSelectedColumns((prev) => prev.filter(({ id }) => columnId !== id))
+  const remove = (columnName: string) => {
+    setSelectedColumns((prev) => prev.filter(({ name }) => columnName !== name))
   }
 
-  const get = (columnId: string) => {
-    return columns.get(columnId)
+  const get = (columnName: string) => {
+    return columns.get(columnName)
   }
 
-  const rearrange = (columnId: string, newIndex: number) => {
+  const rearrange = (columnName: string, newIndex: number) => {
     setSelectedColumns((prev) => {
-      const newSelectedColumns = prev.filter(({ id }) => id !== columnId)
-      newSelectedColumns.splice(newIndex, 0, prev.find(({ id }) => id === columnId)!)
+      const newSelectedColumns = prev.filter(({ name }) => name !== columnName)
+      newSelectedColumns.splice(newIndex, 0, prev.find(({ name }) => name === columnName)!)
       return newSelectedColumns
     })
   }
 
-  const setQuery = (columnId: string, query: string) => {
+  const setQuery = (columnName: string, query: string) => {
     setSelectedColumns((prev) => {
-      const index = prev.findIndex(({ id }) => id === columnId)
+      const index = prev.findIndex(({ name }) => name === columnName)
       prev[index].query = query
       return [...prev]
     })
   }
 
-  const setSort = (columnId: string) => {
+  const setSort = (columnName: string) => {
     setSortBy((prev) => {
-      if (prev?.columnId === columnId) {
-        return { columnId, direction: prev.direction === OrderDirection.ASC ? OrderDirection.DESC : OrderDirection.ASC }
+      if (prev?.columnName === columnName) {
+        return {
+          columnName,
+          direction: prev.direction === OrderDirection.ASC ? OrderDirection.DESC : OrderDirection.ASC,
+        }
       }
-      return { columnId, direction: OrderDirection.ASC }
+      return { columnName, direction: OrderDirection.ASC }
     })
   }
 
-  const getSelected = () => {
-    return selectedColumns.map(({ id }) => columns.get(id)!)
-  }
-
   const getSuggestion = (keyword: string) => {
-    return Array.from(columns.values()).filter(({ colname }) => colname.includes(keyword))
+    return Array.from(columns.keys()).filter((colname) => colname.includes(keyword))
   }
 
   return {
@@ -83,7 +84,7 @@ const useColumn = (token: string) => {
     remove,
     rearrange,
     setSort,
-    getSelected,
+    selected: selectedColumns,
     sortBy,
     setQuery,
     getSuggestion,

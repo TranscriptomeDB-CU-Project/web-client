@@ -16,30 +16,28 @@ export class SampleApi {
     return 'token'
   }
 
-  static async getSamples(query: GetSamplesRequestDTO): Promise<GetSamplesResponseDTO[]> {
-    return [
-      {
-        page: 1,
-        maxpage: 1,
-        data: [
-          {
-            id: '1',
-          },
-          {
-            id: '2',
-          },
-          {
-            id: '3',
-          },
-        ],
-      },
-    ]
+  static async getSamples(query: GetSamplesRequestDTO): Promise<GetSamplesResponseDTO> {
+    return {
+      page: 1,
+      maxpage: 1,
+      data: [
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+        },
+        {
+          id: '3',
+        },
+      ],
+    }
   }
 
   static async getGroup(token: string, column: Column): Promise<GetSamplesResponseDTO> {
     const query: GetGroupSamplesRequestDTO = {
       token,
-      column: column.id,
+      column: column.colname,
       coltype: column.coltype,
     }
 

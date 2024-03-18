@@ -1,5 +1,7 @@
-import useColumn from './hooks/useColumn'
+import { IUseColumn } from './hooks/useColumn/types'
+import { IUseSample } from './hooks/useSample/types'
 
 export interface ISampleContext {
-  column: ReturnType<typeof useColumn>
+  column: IUseColumn
+  sample: IUseSample
 }

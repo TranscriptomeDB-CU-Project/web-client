@@ -28,9 +28,9 @@ export class ColumnApi {
 
     return res.columns.map((column) => {
       return {
-        id: id(),
         colname: column.key,
         coltype: ColumnType.MAIN,
+        count: column.count,
       }
     })
   }
@@ -51,6 +51,7 @@ export class ColumnApi {
         id: id(),
         colname: column.key,
         coltype: ColumnType.MAIN,
+        count: column.count,
       }
     })
   }
