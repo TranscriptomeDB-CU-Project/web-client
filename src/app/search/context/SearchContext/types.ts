@@ -1,8 +1,9 @@
 import useSwitch from '@/hooks/useSwitch'
 
 import { Condition, ConditionGroup, ConditionType } from '../../types'
+import useGeneralParam from './useGeneralParam'
 
-export interface ISearchContext {
+export interface ISearchContext extends ReturnType<typeof useGeneralParam> {
   addItem: (type: ConditionType, parentId: string) => string
   setItem: (item: Condition | ConditionGroup) => void
   getItem: (id: string) => Condition | ConditionGroup | null

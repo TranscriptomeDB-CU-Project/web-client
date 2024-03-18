@@ -6,14 +6,13 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  gap: 24px;
+  gap: 12px;
 
   border: 1px solid ${PALETTE.BLACK[200]};
   border-radius: 10px;
-  flex-grow: 1;
 `
 
-export const TitleContainer = styled.div`
+export const CellLineItem = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
