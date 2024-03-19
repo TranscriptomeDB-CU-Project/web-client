@@ -51,6 +51,7 @@ const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColu
     data,
     limit,
     setLimit,
+    estimatedCount: limit * (maxPage || 1),
   }
 }
 
