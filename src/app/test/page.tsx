@@ -4,18 +4,21 @@ import { useState } from 'react'
 
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
+import Dialog from '@/components/Dialog'
 import Pagination from '@/components/Pagination'
 import RadioBox from '@/components/RadioBox'
 import Select from '@/components/Select'
 import Switch from '@/components/Switch'
 import TextField from '@/components/TextField'
 import Toggle from '@/components/Toggle'
+import useSwitch from '@/hooks/useSwitch'
 
 const Test = () => {
   const [toggle, setToggle] = useState('First Value')
   const onToggle = () => {
     setToggle((prev) => (prev === 'First Value' ? 'Second Value' : 'First Value'))
   }
+  const dialogState = useSwitch()
 
   const [page, setPage] = useState(1)
   const [text, setText] = useState('')
@@ -80,6 +83,14 @@ const Test = () => {
       <RadioBox />
       <RadioBox />
       <RadioBox />
+
+      <Button onClick={dialogState.setOn}>
+        <span>Open Dialog</span>
+      </Button>
+
+      <Dialog isOpen={dialogState.state} onClose={dialogState.setOff}>
+        <div style={{ backgroundColor: 'white', padding: '20px' }}>Hello World</div>
+      </Dialog>
     </div>
   )
 }
