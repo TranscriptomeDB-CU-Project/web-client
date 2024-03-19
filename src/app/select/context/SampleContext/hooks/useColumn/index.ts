@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { ColumnApi } from '@/api/ColumnApi'
+import ColumnApi from '@/api/ColumnApi'
 import { Column } from '@/app/select/types'
 import { OrderDirection } from '@/dto/types'
 import useSwitch from '@/hooks/useSwitch'

@@ -11,7 +11,7 @@ import {
   GetTokenRequestDTO,
 } from '@/dto/types'
 
-export class SampleApi {
+export default class SampleApi {
   static async getToken(condition: GetTokenRequestDTO): Promise<string> {
     return 'token'
   }

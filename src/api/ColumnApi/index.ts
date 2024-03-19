@@ -4,7 +4,7 @@ import { Column } from '@/app/select/types'
 import { ColumnType, GetColumnsCountResponseDTO, SuggestColumnRequestDTO, SuggestColumnResponseDTO } from '@/dto/types'
 import { id } from '@/utils/id'
 
-export class ColumnApi {
+export default class ColumnApi {
   static async getSuggestion(keyword: string): Promise<string[]> {
     const query: SuggestColumnRequestDTO = {
       keyword,

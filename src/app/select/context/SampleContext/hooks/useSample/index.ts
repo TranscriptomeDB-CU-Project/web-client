@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import { SampleApi } from '@/api/SampleApi'
+import SampleApi from '@/api/SampleApi'
 
 import { IUseColumn } from '../useColumn/types'
 import { IUseSample } from './types'
 
-const useSample = (token: string, columnActions: IUseColumn): IUseSample => {
+const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColumn): IUseSample => {
   const [page, setPage] = useState<number>(1)
   const [maxPage, setMaxPage] = useState<number>()
   const [limit, setLimit] = useState<number>(20)
@@ -21,16 +21,16 @@ const useSample = (token: string, columnActions: IUseColumn): IUseSample => {
       const res = await SampleApi.getSamples({
         token,
         page,
-        select: columnActions.selected.map(({ name, query }) => ({
+        select: selected.map(({ name, query }) => ({
           colname: name,
           keyword: query,
-          coltype: columnActions.get(name)!.coltype,
+          coltype: getColumn(name)!.coltype,
         })),
-        sort: columnActions.sortBy
+        sort: sortBy
           ? [
               {
-                key: columnActions.sortBy?.columnName,
-                order: columnActions.sortBy?.direction,
+                key: sortBy?.columnName,
+                order: sortBy?.direction,
               },
             ]
           : undefined,
@@ -43,7 +43,7 @@ const useSample = (token: string, columnActions: IUseColumn): IUseSample => {
 
     fetchSample()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit, page, token, columnActions.sortBy, columnActions.selected])
+  }, [limit, page, token, sortBy, selected])
 
   return {
     page,
