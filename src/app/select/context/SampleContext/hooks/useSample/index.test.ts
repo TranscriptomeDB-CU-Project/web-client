@@ -6,7 +6,7 @@ import { ColumnType, OrderDirection } from '@/dto/types'
 
 import { IUseColumn } from '../useColumn/types'
 
-describe('useColumn()', async () => {
+describe('useSample()', async () => {
   const mockGetSamples = vi.fn().mockResolvedValue({
     page: 1,
     maxpage: 1,
