@@ -4,13 +4,13 @@ import { useState } from 'react'
 
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
-import Dialog from '@/components/Dialog'
 import Pagination from '@/components/Pagination'
 import RadioBox from '@/components/RadioBox'
 import Select from '@/components/Select'
 import Switch from '@/components/Switch'
 import TextField from '@/components/TextField'
 import Toggle from '@/components/Toggle'
+import WarningDialog from '@/components/WarningDialog'
 import useSwitch from '@/hooks/useSwitch'
 
 const Test = () => {
@@ -88,9 +88,7 @@ const Test = () => {
         <span>Open Dialog</span>
       </Button>
 
-      <Dialog isOpen={dialogState.state} onClose={dialogState.setOff}>
-        <div style={{ backgroundColor: 'white', padding: '20px' }}>Hello World</div>
-      </Dialog>
+      <WarningDialog isOpen={dialogState.state} onClose={dialogState.setOff} />
     </div>
   )
 }

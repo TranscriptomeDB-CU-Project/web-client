@@ -22,3 +22,10 @@ export const Backdrop = styled.div`
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
 `
+
+export const ContentContainer = styled.div`
+  z-index: 100;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+`

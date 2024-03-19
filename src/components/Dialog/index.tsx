@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import { Backdrop, DialogContainer } from './styled'
+import { Backdrop, ContentContainer, DialogContainer } from './styled'
 import { DialogProps } from './types'
 
 const Dialog = ({ children, isOpen, onClose, backdropClose = true }: DialogProps) => {
@@ -23,12 +23,10 @@ const Dialog = ({ children, isOpen, onClose, backdropClose = true }: DialogProps
 
   return createPortal(
     <DialogContainer>
-      <div style={{ zIndex: 100 }} onClick={(ev) => ev.stopPropagation()}>
-        {children}
-      </div>
+      <ContentContainer onClick={(ev) => ev.stopPropagation()}>{children}</ContentContainer>
       <Backdrop
         onClick={() => {
-          if (!backdropClose) onClose?.()
+          if (backdropClose) onClose?.()
         }}
       />
     </DialogContainer>,
