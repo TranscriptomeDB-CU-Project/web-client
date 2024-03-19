@@ -13,3 +13,18 @@ export interface ISearchContext extends ReturnType<typeof useGeneralParam> {
   complex: ReturnType<typeof useSwitch>
   getToken: () => void
 }
+
+export interface AgeData {
+  min: string
+  max: string
+  unitMin: Unit
+  unitMax: Unit
+}
+
+export enum Unit {
+  YEAR = 'year',
+  MONTH = 'month',
+  WEEK = 'week',
+  DAY = 'day',
+  HOUR = 'hour',
+}

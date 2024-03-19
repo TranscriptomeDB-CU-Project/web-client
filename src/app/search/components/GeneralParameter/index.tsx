@@ -1,30 +1,16 @@
 import React from 'react'
 
-import Checkbox from '@/components/Checkbox'
-import RadioBox from '@/components/RadioBox'
 import Text from '@/components/Text'
 
-import { useSearch } from '../../context/SearchContext'
-import { Gender } from '../../types'
+import AgeSection from '../AgeSection'
 import GenderSection from '../GenderSection'
-import { ChoiceContainer, Container, ItemContainer } from './styled'
+import { Container } from './styled'
 
 const GeneralParameter = () => {
-  const {
-    age,
-    gender: {
-      toggle: genderToggle,
-      data: [gender, setGender],
-    },
-  } = useSearch()
-
   return (
     <Container>
       <Text variant="h2">General Parameter</Text>
-      <ItemContainer>
-        <Checkbox checked={age.toggle.state} handleChecked={age.toggle.toggle} />
-        <Text variant="h3">Age</Text>
-      </ItemContainer>
+      <AgeSection />
       <GenderSection />
     </Container>
   )

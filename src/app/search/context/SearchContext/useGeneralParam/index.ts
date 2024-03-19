@@ -3,6 +3,8 @@ import { useCallback, useState } from 'react'
 import { Gender } from '@/app/search/types'
 import useSwitch from '@/hooks/useSwitch'
 
+import { AgeData, Unit } from '../types'
+
 const useGeneralParam = () => {
   const [cellLines, setCellLines] = useState<string[]>([])
 
@@ -15,8 +17,12 @@ const useGeneralParam = () => {
   }, [])
 
   const ageToggle = useSwitch()
-  const ageMin = useState<string>('')
-  const ageMax = useState<string>('')
+  const age = useState<AgeData>({
+    min: '',
+    max: '',
+    unitMin: Unit.YEAR,
+    unitMax: Unit.YEAR,
+  })
 
   const genderToggle = useSwitch()
   const gender = useState<Gender>()
@@ -28,8 +34,7 @@ const useGeneralParam = () => {
       remove: removeCellLine,
     },
     age: {
-      min: ageMin,
-      max: ageMax,
+      data: age,
       toggle: ageToggle,
     },
     gender: {

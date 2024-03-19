@@ -21,6 +21,7 @@ export const ItemContainer = styled.div`
 `
 export const ChoiceContainer = styled.div`
   display: flex;
+  gap: 4px;
   flex-direction: column;
 `
 

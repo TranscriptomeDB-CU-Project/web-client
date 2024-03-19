@@ -1,20 +1,25 @@
 import React, { useMemo } from 'react'
 
 import Checkbox from '@/components/Checkbox'
-import RadioBox from '@/components/RadioBox'
+import Select from '@/components/Select'
+import TextField from '@/components/TextField'
 
+import { UNIT_ITEMS } from '../../constants'
 import { useSearch } from '../../context/SearchContext'
-import { Gender } from '../../types'
+import { AgeData, Unit } from '../../context/SearchContext/types'
 import { ChoiceContainer, ItemContainer, TextFlex } from '../GeneralParameter/styled'
 
 const AgeSection = () => {
   const {
     age: {
       toggle: { toggle, state: enabled },
-      min: [min, setMin],
-      max: [max, setMax],
+      data: [age, setAge],
     },
   } = useSearch()
+
+  const setAgeData = (field: keyof AgeData) => (data: string | Unit) => {
+    setAge((age) => ({ ...age, [field]: data }) as AgeData)
+  }
 
   const textColor = useMemo(() => (enabled ? 'primary-950' : 'black-200'), [enabled])
 
@@ -26,20 +31,27 @@ const AgeSection = () => {
       </TextFlex>
       <ChoiceContainer>
         <TextFlex color={textColor}>
-          <RadioBox checked={gender === Gender.MALE} handleChecked={() => set(Gender.MALE)} disabled={!enabled} />
-          Male
-        </TextFlex>
-        <TextFlex color={textColor}>
-          <RadioBox
-            checked={gender === Gender.FEMALE}
-            handleChecked={() => setGender(Gender.FEMALE)}
+          <TextField
+            value={age.min}
+            onChange={setAgeData('min')}
+            inputProps={{ type: 'number', min: 0, style: { width: '60px' } }}
             disabled={!enabled}
           />
-          Female
+          <Select value={age.unitMin} onChange={setAgeData('unitMin')} items={UNIT_ITEMS} disabled={!enabled} />
+          to
+        </TextFlex>
+        <TextFlex color={textColor}>
+          <TextField
+            value={age.max}
+            onChange={setAgeData('max')}
+            inputProps={{ type: 'number', min: 0, style: { width: '60px' } }}
+            disabled={!enabled}
+          />
+          <Select value={age.unitMax} onChange={setAgeData('unitMax')} items={UNIT_ITEMS} disabled={!enabled} />
         </TextFlex>
       </ChoiceContainer>
     </ItemContainer>
   )
 }
 
-export default GenderSection
+export default AgeSection
