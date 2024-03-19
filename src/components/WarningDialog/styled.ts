@@ -16,13 +16,13 @@ export const HeaderContainer = styled.div`
 
 export const TitleContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 4px;
 `
 
 export const ActionButtonContainer = styled.div`
   display: flex;
   gap: 16px;
-  justify-content: stretch;
 `
 
 export const ActionButton = styled(Button).attrs({ size: 'medium' })`
