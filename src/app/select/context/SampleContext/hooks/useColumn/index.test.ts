@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { OrderDirection } from '@/dto/types'
@@ -81,7 +81,9 @@ describe('useColumn()', async () => {
 
       result.current.add('column1')
 
-      expect(result.current.selected).toEqual([{ name: 'column1', query: '' }])
+      await vi.waitFor(() => {
+        expect(result.current.selected).toEqual([{ name: 'column1', query: '' }])
+      })
     })
   })
 
@@ -93,11 +95,12 @@ describe('useColumn()', async () => {
       result.current.add('column2')
       result.current.add('column3')
       result.current.remove('column2')
-
-      expect(result.current.selected).toEqual([
-        { name: 'column1', query: '' },
-        { name: 'column3', query: '' },
-      ])
+      await vi.waitFor(() => {
+        expect(result.current.selected).toEqual([
+          { name: 'column1', query: '' },
+          { name: 'column3', query: '' },
+        ])
+      })
     })
   })
 
@@ -118,11 +121,13 @@ describe('useColumn()', async () => {
       result.current.add('column3')
       result.current.rearrange('column1', 2)
 
-      expect(result.current.selected).toEqual([
-        { name: 'column2', query: '' },
-        { name: 'column3', query: '' },
-        { name: 'column1', query: '' },
-      ])
+      await vi.waitFor(() => {
+        expect(result.current.selected).toEqual([
+          { name: 'column2', query: '' },
+          { name: 'column3', query: '' },
+          { name: 'column1', query: '' },
+        ])
+      })
     })
   })
 
@@ -133,7 +138,9 @@ describe('useColumn()', async () => {
       result.current.add('column1')
       result.current.setQuery('column1', 'test')
 
-      expect(result.current.selected).toEqual([{ name: 'column1', query: 'test' }])
+      await vi.waitFor(() => {
+        expect(result.current.selected).toEqual([{ name: 'column1', query: 'test' }])
+      })
     })
   })
 
@@ -143,7 +150,9 @@ describe('useColumn()', async () => {
 
       result.current.setSort('column1')
 
-      expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.ASC })
+      await vi.waitFor(() => {
+        expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.ASC })
+      })
     })
 
     it('should change column and set order to ASC when the previous sort is different column', async () => {
@@ -152,7 +161,9 @@ describe('useColumn()', async () => {
       result.current.setSort('column1')
       result.current.setSort('column2')
 
-      expect(result.current.sortBy).toEqual({ columnName: 'column2', direction: OrderDirection.ASC })
+      await vi.waitFor(() => {
+        expect(result.current.sortBy).toEqual({ columnName: 'column2', direction: OrderDirection.ASC })
+      })
     })
 
     it('should toggle sort order when the previous sort is the same column', async () => {
@@ -161,11 +172,15 @@ describe('useColumn()', async () => {
       result.current.setSort('column1')
       result.current.setSort('column1')
 
-      expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.DESC })
+      await vi.waitFor(() => {
+        expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.DESC })
+      })
 
       result.current.setSort('column1')
 
-      expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.ASC })
+      await vi.waitFor(() => {
+        expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.ASC })
+      })
     })
   })
 

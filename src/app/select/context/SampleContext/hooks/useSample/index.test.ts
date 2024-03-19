@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Column } from '@/app/select/types'
@@ -71,26 +71,28 @@ describe('useColumn()', async () => {
     })
 
     it('should fetch sample when page is changed', async () => {
-      const { result, waitForNextUpdate } = render()
+      const { result } = render()
 
       result.current.setPage(2)
 
-      await waitForNextUpdate()
-      expect(mockGetSamples).toBeCalledTimes(2)
+      await waitFor(() => {
+        expect(mockGetSamples).toBeCalledTimes(2)
+      })
     })
 
     it('should fetch sample when limit is changed', async () => {
-      const { result, waitForNextUpdate } = render()
+      const { result } = render()
 
       result.current.setLimit(30)
 
-      await waitForNextUpdate()
+      await waitFor(() => {
+        expect(mockGetSamples).toBeCalledTimes(2)
+      })
       expect(mockGetSamples).toBeCalledTimes(2)
     })
 
     it('should fetch sample when selected columns are changed', async () => {
-      const { waitForNextUpdate, rerender } = render()
-
+      const { rerender } = render()
       rerender({
         token: 'token',
         colActions: {
@@ -102,12 +104,14 @@ describe('useColumn()', async () => {
         } as IUseColumn,
       })
 
-      await waitForNextUpdate()
+      await waitFor(() => {
+        expect(mockGetSamples).toBeCalledTimes(2)
+      })
       expect(mockGetSamples).toBeCalledTimes(2)
     })
 
     it('should fetch sample when sortBy is changed', async () => {
-      const { rerender, waitForNextUpdate } = render()
+      const { rerender } = render()
 
       rerender({
         token: 'token',
@@ -118,7 +122,9 @@ describe('useColumn()', async () => {
         } as IUseColumn,
       })
 
-      await waitForNextUpdate()
+      await waitFor(() => {
+        expect(mockGetSamples).toBeCalledTimes(2)
+      })
       expect(mockGetSamples).toBeCalledTimes(2)
     })
   })
