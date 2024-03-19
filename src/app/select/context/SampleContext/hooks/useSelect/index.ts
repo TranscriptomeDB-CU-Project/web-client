@@ -25,7 +25,7 @@ const useSelect = (token: string, column: IUseColumn): IUseSelect => {
   }
 
   const selectByGroup = async (groupName: string, value: string, include: boolean) => {
-    return selectByQuery(include, [
+    await selectByQuery(include, [
       {
         colname: groupName,
         keyword: value,
@@ -35,7 +35,7 @@ const useSelect = (token: string, column: IUseColumn): IUseSelect => {
   }
 
   const selectFiltered = async (include: boolean) => {
-    return selectByQuery(
+    await selectByQuery(
       include,
       column.selected.map(({ name, query }) => ({
         colname: name,
@@ -50,7 +50,7 @@ const useSelect = (token: string, column: IUseColumn): IUseSelect => {
       selectedIds.current.clear()
       setCount(0)
     } else {
-      return selectByQuery(true, [])
+      await selectByQuery(true, [])
     }
   }
 
