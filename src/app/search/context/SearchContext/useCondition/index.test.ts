@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { Condition, ConditionType, MatchType, Operator } from '@/app/search/types'
@@ -299,64 +299,63 @@ describe('useCondition', () => {
     test('should reset state correctly', async () => {
       const { default: useCondition } = await import('.')
 
-      const { result, waitForNextUpdate } = renderHook(() => useCondition())
+      const { result } = renderHook(() => useCondition())
 
       for (let i = 0; i < 20; ++i) result.current.addItem(ConditionType.SINGLE, 'root')
 
       result.current.reset()
 
-      await waitForNextUpdate()
-
-      expect(result.current.conditionMap).toStrictEqual({
-        root: {
-          id: 'root',
-          parentId: 'root',
-          conditions: ['22'],
-          operator: 'AND',
-          type: ConditionType.GROUP,
-        },
-        '22': {
-          id: '22',
-          parentId: 'root',
-          key: '',
-          value: '',
-          matchType: MatchType.CONTAINS,
-          include: true,
-          operator: Operator.AND,
-          type: ConditionType.SINGLE,
-        },
+      await waitFor(() => {
+        expect(result.current.conditionMap).toStrictEqual({
+          root: {
+            id: 'root',
+            parentId: 'root',
+            conditions: ['22'],
+            operator: 'AND',
+            type: ConditionType.GROUP,
+          },
+          '22': {
+            id: '22',
+            parentId: 'root',
+            key: '',
+            value: '',
+            matchType: MatchType.CONTAINS,
+            include: true,
+            operator: Operator.AND,
+            type: ConditionType.SINGLE,
+          },
+        })
       })
     })
 
     test('should reset state after toggle complex state', async () => {
       const { default: useCondition } = await import('.')
 
-      const { result, waitForNextUpdate } = renderHook(() => useCondition())
+      const { result } = renderHook(() => useCondition())
 
       for (let i = 0; i < 20; ++i) result.current.addItem(ConditionType.SINGLE, 'root')
 
       result.current.complex.toggle()
-
-      await waitForNextUpdate()
-
-      expect(result.current.conditionMap).toStrictEqual({
-        root: {
-          id: 'root',
-          parentId: 'root',
-          conditions: ['22'],
-          operator: 'AND',
-          type: ConditionType.GROUP,
-        },
-        '22': {
-          id: '22',
-          parentId: 'root',
-          key: '',
-          value: '',
-          matchType: MatchType.CONTAINS,
-          include: true,
-          operator: Operator.AND,
-          type: ConditionType.SINGLE,
-        },
+      await waitFor(() => {
+        expect(result.current.conditionMap).toStrictEqual({
+          root: {
+            id: 'root',
+            parentId: 'root',
+            conditions: ['22'],
+            operator: 'AND',
+            type: ConditionType.GROUP,
+          },
+          '22': {
+            id: '22',
+            parentId: 'root',
+            key: '',
+            value: '',
+            matchType: MatchType.CONTAINS,
+            include: true,
+            operator: Operator.AND,
+            type: ConditionType.SINGLE,
+          },
+        })
       })
     })
   })

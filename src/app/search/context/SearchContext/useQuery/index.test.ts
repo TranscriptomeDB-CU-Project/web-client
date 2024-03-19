@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
 
 import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '@/app/search/types'
