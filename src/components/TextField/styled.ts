@@ -2,11 +2,11 @@ import styled from 'styled-components'
 
 import { PALETTE, TYPOGRAPHY } from '@/theme'
 
-export const InputContainer = styled.div`
-  border: 1px solid ${PALETTE.PRIMARY[900]};
+export const InputContainer = styled.div<{ disabled?: boolean }>`
+  border: 1px solid ${({ disabled }) => (disabled ? PALETTE.BLACK[200] : PALETTE.PRIMARY[900])};
   border-radius: 5px;
   display: flex;
-  background-color: ${PALETTE.WHITE};
+  background-color: ${({ disabled }) => (disabled ? PALETTE.BLACK[25] : PALETTE.WHITE)};
   padding: 2px 5px;
   align-items: center;
   gap: 5px;
@@ -20,5 +20,9 @@ export const StyledInput = styled.input`
   flex-grow: 1;
   &:focus {
     outline: none;
+  }
+
+  &:disabled {
+    color: ${PALETTE.BLACK[200]};
   }
 `
