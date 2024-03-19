@@ -128,4 +128,22 @@ describe('useSample()', async () => {
       expect(mockGetSamples).toBeCalledTimes(2)
     })
   })
+
+  describe('estimatedCount', () => {
+    it('should return estimated count correctly when maxPage is changed', async () => {
+      mockGetSamples.mockResolvedValue({
+        page: 1,
+        maxpage: 5,
+        data: [{ id: 'id' }],
+      })
+
+      const { result } = render()
+
+      result.current.setLimit(50)
+
+      await waitFor(() => {
+        expect(result.current.estimatedCount).toBe(250)
+      })
+    })
+  })
 })

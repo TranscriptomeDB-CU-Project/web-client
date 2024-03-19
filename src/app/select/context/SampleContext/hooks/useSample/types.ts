@@ -10,4 +10,5 @@ export interface IUseSample {
     | undefined
   limit: number
   setLimit: (limit: number) => void
+  estimatedCount: number
 }
