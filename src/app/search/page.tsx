@@ -6,6 +6,7 @@ import Text from '@/components/Text'
 
 import CellLine from './components/CellLine'
 import ConditionSection from './components/ConditionSection'
+import GeneralParameter from './components/GeneralParameter'
 import { SearchProvider } from './context/SearchContext'
 
 const SearchPage = () => {
@@ -13,7 +14,10 @@ const SearchPage = () => {
     <SearchProvider>
       <Text variant="h1">Search</Text>
       <div style={{ display: 'flex', gap: '24px' }}>
-        <CellLine />
+        <div style={{ display: 'flex', gap: '24px', flexDirection: 'column' }}>
+          <CellLine />
+          <GeneralParameter />
+        </div>
         <ConditionSection />
       </div>
     </SearchProvider>

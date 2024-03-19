@@ -8,6 +8,7 @@ export const CheckboxContainer = styled.input.attrs({ type: 'checkbox' })`
   appearance: none;
   position: relative;
   margin: 0;
+  cursor: pointer;
 
   &:checked {
     accent-color: ${PALETTE.PRIMARY[700]};

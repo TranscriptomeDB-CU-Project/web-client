@@ -29,13 +29,7 @@ const ConditionSection = () => {
         <Text variant="h3">Complex</Text>
         <Switch checked={complex.state} onChange={complex.toggle} />
       </TitleContainer>
-      {complex.state ? (
-        <div style={{ overflowX: 'auto' }}>
-          <ConditionGroupItem id="root" />
-        </div>
-      ) : (
-        <SimpleCondition />
-      )}
+      {complex.state ? <ConditionGroupItem id="root" /> : <SimpleCondition />}
       <Button size="large" onClick={getToken} filled style={{ alignSelf: 'flex-end' }}>
         Next (This is a button for test only)
       </Button>
