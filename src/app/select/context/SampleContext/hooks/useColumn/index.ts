@@ -74,8 +74,8 @@ const useColumn = (token: string): IUseColumn => {
     })
   }
 
-  const getSuggestion = (keyword: string) => {
-    return Array.from(columns.keys()).filter((colname) => colname.includes(keyword))
+  const getSuggestion = (keyword: string, limit = 5) => {
+    return Array.from(columns.keys()).filter((colname, idx) => colname.includes(keyword) && idx < limit)
   }
 
   return {
