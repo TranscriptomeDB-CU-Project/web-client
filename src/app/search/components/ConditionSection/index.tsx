@@ -2,7 +2,6 @@
 
 import React from 'react'
 
-import Button from '@/components/Button'
 import Switch from '@/components/Switch'
 import Text from '@/components/Text'
 
@@ -13,7 +12,7 @@ import SimpleCondition from '../SimpleCondition'
 import { Container, TitleContainer } from './styled'
 
 const ConditionSection = () => {
-  const { complex, getItem, getToken } = useSearch()
+  const { complex, getItem } = useSearch()
 
   const rootGroup = getItem('root') as ConditionGroup | null
 
@@ -30,9 +29,6 @@ const ConditionSection = () => {
         <Switch checked={complex.state} onChange={complex.toggle} />
       </TitleContainer>
       {complex.state ? <ConditionGroupItem id="root" /> : <SimpleCondition />}
-      <Button size="large" onClick={getToken} filled style={{ alignSelf: 'flex-end' }}>
-        Next (This is a button for test only)
-      </Button>
     </Container>
   )
 }

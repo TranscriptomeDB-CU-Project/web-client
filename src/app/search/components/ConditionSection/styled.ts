@@ -10,7 +10,6 @@ export const Container = styled.div`
 
   border: 1px solid ${PALETTE.BLACK[200]};
   border-radius: 10px;
-  flex-grow: 1;
 `
 
 export const TitleContainer = styled.div`

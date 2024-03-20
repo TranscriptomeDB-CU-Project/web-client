@@ -1,4 +1,7 @@
 import { createContext, PropsWithChildren, useContext } from 'react'
+import toast from 'react-hot-toast'
+
+import SampleApi from '@/api/SampleApi'
 
 import { ISearchContext } from './types'
 import useCondition from './useCondition'
@@ -18,11 +21,11 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
     const error = validate()
 
     if (error) {
-      console.error('error', error)
+      toast.error(error)
       return
     }
 
-    console.log(constructQuery())
+    return SampleApi.getToken(constructQuery())
   }
 
   return <SearchContext.Provider value={{ ...actions, ...generalParam, getToken }}>{children}</SearchContext.Provider>
