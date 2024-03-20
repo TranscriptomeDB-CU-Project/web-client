@@ -1,26 +1,71 @@
-import { Condition, ConditionGroup, ConditionType } from '@/app/search/types'
-import { GetTokenRequestDTO, ParameterCondition, ParamsWithOps } from '@/dto/types'
+import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '@/app/search/types'
+import { GetTokenRequestDTO, ParameterCondition, ParamsWithOps, ValueType } from '@/dto/types'
 
 import useCondition from '../useCondition'
+import useGeneralParam from '../useGeneralParam'
 
-const useQuery = (actions: ReturnType<typeof useCondition>) => {
+const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: ReturnType<typeof useGeneralParam>) => {
   const constructQuery = (): GetTokenRequestDTO => {
-    if (actions.complex.state) {
-      return {
-        query: constructComplex('root'),
-      }
-    } else {
-      return {
-        query: constructSimple(),
-      }
+    const generalQuery = constructGeneral()
+    const conditionQuery = actions.complex.state ? constructComplex('root') : constructSimple()
+
+    if (generalQuery.length === 0) return { query: conditionQuery }
+    return {
+      query: {
+        params: [...generalQuery, conditionQuery],
+        op: Operator.AND,
+      },
     }
+  }
+
+  const constructGeneral = (): ParameterCondition[] => {
+    const query: ParameterCondition[] = []
+    const { age, gender, cellLine } = generalParam
+
+    cellLine.data.forEach((cell) => {
+      query.push({
+        key: 'cell line',
+        valuetype: ValueType.STRING,
+        condition: {
+          include: true,
+          matchtype: MatchType.MATCH,
+          value: cell,
+        },
+      })
+    })
+
+    if (age.enabled) {
+      const { min, max, unitMin, unitMax } = age.value
+      query.push({
+        key: 'age',
+        valuetype: ValueType.NUMBER,
+        condition: {
+          gte: generalParam.age.parse(Number(min), unitMin),
+          lte: generalParam.age.parse(Number(max), unitMax),
+        },
+      })
+    }
+
+    if (gender.enabled) {
+      query.push({
+        key: 'gender',
+        valuetype: ValueType.STRING,
+        condition: {
+          include: true,
+          matchtype: MatchType.MATCH,
+          value: String(gender.value),
+        },
+      })
+    }
+
+    return query
   }
 
   const constructCondition = (id: string): ParameterCondition => {
     const item = actions.getItem(id) as Condition
     return {
       key: item.key,
-      valuetype: 'STRING',
+      valuetype: ValueType.STRING,
       condition: {
         include: item.include,
         matchtype: item.matchType,
@@ -73,7 +118,27 @@ const useQuery = (actions: ReturnType<typeof useCondition>) => {
     return currentGroup
   }
 
-  const validate = (id: string): string | null => {
+  const validate = () => {
+    // gender
+    const { gender, age } = generalParam
+    if (gender.enabled) {
+      if (!gender.value) return 'Please select gender'
+    }
+
+    // age
+    if (age.enabled) {
+      const { min, max, unitMin, unitMax } = age.value
+      if (min === '' || max === '') return 'Please fill all age fields'
+
+      if (age.parse(Number(min), unitMin) > age.parse(Number(max), unitMax))
+        return 'Minimum age should be less than or equal maximum age'
+    }
+
+    // conditions
+    return validateCondition('root')
+  }
+
+  const validateCondition = (id: string): string | null => {
     const item = actions.getItem(id)
     if (item.type === ConditionType.SINGLE) {
       const condition = item as Condition
@@ -82,7 +147,7 @@ const useQuery = (actions: ReturnType<typeof useCondition>) => {
       const group = item as ConditionGroup
       if (group.conditions.length === 0) return 'Please remove the group with no conditions'
       for (const childId of group.conditions) {
-        const error = validate(childId)
+        const error = validateCondition(childId)
         if (error) return error
       }
     }

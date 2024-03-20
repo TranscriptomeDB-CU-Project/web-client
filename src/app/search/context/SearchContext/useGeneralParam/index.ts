@@ -17,7 +17,7 @@ const useGeneralParam = () => {
   }, [])
 
   const ageToggle = useSwitch()
-  const age = useState<AgeData>({
+  const [age, setAge] = useState<AgeData>({
     min: '',
     max: '',
     unitMin: Unit.YEAR,
@@ -25,7 +25,25 @@ const useGeneralParam = () => {
   })
 
   const genderToggle = useSwitch()
-  const gender = useState<Gender>()
+  const [gender, setGender] = useState<Gender>()
+
+  const setAgeByField = (field: keyof AgeData) => (value: string | Unit) =>
+    setAge((age) => ({ ...age, [field]: value }))
+
+  const parseAge = (value: number, unit: Unit) => {
+    switch (unit) {
+      case Unit.YEAR:
+        return value * 52
+      case Unit.MONTH:
+        return value * 4
+      case Unit.WEEK:
+        return value
+      case Unit.DAY:
+        return value / 7
+      case Unit.HOUR:
+        return value / 168
+    }
+  }
 
   return {
     cellLine: {
@@ -34,12 +52,17 @@ const useGeneralParam = () => {
       remove: removeCellLine,
     },
     age: {
-      data: age,
-      toggle: ageToggle,
+      value: age,
+      setValue: setAgeByField,
+      enabled: ageToggle.state,
+      toggle: ageToggle.toggle,
+      parse: parseAge,
     },
     gender: {
-      toggle: genderToggle,
-      data: gender,
+      value: gender,
+      setValue: setGender,
+      enabled: genderToggle.state,
+      toggle: genderToggle.toggle,
     },
   }
 }

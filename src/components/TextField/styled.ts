@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { PALETTE, TYPOGRAPHY } from '@/theme'
 
 export const InputContainer = styled.div<{ disabled?: boolean }>`
-  border: 1px solid ${({ disabled }) => (disabled ? PALETTE.BLACK[200] : PALETTE.PRIMARY[900])};
+  border: 1px solid ${({ disabled }) => (disabled ? PALETTE.BLACK[100] : PALETTE.PRIMARY[900])};
   border-radius: 5px;
   display: flex;
   background-color: ${({ disabled }) => (disabled ? PALETTE.BLACK[25] : PALETTE.WHITE)};

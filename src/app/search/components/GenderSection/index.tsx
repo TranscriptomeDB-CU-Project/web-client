@@ -8,12 +8,7 @@ import { Gender } from '../../types'
 import { ChoiceContainer, ItemContainer, TextFlex } from '../GeneralParameter/styled'
 
 const GenderSection = () => {
-  const {
-    gender: {
-      toggle: { toggle, state: enabled },
-      data: [gender, setGender],
-    },
-  } = useSearch()
+  const { toggle, enabled, setValue, value } = useSearch().gender
 
   const textColor = useMemo(() => (enabled ? 'primary-950' : 'black-200'), [enabled])
 
@@ -25,13 +20,13 @@ const GenderSection = () => {
       </TextFlex>
       <ChoiceContainer>
         <TextFlex color={textColor}>
-          <RadioBox checked={gender === Gender.MALE} handleChecked={() => setGender(Gender.MALE)} disabled={!enabled} />
+          <RadioBox checked={value === Gender.MALE} handleChecked={() => setValue(Gender.MALE)} disabled={!enabled} />
           Male
         </TextFlex>
         <TextFlex color={textColor}>
           <RadioBox
-            checked={gender === Gender.FEMALE}
-            handleChecked={() => setGender(Gender.FEMALE)}
+            checked={value === Gender.FEMALE}
+            handleChecked={() => setValue(Gender.FEMALE)}
             disabled={!enabled}
           />
           Female

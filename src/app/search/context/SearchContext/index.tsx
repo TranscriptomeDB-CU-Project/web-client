@@ -11,11 +11,11 @@ export const useSearch = () => useContext(SearchContext)
 
 export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
   const actions = useCondition()
-  const { constructQuery, validate } = useQuery(actions)
   const generalParam = useGeneralParam()
+  const { constructQuery, validate } = useQuery(actions, generalParam)
 
   const getToken = () => {
-    const error = validate('root')
+    const error = validate()
 
     if (error) {
       console.error('error', error)

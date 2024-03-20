@@ -2,16 +2,17 @@ import { renderHook } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
 
 import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '@/app/search/types'
-import useSwitch from '@/hooks/useSwitch'
+import { IUseSwitch } from '@/hooks/useSwitch/types'
 import { Counter, mockId } from '@/utils/test/mockId'
 
+import { IUseCondition } from '../useCondition/types'
+import { IUseGeneralParam } from '../useGeneralParam/types'
 import { getMockCondition, getMockConditionGroup } from './mock'
 
-describe('useCondition', async () => {
+describe('useQuery', async () => {
   mockId()
 
   const { default: useQuery } = await import('.')
-  const { default: useCondition } = await import('../useCondition')
 
   const renderUseQuery = async (isComplex?: boolean) => {
     const items: Record<string, Condition | ConditionGroup> = {}
@@ -35,19 +36,22 @@ describe('useCondition', async () => {
 
     const getHook = () => {
       const hook = renderHook(() =>
-        useQuery({
-          getItem: mockGetItem,
-          complex: {
-            state: isComplex ?? false,
-          } as ReturnType<typeof useSwitch>,
-        } as ReturnType<typeof useCondition>),
+        useQuery(
+          {
+            getItem: mockGetItem,
+            complex: {
+              state: isComplex ?? false,
+            } as IUseSwitch,
+          } as IUseCondition,
+          {} as IUseGeneralParam,
+        ),
       )
       return hook.result.current
     }
 
     const constructQuery = () => getHook().constructQuery()
 
-    const validate = (id: string) => getHook().validate(id)
+    const validate = () => getHook().validate()
 
     return {
       addItem,
@@ -185,7 +189,7 @@ describe('useCondition', async () => {
       addItem(ConditionType.SINGLE, 'root')
       addItem(ConditionType.SINGLE, 'root')
 
-      expect(validate('root')).toBeNull()
+      expect(validate()).toBeNull()
     })
 
     test('should return error message if there is empty group', async () => {
@@ -197,7 +201,7 @@ describe('useCondition', async () => {
         prevGroup = addItem(ConditionType.GROUP, prevGroup)
       }
 
-      expect(validate('root')).toEqual('Please remove the group with no conditions')
+      expect(validate()).toEqual('Please remove the group with no conditions')
     })
 
     test('should return error message if there is empty key', async () => {
@@ -205,7 +209,7 @@ describe('useCondition', async () => {
 
       addItem(ConditionType.SINGLE, 'root', { key: '' })
 
-      expect(validate('root')).toEqual('Please fill all Columns and Keywords')
+      expect(validate()).toEqual('Please fill all Columns and Keywords')
     })
 
     test('should return error message if there is empty value', async () => {
@@ -213,7 +217,7 @@ describe('useCondition', async () => {
 
       addItem(ConditionType.SINGLE, 'root', { value: '' })
 
-      expect(validate('root')).toEqual('Please fill all Columns and Keywords')
+      expect(validate()).toEqual('Please fill all Columns and Keywords')
     })
   })
 })
