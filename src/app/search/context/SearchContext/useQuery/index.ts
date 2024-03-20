@@ -1,5 +1,6 @@
 import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '@/app/search/types'
 import { GetTokenRequestDTO, ParameterCondition, ParamsWithOps, ValueType } from '@/dto/types'
+import { parseAge } from '@/utils/age'
 
 import useCondition from '../useCondition'
 import useGeneralParam from '../useGeneralParam'
@@ -40,8 +41,8 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
         key: 'age',
         valuetype: ValueType.NUMBER,
         condition: {
-          gte: generalParam.age.parse(Number(min), unitMin),
-          lte: generalParam.age.parse(Number(max), unitMax),
+          gte: parseAge(Number(min), unitMin),
+          lte: parseAge(Number(max), unitMax),
         },
       })
     }
@@ -128,10 +129,11 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     // age
     if (age.enabled) {
       const { min, max, unitMin, unitMax } = age.value
-      if (min === '' || max === '') return 'Please fill all age fields'
+      if (min === '' || max === '') return 'Please fill all age fields with valid numbers'
+      if (Number(min) < 0 || Number(max) < 0) return 'Age should be a positive number'
 
-      if (age.parse(Number(min), unitMin) > age.parse(Number(max), unitMax))
-        return 'Minimum age should be less than or equal maximum age'
+      if (parseAge(Number(min), unitMin) > parseAge(Number(max), unitMax))
+        return 'Minimum age should be less than or equal to maximum age'
     }
 
     // conditions

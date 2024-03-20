@@ -30,21 +30,6 @@ const useGeneralParam = () => {
   const setAgeByField = (field: keyof AgeData) => (value: string | Unit) =>
     setAge((age) => ({ ...age, [field]: value }))
 
-  const parseAge = (value: number, unit: Unit) => {
-    switch (unit) {
-      case Unit.YEAR:
-        return value * 52
-      case Unit.MONTH:
-        return value * 4
-      case Unit.WEEK:
-        return value
-      case Unit.DAY:
-        return value / 7
-      case Unit.HOUR:
-        return value / 168
-    }
-  }
-
   return {
     cellLine: {
       data: cellLines,
@@ -56,7 +41,6 @@ const useGeneralParam = () => {
       setValue: setAgeByField,
       enabled: ageToggle.state,
       toggle: ageToggle.toggle,
-      parse: parseAge,
     },
     gender: {
       value: gender,
