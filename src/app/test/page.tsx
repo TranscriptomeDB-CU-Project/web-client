@@ -10,12 +10,15 @@ import Select from '@/components/Select'
 import Switch from '@/components/Switch'
 import TextField from '@/components/TextField'
 import Toggle from '@/components/Toggle'
+import WarningDialog from '@/components/WarningDialog'
+import useSwitch from '@/hooks/useSwitch'
 
 const Test = () => {
   const [toggle, setToggle] = useState('First Value')
   const onToggle = () => {
     setToggle((prev) => (prev === 'First Value' ? 'Second Value' : 'First Value'))
   }
+  const dialogState = useSwitch()
 
   const [page, setPage] = useState(1)
   const [text, setText] = useState('')
@@ -80,6 +83,12 @@ const Test = () => {
       <RadioBox />
       <RadioBox />
       <RadioBox />
+
+      <Button onClick={dialogState.setOn}>
+        <span>Open Dialog</span>
+      </Button>
+
+      <WarningDialog isOpen={dialogState.state} onClose={dialogState.setOff} />
     </div>
   )
 }
