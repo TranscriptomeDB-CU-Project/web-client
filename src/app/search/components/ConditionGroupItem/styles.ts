@@ -4,7 +4,7 @@ import { PALETTE } from '@/theme'
 
 export const ConditionItemContainer = styled.div`
   display: grid;
-  grid-template-columns: minmax(65px, min-content) 1fr minmax(100px, min-content) 1fr min-content;
+  grid-template-columns: minmax(65px, min-content) 1fr minmax(125px, min-content) 1fr min-content;
   align-items: center;
   gap: 10px;
   padding-left: 20px;

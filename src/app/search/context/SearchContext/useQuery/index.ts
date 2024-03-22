@@ -20,20 +20,17 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
   }
 
   const constructGeneral = (): ParameterCondition[] => {
-    const query: ParameterCondition[] = []
     const { age, gender, cellLine } = generalParam
 
-    cellLine.data.forEach((cell) => {
-      query.push({
-        key: 'cell line',
-        valuetype: ValueType.STRING,
-        condition: {
-          include: true,
-          matchtype: MatchType.MATCH,
-          value: cell,
-        },
-      })
-    })
+    const query: ParameterCondition[] = cellLine.data.map((cell) => ({
+      key: 'cell line',
+      valuetype: ValueType.STRING,
+      condition: {
+        include: true,
+        matchtype: MatchType.MATCH,
+        value: cell,
+      },
+    }))
 
     if (age.enabled) {
       const { min, max, unitMin, unitMax } = age.value

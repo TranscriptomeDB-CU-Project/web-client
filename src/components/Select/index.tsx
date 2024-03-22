@@ -29,7 +29,12 @@ const Select = ({ value, items, onChange, disabled }: SelectProps) => {
     <OutsideClickHandler onOutsideClick={suggestionState.setOff}>
       <SelectContainer onClick={disabled ? undefined : suggestionState.setOn} disabled={disabled}>
         <div style={{ flexGrow: 1, textAlign: 'center' }}>{label}</div>
-        <Icon icon="mdi:expand-more" fontSize={24} color={disabled ? PALETTE.BLACK[200] : PALETTE.PRIMARY[700]} />
+        <Icon
+          icon="mdi:expand-more"
+          fontSize={24}
+          color={disabled ? PALETTE.BLACK[200] : PALETTE.PRIMARY[700]}
+          style={{ flexShrink: 0 }}
+        />
         {suggestionState.state && <Suggestion suggestions={items.map((item) => item.label)} onSelect={handleSelect} />}
       </SelectContainer>
     </OutsideClickHandler>
