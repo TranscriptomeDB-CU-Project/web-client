@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react'
 
-const useSwitch = (initialState?: boolean) => {
+import { IUseSwitch } from './types'
+
+const useSwitch = (initialState?: boolean): IUseSwitch => {
   const [state, setState] = useState(initialState ?? false)
 
   const toggle = useCallback(() => {

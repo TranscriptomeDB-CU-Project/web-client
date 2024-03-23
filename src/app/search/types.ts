@@ -32,3 +32,8 @@ export enum ConditionType {
   GROUP = 'GROUP',
   SINGLE = 'SINGLE',
 }
+
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+}

@@ -4,6 +4,8 @@ import { css } from 'styled-components'
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
 const sarabun = Sarabun({ subsets: ['latin'], weight: ['400'] })
 
+export const POPPINS = poppins.style.fontFamily
+
 export const TYPOGRAPHY = {
   h1: css`
     font-size: 48px;

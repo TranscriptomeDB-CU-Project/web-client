@@ -29,7 +29,10 @@ export interface GetColumnsCountResponseDTO {
   }[]
 }
 
-export type ValueType = 'STRING' | 'NUMBER'
+export enum ValueType {
+  STRING = 'STRING',
+  NUMBER = 'NUMBER',
+}
 
 export interface ParamsWithOps {
   params: (ParamsWithOps | ParameterCondition)[]
