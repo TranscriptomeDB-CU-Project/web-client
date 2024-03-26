@@ -7,7 +7,7 @@ import { IUseSample } from './types'
 
 const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColumn): IUseSample => {
   const [page, setPage] = useState<number>(1)
-  const [maxPage, setMaxPage] = useState<number>()
+  const [maxPage, setMaxPage] = useState<number>(1)
   const [limit, setLimit] = useState<number>(20)
   const [data, setData] = useState<
     {
