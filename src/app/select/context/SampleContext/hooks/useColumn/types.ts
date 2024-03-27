@@ -9,7 +9,7 @@ export interface IUseColumn {
   isFetching: boolean
   getSuggestion: (keyword: string, limit?: number) => string[]
   rearrange: (colname: string, newIndex: number) => void
-  setQuery: (colname: string, query: string) => void
+  setQuery: (colname: string) => (query: string) => void
   setSort: (colname: string) => void
   sortBy?: {
     columnName: string

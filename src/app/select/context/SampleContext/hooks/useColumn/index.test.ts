@@ -136,7 +136,7 @@ describe('useColumn()', async () => {
       const { result } = await render()
 
       result.current.add('column1')
-      result.current.setQuery('column1', 'test')
+      result.current.setQuery('column1')('test')
 
       await vi.waitFor(() => {
         expect(result.current.selected).toEqual([{ name: 'column1', query: 'test' }])

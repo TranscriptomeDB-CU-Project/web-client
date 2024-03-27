@@ -54,7 +54,7 @@ const useColumn = (token: string): IUseColumn => {
     })
   }
 
-  const setQuery = (columnName: string, query: string) => {
+  const setQuery = (columnName: string) => (query: string) => {
     setSelectedColumns((prev) => {
       const index = prev.findIndex(({ name }) => name === columnName)
       prev[index].query = query
