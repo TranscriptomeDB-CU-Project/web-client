@@ -39,7 +39,6 @@ const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColu
       setMaxPage(res.maxpage)
       setData(res.data)
     }
-    console.log('fetched')
 
     fetchSample()
     // eslint-disable-next-line react-hooks/exhaustive-deps
