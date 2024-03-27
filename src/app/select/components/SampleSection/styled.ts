@@ -10,6 +10,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex-grow: 1;
+  box-sizing: border-box;
+  max-height: calc(100dvh - 24px);
 `
 
 export const Line = styled.div`
@@ -20,4 +23,5 @@ export const Line = styled.div`
 export const TableContainer = styled.div`
   display: grid;
   border: 1px solid ${PALETTE.BLACK[50]};
+  overflow-y: auto;
 `

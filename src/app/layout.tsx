@@ -9,7 +9,16 @@ import { POPPINS } from '@/theme'
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html>
-      <body>
+      <body
+        style={{
+          padding: '12px',
+          margin: 0,
+          height: '100dvh',
+          display: 'flex',
+          flexDirection: 'column',
+          boxSizing: 'border-box',
+        }}
+      >
         <Toaster
           toastOptions={{
             style: {

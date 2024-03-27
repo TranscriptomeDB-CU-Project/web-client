@@ -19,14 +19,13 @@ const Header = () => {
     add('column1')
     add('column2')
     add('column3')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
     return () => {
       remove('column1')
       remove('column2')
       remove('column3')
     }
-  }, [add, remove])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: `40px repeat(${selected.length}, 1fr)` }}>

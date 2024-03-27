@@ -17,9 +17,14 @@ const SampleSection = () => {
       <ActionButtons />
       <Line />
       <Header />
-      <TableContainer style={{ gridTemplateColumns: `40px repeat(${selected.length}, 1fr)` }}>
-        {data?.map((row, index) => <Sample key={index} item={row} />)}
-      </TableContainer>
+      {data && (
+        <TableContainer style={{ gridTemplateColumns: `40px repeat(${selected.length}, 1fr)` }}>
+          {data.map((row, index) => (
+            <Sample key={index} item={row} />
+          ))}
+        </TableContainer>
+      )}
+      <div style={{ flexGrow: 1 }} />
       <PaginationSection />
     </Container>
   )
