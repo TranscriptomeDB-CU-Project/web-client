@@ -16,3 +16,8 @@ export const Line = styled.div`
   height: 1px;
   background-color: ${PALETTE.BLACK[200]};
 `
+
+export const TableContainer = styled.div`
+  display: grid;
+  border: 1px solid ${PALETTE.BLACK[50]};
+`

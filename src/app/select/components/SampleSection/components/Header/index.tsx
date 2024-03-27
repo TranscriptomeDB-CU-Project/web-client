@@ -29,7 +29,7 @@ const Header = () => {
   }, [add, remove])
 
   return (
-    <>
+    <div style={{ display: 'grid', gridTemplateColumns: `40px repeat(${selected.length}, 1fr)` }}>
       <div />
       {selected.map(({ name, query }) => (
         <HeaderContainer key={name}>
@@ -55,7 +55,7 @@ const Header = () => {
           />
         </HeaderContainer>
       ))}
-    </>
+    </div>
   )
 }
 
