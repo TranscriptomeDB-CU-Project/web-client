@@ -31,7 +31,6 @@ const useGroupBy = () => {
 
   const handleOpenModal = useCallback(
     (value: string, type: ModalType) => {
-      console.log(value)
       setSelectedValue({
         value,
         type,
