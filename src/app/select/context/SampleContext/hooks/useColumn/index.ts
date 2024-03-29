@@ -54,7 +54,7 @@ const useColumn = (token: string): IUseColumn => {
     })
   }
 
-  const setQuery = (columnName: string, query: string) => {
+  const setQuery = (columnName: string) => (query: string) => {
     setSelectedColumns((prev) => {
       const index = prev.findIndex(({ name }) => name === columnName)
       prev[index].query = query
@@ -65,10 +65,12 @@ const useColumn = (token: string): IUseColumn => {
   const setSort = (columnName: string) => {
     setSortBy((prev) => {
       if (prev?.columnName === columnName) {
-        return {
-          columnName,
-          direction: prev.direction === OrderDirection.ASC ? OrderDirection.DESC : OrderDirection.ASC,
-        }
+        if (prev.direction === OrderDirection.ASC) {
+          return {
+            columnName,
+            direction: OrderDirection.DESC,
+          }
+        } else return undefined
       }
       return { columnName, direction: OrderDirection.ASC }
     })

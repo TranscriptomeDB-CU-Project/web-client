@@ -23,12 +23,15 @@ export default class SampleApi {
       data: [
         {
           id: '1',
+          column1: 1,
         },
         {
           id: '2',
+          column2: 2,
         },
         {
           id: '3',
+          column3: 3,
         },
       ],
     }

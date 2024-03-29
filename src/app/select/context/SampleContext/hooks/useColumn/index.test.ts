@@ -136,7 +136,7 @@ describe('useColumn()', async () => {
       const { result } = await render()
 
       result.current.add('column1')
-      result.current.setQuery('column1', 'test')
+      result.current.setQuery('column1')('test')
 
       await vi.waitFor(() => {
         expect(result.current.selected).toEqual([{ name: 'column1', query: 'test' }])
@@ -166,7 +166,7 @@ describe('useColumn()', async () => {
       })
     })
 
-    it('should toggle sort order when the previous sort is the same column', async () => {
+    it('should toggle sort order when the previous sort is the same column and order is ascending', async () => {
       const { result } = await render()
 
       result.current.setSort('column1')
@@ -175,11 +175,17 @@ describe('useColumn()', async () => {
       await vi.waitFor(() => {
         expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.DESC })
       })
+    })
 
+    it('should remove sort when the previous sort is the same column and order is descending', async () => {
+      const { result } = await render()
+
+      result.current.setSort('column1')
+      result.current.setSort('column1')
       result.current.setSort('column1')
 
       await vi.waitFor(() => {
-        expect(result.current.sortBy).toEqual({ columnName: 'column1', direction: OrderDirection.ASC })
+        expect(result.current.sortBy).toBeUndefined()
       })
     })
   })

@@ -1,7 +1,7 @@
 export interface IUseSample {
   page: number
   setPage: (page: number) => void
-  maxPage: number | undefined
+  maxPage: number
   data:
     | {
         id: string
