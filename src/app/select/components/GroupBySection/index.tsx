@@ -1,30 +1,21 @@
-import { useCallback, useMemo, useState } from 'react'
-
 import Select from '@/components/Select'
 import Text from '@/components/Text'
+import WarningDialog from '@/components/WarningDialog'
 
 import GroupBySelection from './components/GroupBySelection'
-import { MOCK_GROUP_BY_OPTIONS } from './constants'
+import useGroupBy from './hooks/useGroupBy'
 import { Container, GroupByListContainer } from './styled'
 
 const GroupBySection = () => {
-  const [selected, setSelected] = useState<string[]>([])
-
-  const handleAddSelect = useCallback((value: string) => {
-    setSelected((prev) => {
-      if (prev.includes(value) || !value) return prev
-      return [...prev, value]
-    })
-  }, [])
-
-  const handleRemoveSelect = useCallback((value: string) => {
-    setSelected((prev) => prev.filter((v) => v !== value))
-  }, [])
-
-  const availableFilter = useMemo(
-    () => MOCK_GROUP_BY_OPTIONS.filter((option) => !selected.includes(option.value)),
-    [selected],
-  )
+  const {
+    availableFilter,
+    groupList,
+    handleConfirmGrouping,
+    handleOpenModal,
+    handleSelectGroup,
+    modal,
+    selectedGroup,
+  } = useGroupBy()
 
   return (
     <Container>
@@ -41,14 +32,21 @@ const GroupBySection = () => {
             ...availableFilter,
           ]}
           value=""
-          onChange={handleAddSelect}
+          onChange={handleSelectGroup}
         />
       </div>
       <GroupByListContainer>
-        {selected.map((value) => (
-          <GroupBySelection key={value} value={value} count={0} onRemove={handleRemoveSelect} />
+        {groupList.map(({ count, value }) => (
+          <GroupBySelection
+            key={`${selectedGroup}_${value}`}
+            value={value}
+            onSelectAll={(value) => handleOpenModal(value, 'ADD')}
+            onRemove={(value) => handleOpenModal(value, 'REMOVE')}
+            count={count}
+          />
         ))}
       </GroupByListContainer>
+      <WarningDialog isOpen={modal.state} onClose={modal.setOff} handleSubmit={handleConfirmGrouping} />
     </Container>
   )
 }
