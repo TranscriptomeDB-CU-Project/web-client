@@ -23,7 +23,7 @@ const ActionButtons = () => {
         Remove {filterText}
       </Button>
       <Button color="blue" onClick={download}>
-        Downlod Selected
+        Download Selected
       </Button>
     </div>
   )
