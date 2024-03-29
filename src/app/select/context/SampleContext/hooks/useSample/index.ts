@@ -5,7 +5,7 @@ import SampleApi from '@/api/SampleApi'
 import { IUseColumn } from '../useColumn/types'
 import { IUseSample } from './types'
 
-const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColumn): IUseSample => {
+const useSample = (token: string, { selected, sortBy, get: getColumn, isFetching }: IUseColumn): IUseSample => {
   const [page, setPage] = useState<number>(1)
   const [maxPage, setMaxPage] = useState<number>(1)
   const [limit, setLimit] = useState<number>(20)
@@ -18,6 +18,8 @@ const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColu
 
   useEffect(() => {
     const fetchSample = async () => {
+      if (isFetching) return
+
       const res = await SampleApi.getSamples({
         token,
         page,
@@ -42,7 +44,7 @@ const useSample = (token: string, { selected, sortBy, get: getColumn }: IUseColu
 
     fetchSample()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit, page, token, sortBy, JSON.stringify(selected)])
+  }, [limit, page, token, sortBy, JSON.stringify(selected), isFetching])
 
   return {
     page,
