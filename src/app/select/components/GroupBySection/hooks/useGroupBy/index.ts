@@ -67,10 +67,10 @@ const useGroupBy = () => {
   return {
     selectedGroup,
     groupList,
-    handleSelectGroup,
-    handleOpenModal,
     modal,
     availableFilter,
+    handleSelectGroup,
+    handleOpenModal,
     handleConfirmGrouping,
   }
 }
