@@ -11,10 +11,12 @@ import {
   GetSamplesResponseDTO,
   GetTokenRequestDTO,
 } from '@/dto/types'
+import { apiClient } from '@/utils/apiClient'
 
 export default class SampleApi {
   static async getToken(condition: GetTokenRequestDTO): Promise<string> {
-    return 'token'
+    const res = await apiClient.post('/samples/filter', condition)
+    return res.data
   }
 
   static async getSamples(query: GetSamplesRequestDTO): Promise<GetSamplesResponseDTO> {

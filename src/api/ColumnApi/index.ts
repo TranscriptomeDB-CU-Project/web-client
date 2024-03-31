@@ -2,19 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Column } from '@/app/select/types'
 import { ColumnType, GetColumnsCountResponseDTO, SuggestColumnRequestDTO, SuggestColumnResponseDTO } from '@/dto/types'
+import { apiClient } from '@/utils/apiClient'
 import { id } from '@/utils/id'
 
 export default class ColumnApi {
   static async getSuggestion(keyword: string): Promise<string[]> {
     const query: SuggestColumnRequestDTO = {
       keyword,
-      limit: 10,
     }
 
-    const res: SuggestColumnResponseDTO = {
-      columns: ['column1', 'column2', 'column3'],
-    }
-    return res.columns
+    const res = await apiClient.get<SuggestColumnResponseDTO>('/columns', { params: query })
+    return res.data.columns
   }
 
   static async getByToken(token: string): Promise<Column[]> {
