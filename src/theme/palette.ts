@@ -13,6 +13,7 @@ export const PRIMARY = {
 }
 
 export const BLACK = {
+  25: '#f5f5f5',
   50: '#ededed',
   100: '#c6c8c6',
   200: '#aaadaa',

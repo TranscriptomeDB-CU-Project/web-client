@@ -4,16 +4,17 @@ import { PALETTE } from '@/theme'
 
 export const SwitchContainer = styled.input.attrs({ type: 'checkbox' })`
   width: 45px;
-  height: 25px;
+  height: 24px;
   position: relative;
   appearance: none;
   margin: 0;
+  cursor: pointer;
 
   &:before {
     content: ' ';
     position: absolute;
     width: 45px;
-    height: 25px;
+    height: 24px;
     background-color: ${PALETTE.BLACK[300]};
     border-radius: 15px;
     transition: background-color 0.1s;
@@ -27,7 +28,7 @@ export const SwitchContainer = styled.input.attrs({ type: 'checkbox' })`
     content: ' ';
     position: absolute;
     top: 50%;
-    transform: translateY(-51%);
+    transform: translateY(-50%);
     left: 3px;
     width: 20px;
     height: 20px;
