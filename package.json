@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.6.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
