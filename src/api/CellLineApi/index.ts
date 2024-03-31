@@ -3,7 +3,7 @@ import { apiClient } from '@/utils/apiClient'
 
 export default class CellLineApi {
   static async getSuggestion(keyword: string): Promise<GetCellLineSuggestionResponseDTO> {
-    const res = await apiClient.get(`/cellline/${keyword}`)
+    const res = await apiClient.get<GetCellLineSuggestionResponseDTO>(`/cellline/${keyword}`)
     return res.data
   }
 }
