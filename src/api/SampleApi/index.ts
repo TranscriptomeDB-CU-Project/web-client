@@ -6,6 +6,7 @@ import {
   GetGroupSampleIdRequestDTO,
   GetGroupSampleIdResponseDTO,
   GetGroupSamplesRequestDTO,
+  GetGroupSamplesResponseDTO,
   GetSamplesRequestDTO,
   GetSamplesResponseDTO,
   GetTokenRequestDTO,
@@ -37,7 +38,7 @@ export default class SampleApi {
     }
   }
 
-  static async getGroup(token: string, column: Column): Promise<GetSamplesResponseDTO> {
+  static async getGroup(token: string, column: Column): Promise<GetGroupSamplesResponseDTO> {
     const query: GetGroupSamplesRequestDTO = {
       token,
       column: column.colname,
@@ -45,17 +46,18 @@ export default class SampleApi {
     }
 
     return {
-      page: 1,
-      maxpage: 1,
       data: [
         {
-          id: '1',
+          value: '1',
+          count: 20,
         },
         {
-          id: '2',
+          value: '2',
+          count: 20,
         },
         {
-          id: '3',
+          value: '3',
+          count: 20,
         },
       ],
     }

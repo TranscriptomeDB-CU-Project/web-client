@@ -24,12 +24,12 @@ const useSelect = (token: string, column: IUseColumn): IUseSelect => {
     updateSelected(ids, include)
   }
 
-  const selectByGroup = async (groupName: string, value: string, include: boolean) => {
+  const selectByGroup = async (colname: string, value: string, include: boolean) => {
     await selectByQuery(include, [
       {
-        colname: groupName,
+        colname,
         keyword: value,
-        coltype: column.get(groupName)!.coltype,
+        coltype: column.get(colname)!.coltype,
       },
     ])
   }

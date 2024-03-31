@@ -1,6 +1,6 @@
 export interface IUseSelect {
   count: number
-  selectByGroup: (groupName: string, value: string, include: boolean) => void
+  selectByGroup: (colname: string, value: string, include: boolean) => void
   selectFiltered: (include: boolean) => void
   selectAll: (include: boolean) => void
   select: (id: string, include: boolean) => void
