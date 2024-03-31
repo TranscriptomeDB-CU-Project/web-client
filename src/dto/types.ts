@@ -131,3 +131,11 @@ export interface DownloadFromIdsRequestDTO {
 }
 
 export type DownloadFromIdsResponseDTO = File
+
+export interface GetCellLineSuggestionResponseDTO {
+  'cell-line-list': {
+    'name-list': {
+      value: string
+    }[]
+  }[]
+}

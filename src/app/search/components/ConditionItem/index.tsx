@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
 
+import ColumnApi from '@/api/ColumnApi'
 import Select from '@/components/Select'
 import TextField from '@/components/TextField'
 import Toggle from '@/components/Toggle'
@@ -27,7 +28,12 @@ const ConditionItem = ({ id, excludeOperator, hideOperator }: ConditionProps) =>
         <Toggle value={capitalize(operator)} onToggle={toggleOperator} />
       )}
       <Toggle value={include ? 'is' : 'is not'} color={include ? 'green' : 'red'} onToggle={toggleInclude} />
-      <TextField value={key} onChange={setField('key')} />
+      <TextField
+        value={key}
+        onChange={setField('key')}
+        onSelectSuggestion={setField('key')}
+        getSuggestions={ColumnApi.getSuggestion}
+      />
       <Select value={matchType} items={MATCH_TYPE_ITEMS} onChange={setField('matchType')} />
       <TextField value={value} onChange={setField('value')} />
       <Icon
