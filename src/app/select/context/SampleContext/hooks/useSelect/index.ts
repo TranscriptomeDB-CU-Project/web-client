@@ -25,6 +25,7 @@ const useSelect = (token: string, column: IUseColumn): IUseSelect => {
   }
 
   const selectByGroup = async (colname: string, value: string, include: boolean) => {
+    console.log('called')
     await selectByQuery(include, [
       {
         colname,

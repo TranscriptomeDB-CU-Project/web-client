@@ -67,13 +67,13 @@ export interface GetTokenResponseDTO {
 }
 
 export enum ColumnType {
-  MAIN,
-  OTHER,
+  MAIN = 'MAIN',
+  OTHER = 'OTHER',
 }
 
 export enum OrderDirection {
-  ASC,
-  DESC,
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 
 export interface GetSamplesRequestDTO {
@@ -84,6 +84,7 @@ export interface GetSamplesRequestDTO {
   }[]
   sort?: {
     key: string
+    coltype: ColumnType
     order: OrderDirection
   }[]
   token: string

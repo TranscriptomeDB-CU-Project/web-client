@@ -33,6 +33,7 @@ const useSample = (token: string, { selected, sortBy, get: getColumn, isFetching
               {
                 key: sortBy?.columnName,
                 order: sortBy?.direction,
+                coltype: getColumn(sortBy?.columnName)!.coltype,
               },
             ]
           : undefined,
