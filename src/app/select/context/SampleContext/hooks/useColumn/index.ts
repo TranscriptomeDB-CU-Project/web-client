@@ -26,6 +26,8 @@ const useColumn = (token: string): IUseColumn => {
       secondary.forEach((column) => {
         columns.set(column.colname, column)
       })
+
+      console.log(columns)
       setColumns(new Map(columns))
       isFetching.setOff()
     }
@@ -77,7 +79,9 @@ const useColumn = (token: string): IUseColumn => {
   }
 
   const getSuggestion = (keyword: string, limit = 5) => {
-    return Array.from(columns.keys()).filter((colname, idx) => colname.includes(keyword) && idx < limit)
+    return Array.from(columns.keys())
+      .filter((colname) => colname.includes(keyword))
+      .slice(0, limit)
   }
 
   return {

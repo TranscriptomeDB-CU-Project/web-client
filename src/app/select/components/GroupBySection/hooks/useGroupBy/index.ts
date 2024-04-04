@@ -1,3 +1,4 @@
+import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import SampleApi from '@/api/SampleApi'
@@ -11,6 +12,8 @@ const useGroupBy = () => {
   const [selectedGroup, setSelectedGroup] = useState<string>('')
   const [groupList, setGroupList] = useState<GetGroupSamplesResponseDTO['data']>([])
   const [selectedValue, setSelectedValue] = useState<SelectedValue>()
+
+  const token = useSearchParams().get('token') as string
 
   const modal = useSwitch()
 
@@ -54,7 +57,7 @@ const useGroupBy = () => {
       const columnData = column.get(selectedGroup)
       if (!columnData) return
 
-      const res = await SampleApi.getGroup('DUMMY_TOKEN', columnData)
+      const res = await SampleApi.getGroup(token, columnData)
       setGroupList(res.data)
     }
 

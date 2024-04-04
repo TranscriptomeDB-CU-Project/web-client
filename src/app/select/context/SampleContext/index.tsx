@@ -1,3 +1,4 @@
+import { useSearchParams } from 'next/navigation'
 import { createContext, PropsWithChildren, useContext } from 'react'
 
 import useSwitch from '@/hooks/useSwitch'
@@ -12,7 +13,7 @@ export const SampleContext = createContext({} as ISampleContext)
 export const useSample = () => useContext(SampleContext)
 
 export const SampleProvider = ({ children }: PropsWithChildren<{}>) => {
-  const token = ''
+  const token = useSearchParams().get('token') as string
   const warning = useSwitch(false)
   const column = useColumn(token)
   const sample = useSampleHook(token, column)

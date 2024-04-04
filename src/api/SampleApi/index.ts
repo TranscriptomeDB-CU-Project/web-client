@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import FileDownload from 'js-file-download'
 
 import { Column } from '@/app/select/types'
 import {
@@ -21,24 +20,8 @@ export default class SampleApi {
   }
 
   static async getSamples(query: GetSamplesRequestDTO): Promise<GetSamplesResponseDTO> {
-    return {
-      page: 1,
-      maxpage: 1,
-      data: [
-        {
-          id: '1',
-          column1: 1,
-        },
-        {
-          id: '2',
-          column2: 2,
-        },
-        {
-          id: '3',
-          column3: 3,
-        },
-      ],
-    }
+    const res = await apiClient.post<GetSamplesResponseDTO>('/samples', query)
+    return res.data
   }
 
   static async getGroup(token: string, column: Column): Promise<GetGroupSamplesResponseDTO> {
@@ -48,22 +31,9 @@ export default class SampleApi {
       coltype: column.coltype,
     }
 
-    return {
-      data: [
-        {
-          value: '1',
-          count: 20,
-        },
-        {
-          value: '2',
-          count: 20,
-        },
-        {
-          value: '3',
-          count: 20,
-        },
-      ],
-    }
+    const res = await apiClient.get<GetGroupSamplesResponseDTO>('/samples/group', { params: query })
+
+    return res.data
   }
 
   static async getIds(token: string, columns: GetGroupSampleIdRequestDTO['select']): Promise<string[]> {
@@ -72,11 +42,12 @@ export default class SampleApi {
       select: columns,
     }
 
-    const res: GetGroupSampleIdResponseDTO = {
-      ids: ['1', '2', '3'],
-    }
-    return res.ids
+    const res = await apiClient.post<GetGroupSampleIdResponseDTO>('samples/id', query)
+    return res.data.ids
   }
 
-  static async download(ids: string[]): Promise<void> {}
+  static async download(ids: string[]): Promise<void> {
+    const res = await apiClient.post('/samples/download', { ids }, { responseType: 'blob' })
+    FileDownload(res.data, 'samples.tsv')
+  }
 }

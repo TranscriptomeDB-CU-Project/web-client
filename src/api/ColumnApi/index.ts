@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Column } from '@/app/select/types'
 import { ColumnType, GetColumnsCountResponseDTO, SuggestColumnRequestDTO, SuggestColumnResponseDTO } from '@/dto/types'
 import { apiClient } from '@/utils/apiClient'
@@ -16,15 +14,13 @@ export default class ColumnApi {
   }
 
   static async getByToken(token: string): Promise<Column[]> {
-    const res: GetColumnsCountResponseDTO = {
-      columns: [
-        { key: 'column1', count: 100 },
-        { key: 'column2', count: 200 },
-        { key: 'column3', count: 300 },
-      ],
-    }
+    const res = await apiClient<GetColumnsCountResponseDTO>('/samples/columns/main', {
+      params: {
+        token,
+      },
+    })
 
-    return res.columns.map((column) => {
+    return res.data.columns.map((column) => {
       return {
         colname: column.key,
         coltype: ColumnType.MAIN,
@@ -34,17 +30,13 @@ export default class ColumnApi {
   }
 
   static async getSecondaryByToken(token: string): Promise<Column[]> {
-    const res: GetColumnsCountResponseDTO = {
-      columns: [
-        { key: 'column1', count: 100 },
-        { key: 'column2', count: 200 },
-        { key: 'column3', count: 300 },
-      ],
-    }
+    const res = await apiClient<GetColumnsCountResponseDTO>('/samples/columns/other', {
+      params: {
+        token,
+      },
+    })
 
-    await new Promise((resolve) => setTimeout(resolve, 10000))
-
-    return res.columns.map((column) => {
+    return res.data.columns.map((column) => {
       return {
         id: id(),
         colname: column.key,
