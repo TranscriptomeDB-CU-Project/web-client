@@ -18,7 +18,9 @@ const SampleSection = () => {
       <Line />
       <OuterTableContainer>
         <table cellSpacing={0} cellPadding={0} style={{ width: '100%' }}>
-          <Header />
+          <thead>
+            <Header />
+          </thead>
           <tbody>
             {data &&
               data.map((row, index) => (
