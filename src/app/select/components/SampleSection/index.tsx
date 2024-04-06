@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store'
 import sampleActions from '@/store/sample/actions'
 import { sampleDependency } from '@/store/sample/selector'
+import selectedSampleActions from '@/store/selectedSample/actions'
 
 import ActionButtons from './components/ActionButtons'
 import Header from './components/Header'
@@ -21,6 +22,13 @@ const SampleSection = () => {
   useEffect(() => {
     dispatch(sampleActions.fetch())
   }, [dependency, dispatch])
+
+  useEffect(() => {
+    return () => {
+      dispatch(sampleActions.reset())
+      dispatch(selectedSampleActions.reset())
+    }
+  }, [dispatch])
 
   return (
     <Container>

@@ -4,6 +4,7 @@ import column from './column'
 import loading from './loading'
 import sample from './sample'
 import selectedColumn from './selectedColumn'
+import selectedSample from './selectedSample'
 import token from './token'
 
 const reducers = combineReducers({
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   column,
   selectedColumn,
   sample,
+  selectedSample,
 })
 
 const rootReducer = (state: any, action: any) => {

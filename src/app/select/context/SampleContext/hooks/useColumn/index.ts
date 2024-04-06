@@ -27,7 +27,6 @@ const useColumn = (token: string): IUseColumn => {
         columns.set(column.colname, column)
       })
 
-      console.log(columns)
       setColumns(new Map(columns))
       isFetching.setOff()
     }

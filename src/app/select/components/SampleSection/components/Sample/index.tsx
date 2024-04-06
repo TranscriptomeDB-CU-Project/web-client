@@ -1,17 +1,16 @@
 import React from 'react'
 
-import { useSample } from '@/app/select/context/SampleContext'
 import Checkbox from '@/components/Checkbox'
-import { useAppSelector } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
+import selectedSampleActions from '@/store/selectedSample/actions'
 import { BLACK, WHITE } from '@/theme'
 
 import { CheckboxContainer, TableCell, TableCellCheckbox, TextCell } from './styled'
 import { SampleProps } from './types'
 
 const Sample = ({ item }: SampleProps) => {
-  const {
-    select: { select, isSelected },
-  } = useSample()
+  const isSelected = useAppSelector((state) => !!state.selectedSample.value[item.id])
+  const dispatch = useAppDispatch()
 
   const column = useAppSelector((state) => state.selectedColumn.value)
 
@@ -19,12 +18,7 @@ const Sample = ({ item }: SampleProps) => {
     <>
       <TableCellCheckbox>
         <CheckboxContainer>
-          <Checkbox
-            checked={isSelected(item.id)}
-            handleChecked={() => {
-              select(item.id, !isSelected(item.id))
-            }}
-          />
+          <Checkbox checked={isSelected} handleChecked={() => dispatch(selectedSampleActions.toggle(item.id))} />
         </CheckboxContainer>
       </TableCellCheckbox>
       {column.map(({ column: { colname } }) => (

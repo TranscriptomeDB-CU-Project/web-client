@@ -41,6 +41,7 @@ const selectedColumnSlice = createSlice({
         }
       }
     },
+    reset: () => initialState,
   },
   selectors: {
     getQuery: (state) => {

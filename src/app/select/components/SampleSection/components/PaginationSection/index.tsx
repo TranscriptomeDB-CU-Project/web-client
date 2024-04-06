@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
-import { useSample } from '@/app/select/context/SampleContext'
 import Pagination from '@/components/Pagination'
 import Text from '@/components/Text'
 import TextField from '@/components/TextField'
@@ -9,9 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/store'
 import sampleActions from '@/store/sample/actions'
 
 const PaginationSection = () => {
-  const {
-    select: { count },
-  } = useSample()
+  const count = useAppSelector((state) => state.selectedSample.count)
 
   const { page, limit, maxPage } = useAppSelector((state) => ({
     page: state.sample.page,

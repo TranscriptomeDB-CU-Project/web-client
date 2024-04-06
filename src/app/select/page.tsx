@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 
 import { useAppDispatch } from '@/store'
 import columnActions from '@/store/column/actions'
+import selectedColActions from '@/store/selectedColumn/actions'
 import { tokenActions } from '@/store/token'
 
 import ColumnSection from './components/ColumnSection'
@@ -23,6 +24,7 @@ const SelectPage = () => {
     return () => {
       dispatch(tokenActions.setSampleToken(''))
       dispatch(columnActions.reset())
+      dispatch(selectedColActions.reset())
     }
   }, [dispatch, token])
 

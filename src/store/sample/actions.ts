@@ -3,7 +3,7 @@ import SampleApi from '@/api/SampleApi'
 import { AppThunk } from '..'
 import loadingActions from '../loading/actions'
 import { selectedColSelectors } from '../selectedColumn'
-import { setFetching, setLimit, setMaxPage, setPage, setSample } from '.'
+import { reset, setFetching, setLimit, setMaxPage, setPage, setSample } from '.'
 
 const sampleActions = {
   fetch: (): AppThunk<void> => async (dispatch, getState) => {
@@ -30,6 +30,7 @@ const sampleActions = {
   },
   setPage,
   setLimit,
+  reset,
 }
 
 export default sampleActions
