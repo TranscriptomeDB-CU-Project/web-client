@@ -5,23 +5,25 @@ import Text from '@/components/Text'
 import TextField from '@/components/TextField'
 import { useAppDispatch, useAppSelector } from '@/store'
 import columnActions from '@/store/column/actions'
+import selectedColActions from '@/store/selectedColumn/actions'
 
-import { useSample } from '../../context/SampleContext'
 import ColumnCard from './components/ColumnCard'
 import { Container } from './styled'
 
 const ColumnSection = () => {
-  const { column } = useSample()
   const [textInput, setTextInput] = useState('')
 
   const dispatch = useAppDispatch()
-  const isFetching = useAppSelector((state) => state.column.isFetching)
+  const { isFetching, selectedCol } = useAppSelector((state) => ({
+    isFetching: state.column.isFetching,
+    selectedCol: state.selectedColumn.value,
+  }))
 
   const getSuggestion = useCallback((query: string) => dispatch(columnActions.getSuggestion(query)), [dispatch])
 
   const handleDragEnd: OnDragEndResponder = (result) => {
     if (!result.destination) return
-    column.rearrange(column.selected[result.source.index].name, result.destination?.index)
+    dispatch(selectedColActions.rearrange(result.source.index, result.destination.index))
   }
 
   return (
@@ -34,7 +36,7 @@ const ColumnSection = () => {
           placeholder="Search column"
           getSuggestions={getSuggestion}
           onSelectSuggestion={(value) => {
-            column.add(value)
+            dispatch(selectedColActions.add(value))
             setTextInput('')
           }}
           value={textInput}
@@ -50,16 +52,16 @@ const ColumnSection = () => {
               style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
               {...provided.droppableProps}
             >
-              {column.selected.map((item, index) => (
-                <Draggable key={item.name} draggableId={item.name} index={index}>
+              {selectedCol.map(({ column: { colname } }, index) => (
+                <Draggable key={colname} draggableId={colname} index={index}>
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.dragHandleProps}
                       {...provided.draggableProps}
-                      key={item.name}
+                      key={colname}
                     >
-                      <ColumnCard name={item.name} count={1} onRemove={column.remove} />
+                      <ColumnCard name={colname} count={1} />
                     </div>
                   )}
                 </Draggable>

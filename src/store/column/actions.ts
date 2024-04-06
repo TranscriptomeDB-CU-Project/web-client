@@ -28,11 +28,12 @@ const columnActions = {
   getSuggestion:
     (keyword: string, limit = 5): AppThunk<string[]> =>
     (dispatch, getState) => {
-      const columns = getState().column.columns
+      const columns = getState().column.value
+      const selectedColumns = getState().selectedColumn.value
+
       return Object.keys(columns).reduce((suggestions, colname) => {
         if (suggestions.length >= limit) return suggestions
-        if (colname.includes(keyword)) {
-          console.log(colname, keyword)
+        if (colname.includes(keyword) && !selectedColumns.some((col) => col.column.colname === colname)) {
           suggestions.push(colname)
         }
         return suggestions
@@ -41,7 +42,7 @@ const columnActions = {
   getColumn:
     (name: string): AppThunk<Column | undefined> =>
     (_, getState) => {
-      return getState().column.columns[name]
+      return getState().column.value[name]
     },
 
   reset: reset,

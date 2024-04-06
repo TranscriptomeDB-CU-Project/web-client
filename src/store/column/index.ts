@@ -5,7 +5,7 @@ import { Column } from '@/dto/types'
 import { ColumnStore } from './types'
 
 const initialState: ColumnStore = {
-  columns: {},
+  value: {},
   isFetching: false,
 }
 
@@ -15,7 +15,7 @@ const columnSlice = createSlice({
   reducers: {
     addColumn: (state, action: PayloadAction<Column[]>) => {
       action.payload.forEach((column) => {
-        state.columns[column.colname] = column
+        state.value[column.colname] = column
       })
     },
     setFetching: (state, action: PayloadAction<boolean>) => {
