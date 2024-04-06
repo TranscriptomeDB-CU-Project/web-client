@@ -65,6 +65,12 @@ const selectedColumnSlice = createSlice({
     getIsFiltered: (state) => {
       return state.value.some(({ query }) => query !== '')
     },
+    getSelectable: (state) => {
+      return state.value.map(({ column }) => ({
+        label: column.colname,
+        value: column.colname,
+      }))
+    },
   },
 })
 

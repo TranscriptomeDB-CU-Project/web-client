@@ -29,8 +29,10 @@ const selectedSampleActions = {
       dispatch(baseSelect(select, query))
     },
   byGroupVal:
-    (column: Column, value: string, select: boolean): AppThunk<void> =>
+    (column: Column | undefined, value: string, select: boolean): AppThunk<void> =>
     async (dispatch) => {
+      if (!column) return
+
       const query = [
         {
           colname: column.colname,

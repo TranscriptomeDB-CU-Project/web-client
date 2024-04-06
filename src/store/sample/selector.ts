@@ -7,3 +7,9 @@ export const sampleDependency = (state: RootState) => [
   state.selectedColumn.sortBy,
   state.selectedColumn.value,
 ]
+
+export const sampleGroupDependency = (state: RootState) => [
+  state.sampleGroup.column,
+  state.token.sampleToken,
+  state.selectedColumn.value,
+]

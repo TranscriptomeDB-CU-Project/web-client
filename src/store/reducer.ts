@@ -3,6 +3,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import column from './column'
 import loading from './loading'
 import sample from './sample'
+import sampleGroup from './sampleGroup'
 import selectedColumn from './selectedColumn'
 import selectedSample from './selectedSample'
 import token from './token'
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   selectedColumn,
   sample,
   selectedSample,
+  sampleGroup,
 })
 
 const rootReducer = (state: any, action: any) => {

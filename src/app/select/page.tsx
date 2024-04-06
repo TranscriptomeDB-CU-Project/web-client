@@ -11,7 +11,6 @@ import { tokenActions } from '@/store/token'
 import ColumnSection from './components/ColumnSection'
 import GroupBySection from './components/GroupBySection'
 import SampleSection from './components/SampleSection'
-import { SampleProvider } from './context/SampleContext'
 import { Container } from './styled'
 
 const SelectPage = () => {
@@ -29,13 +28,11 @@ const SelectPage = () => {
   }, [dispatch, token])
 
   return (
-    <SampleProvider>
-      <Container>
-        <ColumnSection />
-        <SampleSection />
-        <GroupBySection />
-      </Container>
-    </SampleProvider>
+    <Container>
+      <ColumnSection />
+      <SampleSection />
+      <GroupBySection />
+    </Container>
   )
 }
 

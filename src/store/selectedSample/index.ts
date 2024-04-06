@@ -15,11 +15,11 @@ const selectedSlice = createSlice({
       const { ids, select } = action.payload
       if (select) {
         ids.forEach((id) => (state.value[id] = select))
-        state.count += ids.length
       } else {
         ids.forEach((id) => delete state.value[id])
-        state.count -= ids.length
       }
+
+      state.count = Object.keys(state.value).length
     },
     reset: () => initialState,
   },
