@@ -5,7 +5,7 @@ import { LoadingStore } from './types'
 const initialState: LoadingStore = {}
 
 const tokenSlice = createSlice({
-  name: 'loading',
+  name: 'token',
   initialState,
   reducers: {
     setSampleToken: (state, action: PayloadAction<string>) => {

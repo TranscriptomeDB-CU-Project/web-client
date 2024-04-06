@@ -5,12 +5,21 @@ import { useSample } from '@/app/select/context/SampleContext'
 import Pagination from '@/components/Pagination'
 import Text from '@/components/Text'
 import TextField from '@/components/TextField'
+import { useAppDispatch, useAppSelector } from '@/store'
+import sampleActions from '@/store/sample/actions'
 
 const PaginationSection = () => {
   const {
-    sample: { page, setPage, maxPage, limit, setLimit },
     select: { count },
   } = useSample()
+
+  const { page, limit, maxPage } = useAppSelector((state) => ({
+    page: state.sample.page,
+    limit: state.sample.limit,
+    maxPage: state.sample.maxPage,
+  }))
+
+  const dispatch = useAppDispatch()
 
   const [value, setValue] = React.useState(String(limit))
 
@@ -24,7 +33,7 @@ const PaginationSection = () => {
     if (val < 10) toast.error('Minimum sample per page is 10')
     if (val > 50) toast.error('Maximum sample per page is 50')
 
-    setLimit(val)
+    dispatch(sampleActions.setLimit(val))
   }
 
   return (
@@ -38,7 +47,9 @@ const PaginationSection = () => {
         value={value}
         onChange={setValue}
       />
-      {maxPage > 1 && <Pagination page={page} maxPage={maxPage} onChange={setPage} />}
+      {maxPage > 1 && (
+        <Pagination page={page} maxPage={maxPage} onChange={(val: number) => dispatch(sampleActions.setPage(val))} />
+      )}
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useSample } from '@/app/select/context/SampleContext'
 import Checkbox from '@/components/Checkbox'
+import { useAppSelector } from '@/store'
 import { BLACK, WHITE } from '@/theme'
 
 import { CheckboxContainer, TableCell, TableCellCheckbox, TextCell } from './styled'
@@ -9,9 +10,10 @@ import { SampleProps } from './types'
 
 const Sample = ({ item }: SampleProps) => {
   const {
-    column: { selected },
     select: { select, isSelected },
   } = useSample()
+
+  const column = useAppSelector((state) => state.selectedColumn.value)
 
   return (
     <>
@@ -25,9 +27,9 @@ const Sample = ({ item }: SampleProps) => {
           />
         </CheckboxContainer>
       </TableCellCheckbox>
-      {selected.map(({ name }) => (
-        <TableCell style={{ backgroundColor: !item[name] ? BLACK[50] : WHITE }} key={name}>
-          <TextCell>{item[name]}</TextCell>
+      {column.map(({ column: { colname } }) => (
+        <TableCell style={{ backgroundColor: !item[colname] ? BLACK[50] : WHITE }} key={colname}>
+          <TextCell>{item[colname]}</TextCell>
         </TableCell>
       ))}
     </>

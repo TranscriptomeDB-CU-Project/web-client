@@ -2,14 +2,15 @@ import React, { useMemo } from 'react'
 
 import { useSample } from '@/app/select/context/SampleContext'
 import Button from '@/components/Button'
+import { useAppSelector } from '@/store'
+import { selectedColSelectors } from '@/store/selectedColumn'
 
 const ActionButtons = () => {
   const {
-    column: { selected },
     select: { selectAll, selectFiltered, download },
   } = useSample()
 
-  const isFiltered = useMemo(() => selected.some(({ query }) => query !== ''), [selected])
+  const isFiltered = useAppSelector(selectedColSelectors.getIsFiltered)
   const filterText = useMemo(() => (isFiltered ? 'Filtered' : 'All'), [isFiltered])
   const handleSelect = (include: boolean) => {
     if (isFiltered) selectFiltered(include)

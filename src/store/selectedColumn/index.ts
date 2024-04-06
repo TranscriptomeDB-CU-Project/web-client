@@ -9,7 +9,7 @@ const initialState: SelectedColumnStore = {
 }
 
 const selectedColumnSlice = createSlice({
-  name: 'column',
+  name: 'selectedColumn',
   initialState,
   reducers: {
     add: (state, action: PayloadAction<Column>) => {
@@ -42,8 +42,32 @@ const selectedColumnSlice = createSlice({
       }
     },
   },
+  selectors: {
+    getQuery: (state) => {
+      return state.value.map(({ column, query }) => ({
+        colname: column.colname,
+        keyword: query,
+        coltype: column.coltype,
+      }))
+    },
+    getSortQuery: (state) => {
+      const sortBy = state.sortBy
+      if (!sortBy) return undefined
+      return [
+        {
+          key: sortBy.column.colname,
+          order: sortBy.direction,
+          coltype: sortBy.column.coltype,
+        },
+      ]
+    },
+    getIsFiltered: (state) => {
+      return state.value.some(({ query }) => query !== '')
+    },
+  },
 })
 
 export const { add, remove, rearrange, setQuery, setSort } = selectedColumnSlice.actions
+export const selectedColSelectors = selectedColumnSlice.selectors
 
 export default selectedColumnSlice.reducer
