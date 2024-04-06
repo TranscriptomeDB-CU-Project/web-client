@@ -1,8 +1,10 @@
 import { DragDropContext, Draggable, Droppable, OnDragEndResponder } from '@hello-pangea/dnd'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import Text from '@/components/Text'
 import TextField from '@/components/TextField'
+import { useAppDispatch, useAppSelector } from '@/store'
+import columnActions from '@/store/column/actions'
 
 import { useSample } from '../../context/SampleContext'
 import ColumnCard from './components/ColumnCard'
@@ -11,6 +13,11 @@ import { Container } from './styled'
 const ColumnSection = () => {
   const { column } = useSample()
   const [textInput, setTextInput] = useState('')
+
+  const dispatch = useAppDispatch()
+  const isFetching = useAppSelector((state) => state.column.isFetching)
+
+  const getSuggestion = useCallback((query: string) => dispatch(columnActions.getSuggestion(query)), [dispatch])
 
   const handleDragEnd: OnDragEndResponder = (result) => {
     if (!result.destination) return
@@ -25,13 +32,14 @@ const ColumnSection = () => {
         </Text>
         <TextField
           placeholder="Search column"
-          getSuggestions={column.getSuggestion}
+          getSuggestions={getSuggestion}
           onSelectSuggestion={(value) => {
             column.add(value)
             setTextInput('')
           }}
           value={textInput}
           onChange={setTextInput}
+          isLoading={isFetching}
         />
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>

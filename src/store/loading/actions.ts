@@ -4,16 +4,14 @@ import { AppThunk } from '..'
 import { addId, removeId } from '.'
 
 const loadingActions = {
-  onLoading: (): AppThunk<string> => (dispatch) => {
+  onLoading: (): AppThunk<() => void> => (dispatch) => {
     const loadId = id()
     dispatch(addId(loadId))
-    return loadId
-  },
-  onFinished:
-    (loadId: string): AppThunk<void> =>
-    (dispatch) => {
+
+    return () => {
       dispatch(removeId(loadId))
-    },
+    }
+  },
 }
 
 export default loadingActions

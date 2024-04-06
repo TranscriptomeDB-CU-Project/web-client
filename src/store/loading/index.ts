@@ -4,7 +4,7 @@ import { LoadingStore } from './types'
 
 const initialState: LoadingStore = {
   value: false,
-  loadingIds: new Set<string>(),
+  loadingIds: [],
 }
 
 const loadingSlice = createSlice({
@@ -12,12 +12,12 @@ const loadingSlice = createSlice({
   initialState,
   reducers: {
     addId: (state, action: PayloadAction<string>) => {
-      state.loadingIds.add(action.payload)
+      state.loadingIds.push(action.payload)
       state.value = true
     },
     removeId: (state, action: PayloadAction<string>) => {
-      state.loadingIds.delete(action.payload)
-      state.value = state.loadingIds.size > 0
+      state.loadingIds.splice(state.loadingIds.indexOf(action.payload), 1)
+      state.value = state.loadingIds.length > 0
     },
   },
 })

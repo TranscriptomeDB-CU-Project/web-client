@@ -140,3 +140,9 @@ export interface GetCellLineSuggestionResponseDTO {
     }[]
   }[]
 }
+
+export interface Column {
+  colname: string
+  coltype: ColumnType
+  count: number
+}
