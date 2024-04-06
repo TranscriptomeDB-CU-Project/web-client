@@ -21,7 +21,8 @@ const SampleSection = () => {
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(sampleActions.fetch())
-  }, [dependency, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...dependency, dispatch])
 
   useEffect(() => {
     return () => {

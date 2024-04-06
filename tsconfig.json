@@ -18,6 +18,7 @@
       }
     ],
     "baseUrl": ".",
+    "experimentalDecorators": true,
     "paths": {
       "@/*": ["./src/*"]
     }

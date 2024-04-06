@@ -22,7 +22,8 @@ const GroupBySection = () => {
 
   useEffect(() => {
     dispatch(sampleGroupActions.fetch())
-  }, [dependency, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...dependency, dispatch])
 
   useEffect(() => {
     return () => {

@@ -1,9 +1,11 @@
 import { Column } from '@/app/select/types'
 import { ColumnType, GetColumnsCountResponseDTO, SuggestColumnRequestDTO, SuggestColumnResponseDTO } from '@/dto/types'
 import { apiClient } from '@/utils/apiClient'
+import { handleError } from '@/utils/error/handleError'
 import { id } from '@/utils/id'
 
 export default class ColumnApi {
+  @handleError({ fallback: [] })
   static async getSuggestion(keyword: string): Promise<string[]> {
     const query: SuggestColumnRequestDTO = {
       keyword,
@@ -13,6 +15,7 @@ export default class ColumnApi {
     return res.data.columns
   }
 
+  @handleError({ fallback: [] })
   static async getByToken(token: string): Promise<Column[]> {
     const res = await apiClient<GetColumnsCountResponseDTO>('/samples/columns/main', {
       params: {
@@ -29,6 +32,7 @@ export default class ColumnApi {
     })
   }
 
+  @handleError({ fallback: [] })
   static async getSecondaryByToken(token: string): Promise<Column[]> {
     const res = await apiClient<GetColumnsCountResponseDTO>('/samples/columns/other', {
       params: {
