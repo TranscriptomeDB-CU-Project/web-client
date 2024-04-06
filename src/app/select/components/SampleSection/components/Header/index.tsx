@@ -28,8 +28,8 @@ const Header = () => {
   }, [])
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: `40px repeat(${selected.length}, 1fr)` }}>
-      <div />
+    <tr>
+      <th />
       {selected.map(({ name, query }) => (
         <HeaderContainer key={name}>
           <TitleContainer onClick={() => setSort(name)}>
@@ -54,7 +54,7 @@ const Header = () => {
           />
         </HeaderContainer>
       ))}
-    </div>
+    </tr>
   )
 }
 

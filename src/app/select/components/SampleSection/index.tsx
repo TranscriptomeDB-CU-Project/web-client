@@ -5,26 +5,30 @@ import ActionButtons from './components/ActionButtons'
 import Header from './components/Header'
 import PaginationSection from './components/PaginationSection'
 import Sample from './components/Sample'
-import { Container, Line, TableContainer } from './styled'
+import { Container, Line, OuterTableContainer, TableContainer } from './styled'
 
 const SampleSection = () => {
   const {
-    column: { selected },
     sample: { data },
   } = useSample()
+
   return (
     <Container>
       <ActionButtons />
       <Line />
-      <Header />
-      {data && (
-        <TableContainer style={{ gridTemplateColumns: `40px repeat(${selected.length}, 1fr)` }}>
-          {data.map((row, index) => (
-            <Sample key={index} item={row} />
-          ))}
-        </TableContainer>
-      )}
-      <div style={{ flexGrow: 1 }} />
+      <OuterTableContainer>
+        <table cellSpacing={0} cellPadding={0} style={{ width: '100%' }}>
+          <Header />
+          <tbody>
+            {data &&
+              data.map((row, index) => (
+                <TableContainer key={index}>
+                  <Sample item={row} />
+                </TableContainer>
+              ))}
+          </tbody>
+        </table>
+      </OuterTableContainer>
       <PaginationSection />
     </Container>
   )
