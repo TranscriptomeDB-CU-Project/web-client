@@ -23,6 +23,9 @@ const sampleActions = {
       limit,
     })
 
+    if (page > res.maxpage) {
+      dispatch(setPage(res.maxpage))
+    }
     dispatch(setMaxPage(res.maxpage))
     dispatch(setSample(res.data))
     dispatch(setFetching(false))

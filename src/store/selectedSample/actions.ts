@@ -1,5 +1,5 @@
 import SampleApi from '@/api/SampleApi'
-import { Column, GetGroupSampleIdRequestDTO } from '@/dto/types'
+import { Column, ColumnQuery } from '@/dto/types'
 
 import { AppThunk } from '..'
 import loadingActions from '../loading/actions'
@@ -7,7 +7,7 @@ import { selectedColSelectors } from '../selectedColumn'
 import { processIds, reset } from '.'
 
 const baseSelect =
-  (select: boolean, query: GetGroupSampleIdRequestDTO['select']): AppThunk<void> =>
+  (select: boolean, query: ColumnQuery[], exact?: ColumnQuery): AppThunk<void> =>
   async (dispatch, getState) => {
     const token = getState().token.sampleToken
 
@@ -15,7 +15,7 @@ const baseSelect =
 
     const onFinish = dispatch(loadingActions.onLoading())
 
-    const ids = await SampleApi.getIds(token, query)
+    const ids = await SampleApi.getIds(token, query, exact)
     dispatch(processIds({ ids, select }))
 
     onFinish()
@@ -30,17 +30,17 @@ const selectedSampleActions = {
     },
   byGroupVal:
     (column: Column | undefined, value: string, select: boolean): AppThunk<void> =>
-    async (dispatch) => {
+    async (dispatch, getState) => {
       if (!column) return
 
-      const query = [
-        {
-          colname: column.colname,
-          keyword: value,
-          coltype: column.coltype,
-        },
-      ]
-      dispatch(baseSelect(select, query))
+      const exact = {
+        colname: column.colname,
+        keyword: value,
+        coltype: column.coltype,
+      }
+      const query = selectedColSelectors.getQuery(getState())
+
+      dispatch(baseSelect(select, query, exact))
     },
   all:
     (select: boolean): AppThunk<void> =>

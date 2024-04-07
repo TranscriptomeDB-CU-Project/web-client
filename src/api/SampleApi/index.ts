@@ -2,6 +2,7 @@ import FileDownload from 'js-file-download'
 
 import { Column } from '@/app/select/types'
 import {
+  ColumnQuery,
   GetGroupSampleIdRequestDTO,
   GetGroupSampleIdResponseDTO,
   GetGroupSamplesRequestDTO,
@@ -28,23 +29,29 @@ export default class SampleApi {
   }
 
   @handleError({ fallback: { data: [] } })
-  static async getGroup(token: string, column: Column): Promise<GetGroupSamplesResponseDTO> {
+  static async getGroup(
+    token: string,
+    column: Column,
+    select: GetGroupSamplesRequestDTO['select'],
+  ): Promise<GetGroupSamplesResponseDTO> {
     const query: GetGroupSamplesRequestDTO = {
       token,
       column: column.colname,
       coltype: column.coltype,
+      select,
     }
 
-    const res = await apiClient.get<GetGroupSamplesResponseDTO>('/samples/group', { params: query })
+    const res = await apiClient.post<GetGroupSamplesResponseDTO>('/samples/group', query)
 
     return res.data
   }
 
   @handleError({ fallback: [] })
-  static async getIds(token: string, columns: GetGroupSampleIdRequestDTO['select']): Promise<string[]> {
+  static async getIds(token: string, columns: ColumnQuery[], exact?: ColumnQuery): Promise<string[]> {
     const query: GetGroupSampleIdRequestDTO = {
       token,
       select: columns,
+      exact,
     }
 
     const res = await apiClient.post<GetGroupSampleIdResponseDTO>('samples/id', query)
