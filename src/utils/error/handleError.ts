@@ -67,7 +67,7 @@ const REDIRECT_PATH: { [key: string]: string } = {
 
 const ERROR_MESSAGE: { [key: string]: string } = {
   400: 'Bad Request',
-  409: 'Conflict: resource already exists',
+  409: 'Resource already exists',
   500: 'Internal Server Error',
 }
 
