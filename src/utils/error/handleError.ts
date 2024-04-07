@@ -62,8 +62,6 @@ export function handleError(params?: HandleErrorParams) {
 }
 
 const REDIRECT_PATH: { [key: string]: string } = {
-  401: '/login',
-  403: '/',
   404: '/404',
 }
 
