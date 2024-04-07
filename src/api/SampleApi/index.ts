@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import FileDownload from 'js-file-download'
 
 import { Column } from '@/app/select/types'
 import {
+  ColumnQuery,
   GetGroupSampleIdRequestDTO,
   GetGroupSampleIdResponseDTO,
   GetGroupSamplesRequestDTO,
@@ -13,70 +13,54 @@ import {
   GetTokenResponseDTO,
 } from '@/dto/types'
 import { apiClient } from '@/utils/apiClient'
+import { handleError } from '@/utils/error/handleError'
 
 export default class SampleApi {
+  @handleError()
   static async getToken(condition: GetTokenRequestDTO): Promise<string> {
     const res = await apiClient.post<GetTokenResponseDTO>('/samples/filter', condition)
     return res.data.token
   }
 
+  @handleError({ fallback: { page: 1, maxpage: 1, data: [] } })
   static async getSamples(query: GetSamplesRequestDTO): Promise<GetSamplesResponseDTO> {
-    return {
-      page: 1,
-      maxpage: 1,
-      data: [
-        {
-          id: '1',
-          column1: 1,
-        },
-        {
-          id: '2',
-          column2: 2,
-        },
-        {
-          id: '3',
-          column3: 3,
-        },
-      ],
-    }
+    const res = await apiClient.post<GetSamplesResponseDTO>('/samples', query)
+    return res.data
   }
 
-  static async getGroup(token: string, column: Column): Promise<GetGroupSamplesResponseDTO> {
+  @handleError({ fallback: { data: [] } })
+  static async getGroup(
+    token: string,
+    column: Column,
+    select: GetGroupSamplesRequestDTO['select'],
+  ): Promise<GetGroupSamplesResponseDTO> {
     const query: GetGroupSamplesRequestDTO = {
       token,
       column: column.colname,
       coltype: column.coltype,
+      select,
     }
 
-    return {
-      data: [
-        {
-          value: '1',
-          count: 20,
-        },
-        {
-          value: '2',
-          count: 20,
-        },
-        {
-          value: '3',
-          count: 20,
-        },
-      ],
-    }
+    const res = await apiClient.post<GetGroupSamplesResponseDTO>('/samples/group', query)
+
+    return res.data
   }
 
-  static async getIds(token: string, columns: GetGroupSampleIdRequestDTO['select']): Promise<string[]> {
+  @handleError({ fallback: [] })
+  static async getIds(token: string, columns: ColumnQuery[], exact?: ColumnQuery): Promise<string[]> {
     const query: GetGroupSampleIdRequestDTO = {
       token,
       select: columns,
+      exact,
     }
 
-    const res: GetGroupSampleIdResponseDTO = {
-      ids: ['1', '2', '3'],
-    }
-    return res.ids
+    const res = await apiClient.post<GetGroupSampleIdResponseDTO>('samples/id', query)
+    return res.data.ids
   }
 
-  static async download(ids: string[]): Promise<void> {}
+  @handleError()
+  static async download(ids: string[]): Promise<void> {
+    const res = await apiClient.post('/samples/download', { ids }, { responseType: 'blob' })
+    FileDownload(res.data, 'samples.tsv')
+  }
 }
