@@ -23,7 +23,7 @@ const sampleActions = {
       limit,
     })
 
-    if (page > res.maxpage) {
+    if (page > res.maxpage && res.maxpage > 0) {
       dispatch(setPage(res.maxpage))
     }
     dispatch(setMaxPage(res.maxpage))
