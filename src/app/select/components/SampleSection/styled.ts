@@ -17,6 +17,13 @@ export const Container = styled.div`
   max-height: calc(100dvh - 24px);
 `
 
+export const FallBackContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 35vh;
+`
+
 export const Line = styled.div`
   height: 1px;
   background-color: ${PALETTE.BLACK[200]};

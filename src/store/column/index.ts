@@ -23,8 +23,12 @@ const columnSlice = createSlice({
     },
     reset: () => initialState,
   },
+  selectors: {
+    isEmpty: (state) => Object.keys(state.value).length === 0,
+  },
 })
 
 export const { addColumn, setFetching, reset } = columnSlice.actions
+export const columnSelectors = columnSlice.selectors
 
 export default columnSlice.reducer
