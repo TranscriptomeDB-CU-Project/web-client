@@ -246,7 +246,7 @@ describe('useQuery', async () => {
             op: Operator.AND,
             params: [
               {
-                key: 'age',
+                key: 'age<interval>',
                 valuetype: ValueType.NUMBER,
                 condition: {
                   lte: 20,
@@ -274,7 +274,7 @@ describe('useQuery', async () => {
             op: Operator.AND,
             params: [
               {
-                key: 'gender',
+                key: 'sex',
                 valuetype: ValueType.STRING,
                 condition: {
                   include: true,
