@@ -17,7 +17,7 @@ const sampleGroupActions = {
     const onFinish = dispatch(loadingActions.onLoading())
 
     const res = await SampleApi.getGroup(token, column, select)
-    dispatch(setValue(res.data))
+    dispatch(setValue(res.data.filter((item) => item.value.trim() !== '')))
 
     onFinish()
   },
