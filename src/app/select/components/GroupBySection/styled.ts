@@ -6,7 +6,8 @@ export const Container = styled.div`
   border: 1px solid ${PALETTE.BLACK[200]};
   border-radius: 10px;
   padding: 20px;
-  width: 350px;
+  max-width: 250px;
+  min-width: 250px;
 
   display: flex;
   flex-direction: column;

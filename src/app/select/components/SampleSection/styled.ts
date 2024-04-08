@@ -11,6 +11,8 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 8px;
   flex-grow: 1;
+  min-width: 0;
+  overflow: auto;
   box-sizing: border-box;
   max-height: calc(100dvh - 24px);
 `
@@ -20,8 +22,12 @@ export const Line = styled.div`
   background-color: ${PALETTE.BLACK[200]};
 `
 
-export const TableContainer = styled.div`
-  display: grid;
+export const TableContainer = styled.tr`
   border: 1px solid ${PALETTE.BLACK[50]};
-  overflow-y: auto;
+`
+
+export const OuterTableContainer = styled.div`
+  flex-grow: 1;
+  min-width: 0;
+  overflow: auto;
 `

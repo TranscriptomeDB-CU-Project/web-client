@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation'
 import { createContext, PropsWithChildren, useContext } from 'react'
 import toast from 'react-hot-toast'
 
@@ -16,8 +17,9 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
   const actions = useCondition()
   const generalParam = useGeneralParam()
   const { constructQuery, validate } = useQuery(actions, generalParam)
+  const router = useRouter()
 
-  const getToken = () => {
+  const getToken = async () => {
     const error = validate()
 
     if (error) {
@@ -25,7 +27,8 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
       return
     }
 
-    return SampleApi.getToken(constructQuery())
+    const token = await SampleApi.getToken(constructQuery())
+    router.push(`/select?token=${token}`)
   }
 
   return <SearchContext.Provider value={{ ...actions, ...generalParam, getToken }}>{children}</SearchContext.Provider>

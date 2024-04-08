@@ -67,23 +67,20 @@ export interface GetTokenResponseDTO {
 }
 
 export enum ColumnType {
-  MAIN,
-  OTHER,
+  MAIN = 'MAIN',
+  OTHER = 'OTHER',
 }
 
 export enum OrderDirection {
-  ASC,
-  DESC,
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 
 export interface GetSamplesRequestDTO {
-  select: {
-    colname: string
-    coltype: ColumnType
-    keyword?: string
-  }[]
+  select: ColumnQuery[]
   sort?: {
     key: string
+    coltype: ColumnType
     order: OrderDirection
   }[]
   token: string
@@ -104,6 +101,7 @@ export interface GetGroupSamplesRequestDTO {
   token: string
   column: string
   coltype: ColumnType
+  select: ColumnQuery[]
 }
 
 export interface GetGroupSamplesResponseDTO {
@@ -115,11 +113,8 @@ export interface GetGroupSamplesResponseDTO {
 
 export interface GetGroupSampleIdRequestDTO {
   token: string
-  select: {
-    colname: string
-    coltype: ColumnType
-    keyword?: string
-  }[]
+  select: ColumnQuery[]
+  exact?: ColumnQuery
 }
 
 export interface GetGroupSampleIdResponseDTO {
@@ -138,4 +133,16 @@ export interface GetCellLineSuggestionResponseDTO {
       value: string
     }[]
   }[]
+}
+
+export interface Column {
+  colname: string
+  coltype: ColumnType
+  count: number
+}
+
+export interface ColumnQuery {
+  colname: string
+  coltype: ColumnType
+  keyword?: string
 }

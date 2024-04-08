@@ -1,31 +1,30 @@
 import React from 'react'
 
-import { useSample } from '@/app/select/context/SampleContext'
 import Checkbox from '@/components/Checkbox'
+import { useAppDispatch, useAppSelector } from '@/store'
+import selectedSampleActions from '@/store/selectedSample/actions'
+import { BLACK, WHITE } from '@/theme'
 
-import { Cell } from './styled'
+import { CheckboxContainer, TableCell, TableCellCheckbox, TextCell } from './styled'
 import { SampleProps } from './types'
 
 const Sample = ({ item }: SampleProps) => {
-  const {
-    column: { selected },
-    select: { select, isSelected },
-  } = useSample()
+  const isSelected = useAppSelector((state) => !!state.selectedSample.value[item.id])
+  const dispatch = useAppDispatch()
+
+  const column = useAppSelector((state) => state.selectedColumn.value)
 
   return (
     <>
-      <Cell>
-        <Checkbox
-          checked={isSelected(item.id)}
-          handleChecked={() => {
-            select(item.id, !isSelected(item.id))
-          }}
-        />
-      </Cell>
-      {selected.map(({ name }) => (
-        <Cell key={name} bg={!item[name] ? 'black-25' : 'white'}>
-          {item[name]}
-        </Cell>
+      <TableCellCheckbox>
+        <CheckboxContainer>
+          <Checkbox checked={isSelected} handleChecked={() => dispatch(selectedSampleActions.toggle(item.id))} />
+        </CheckboxContainer>
+      </TableCellCheckbox>
+      {column.map(({ column: { colname } }) => (
+        <TableCell style={{ backgroundColor: !item[colname] ? BLACK[50] : WHITE }} key={colname}>
+          <TextCell>{item[colname]}</TextCell>
+        </TableCell>
       ))}
     </>
   )

@@ -4,6 +4,9 @@ const nextConfig = {
     styledComponents: true,
   },
   output: 'standalone',
+  experimental: {
+    proxyTimeout: 240000,
+  },
   async rewrites() {
     if (process.env.NODE_ENV === 'development')
       return [

@@ -1,19 +1,18 @@
 import React, { useMemo } from 'react'
 
-import { useSample } from '@/app/select/context/SampleContext'
 import Button from '@/components/Button'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { selectedColSelectors } from '@/store/selectedColumn'
+import selectedSampleActions from '@/store/selectedSample/actions'
 
 const ActionButtons = () => {
-  const {
-    column: { selected },
-    select: { selectAll, selectFiltered, download },
-  } = useSample()
+  const dispatch = useAppDispatch()
 
-  const isFiltered = useMemo(() => selected.some(({ query }) => query !== ''), [selected])
+  const isFiltered = useAppSelector(selectedColSelectors.getIsFiltered)
   const filterText = useMemo(() => (isFiltered ? 'Filtered' : 'All'), [isFiltered])
   const handleSelect = (include: boolean) => {
-    if (isFiltered) selectFiltered(include)
-    else selectAll(include)
+    if (isFiltered) dispatch(selectedSampleActions.byQuery(include))
+    else dispatch(selectedSampleActions.all(include))
   }
 
   return (
@@ -22,7 +21,7 @@ const ActionButtons = () => {
       <Button color="red" onClick={() => handleSelect(false)}>
         Remove {filterText}
       </Button>
-      <Button color="blue" onClick={download}>
+      <Button color="blue" onClick={() => dispatch(selectedSampleActions.download())}>
         Download Selected
       </Button>
     </div>
