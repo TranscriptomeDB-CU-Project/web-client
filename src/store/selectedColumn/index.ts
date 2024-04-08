@@ -74,7 +74,7 @@ const selectedColumnSlice = createSlice({
   },
 })
 
-export const { add, remove, rearrange, setQuery, setSort } = selectedColumnSlice.actions
+export const { add, remove, rearrange, setQuery, setSort, reset } = selectedColumnSlice.actions
 export const selectedColSelectors = selectedColumnSlice.selectors
 
 export default selectedColumnSlice.reducer

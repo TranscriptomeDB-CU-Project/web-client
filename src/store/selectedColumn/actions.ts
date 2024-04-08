@@ -1,7 +1,6 @@
 import { AppThunk } from '..'
-import { reset } from '../column'
 import columnActions from '../column/actions'
-import { add, rearrange, remove, setQuery, setSort } from '.'
+import { add, rearrange, remove, reset, setQuery, setSort } from '.'
 
 const selectedColActions = {
   add:
