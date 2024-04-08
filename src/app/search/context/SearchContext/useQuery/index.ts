@@ -35,7 +35,7 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     if (age.enabled) {
       const { min, max, unitMin, unitMax } = age.value
       query.push({
-        key: 'age',
+        key: 'age<interval>',
         valuetype: ValueType.NUMBER,
         condition: {
           gte: parseAge(Number(min), unitMin),
@@ -46,7 +46,7 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
 
     if (gender.enabled) {
       query.push({
-        key: 'gender',
+        key: 'sex',
         valuetype: ValueType.STRING,
         condition: {
           include: true,
