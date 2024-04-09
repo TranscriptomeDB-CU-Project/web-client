@@ -52,7 +52,7 @@ const ColumnSection = () => {
               style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
               {...provided.droppableProps}
             >
-              {selectedCol.map(({ column: { colname } }, index) => (
+              {selectedCol.map(({ column: { colname, count } }, index) => (
                 <Draggable key={colname} draggableId={colname} index={index}>
                   {(provided) => (
                     <div
@@ -61,7 +61,7 @@ const ColumnSection = () => {
                       {...provided.draggableProps}
                       key={colname}
                     >
-                      <ColumnCard name={colname} count={1} />
+                      <ColumnCard name={colname} count={count} />
                     </div>
                   )}
                 </Draggable>
