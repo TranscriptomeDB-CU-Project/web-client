@@ -8,10 +8,10 @@ const GroupBySelection = ({ value, count, onRemove, onSelectAll }: GroupBySelect
   return (
     <GroupBySelectionContainer>
       <SelectionTitleContainer>
-        <Text variant="body1" color="primary-950">
+        <Text style={{ wordBreak: 'break-all' }} variant="body1" color="primary-950">
           {value}
         </Text>
-        <Text variant="body2" color="black-400">
+        <Text style={{ marginTop: '2px' }} variant="body2" color="black-400">
           {count}
         </Text>
       </SelectionTitleContainer>
