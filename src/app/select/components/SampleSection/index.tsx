@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Text from '@/components/Text'
 import { useAppDispatch, useAppSelector } from '@/store'
@@ -20,6 +20,12 @@ const SampleSection = () => {
     shouldShowNoColumn: selectedColSelectors.noSelectedColumn(state),
     shouldShowNoSample: sampleSelectors.noSample(state),
   }))
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const dependency = useAppSelector(sampleDependency)
 
   const dispatch = useAppDispatch()
@@ -45,27 +51,28 @@ const SampleSection = () => {
             <Header />
           </thead>
           <tbody>
-            {shouldShowNoSample ? (
-              <>
-                <td />
+            {isClient &&
+              (shouldShowNoSample ? (
+                <>
+                  <td />
+                  <FallBackContainer>
+                    <Text color="primary-700">No sample found for this query</Text>
+                  </FallBackContainer>
+                </>
+              ) : shouldShowNoColumn ? (
                 <FallBackContainer>
-                  <Text color="primary-700">No sample found for this query</Text>
+                  <Text color="primary-700">Please select column from the left section</Text>
                 </FallBackContainer>
-              </>
-            ) : shouldShowNoColumn ? (
-              <FallBackContainer>
-                <Text color="primary-700">Please select column from the left section</Text>
-              </FallBackContainer>
-            ) : (
-              <>
-                {data &&
-                  data.map((row, index) => (
-                    <TableContainer key={index}>
-                      <Sample item={row} />
-                    </TableContainer>
-                  ))}
-              </>
-            )}
+              ) : (
+                <>
+                  {data.length > 0 &&
+                    data.map((row, index) => (
+                      <TableContainer key={index}>
+                        <Sample item={row} />
+                      </TableContainer>
+                    ))}
+                </>
+              ))}
           </tbody>
         </table>
       </OuterTableContainer>
