@@ -19,6 +19,7 @@ export const TableCellCheckbox = styled(TableCell)`
   left: 0;
   padding-left: 8px;
   padding-right: 8px;
+  cursor: pointer;
   background-color: ${WHITE};
 `
 
