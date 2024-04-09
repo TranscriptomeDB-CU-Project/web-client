@@ -19,4 +19,5 @@ export const SuggestionContainer = styled.div`
 export const ItemContainer = styled(Text)`
   padding: 2px 10px;
   border-bottom: 1px solid ${PALETTE.BLACK[50]};
+  word-break: break-all;
 `
