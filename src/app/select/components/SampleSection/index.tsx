@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 
 import Text from '@/components/Text'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { columnSelectors } from '@/store/column'
+import { sampleSelectors } from '@/store/sample'
 import sampleActions from '@/store/sample/actions'
 import { sampleDependency } from '@/store/sample/selector'
+import { selectedColSelectors } from '@/store/selectedColumn'
 import selectedSampleActions from '@/store/selectedSample/actions'
 
 import ActionButtons from './components/ActionButtons'
@@ -14,12 +15,10 @@ import Sample from './components/Sample'
 import { Container, FallBackContainer, Line, OuterTableContainer, TableContainer } from './styled'
 
 const SampleSection = () => {
-  const { data, selectedCol, isFetching, haveCol, fetchingCol } = useAppSelector((state) => ({
-    selectedCol: state.selectedColumn.value,
+  const { data, shouldShowNoColumn, shouldShowNoSample } = useAppSelector((state) => ({
     data: state.sample.value,
-    isFetching: state.loading.value,
-    haveCol: !columnSelectors.isEmpty(state),
-    fetchingCol: state.column.isFetching,
+    shouldShowNoColumn: selectedColSelectors.noSelectedColumn(state),
+    shouldShowNoSample: sampleSelectors.noSample(state),
   }))
   const dependency = useAppSelector(sampleDependency)
 
@@ -28,9 +27,6 @@ const SampleSection = () => {
     dispatch(sampleActions.fetch())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [...dependency, dispatch])
-
-  const shouldShowNoSample = !isFetching && data.length === 0
-  const shouldShowNoColumn = selectedCol.length === 0 && haveCol && !fetchingCol
 
   useEffect(() => {
     return () => {
@@ -48,27 +44,29 @@ const SampleSection = () => {
           <thead>
             <Header />
           </thead>
-          {shouldShowNoSample ? (
-            <tbody>
-              <td />
+          <tbody>
+            {shouldShowNoSample ? (
+              <>
+                <td />
+                <FallBackContainer>
+                  <Text color="primary-700">No sample found for this query</Text>
+                </FallBackContainer>
+              </>
+            ) : shouldShowNoColumn ? (
               <FallBackContainer>
-                <Text color="primary-700">No sample found for this query</Text>
+                <Text color="primary-700">Please select column from the left section</Text>
               </FallBackContainer>
-            </tbody>
-          ) : shouldShowNoColumn ? (
-            <FallBackContainer>
-              <Text color="primary-700">Please select column from the left section</Text>
-            </FallBackContainer>
-          ) : (
-            <tbody>
-              {data &&
-                data.map((row, index) => (
-                  <TableContainer key={index}>
-                    <Sample item={row} />
-                  </TableContainer>
-                ))}
-            </tbody>
-          )}
+            ) : (
+              <>
+                {data &&
+                  data.map((row, index) => (
+                    <TableContainer key={index}>
+                      <Sample item={row} />
+                    </TableContainer>
+                  ))}
+              </>
+            )}
+          </tbody>
         </table>
       </OuterTableContainer>
       <PaginationSection />

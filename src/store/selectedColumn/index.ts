@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Column, OrderDirection } from '@/dto/types'
 
+import { RootState } from '..'
+import { columnSelectors } from '../column'
 import { SelectedColumnStore } from './types'
 
 const initialState: SelectedColumnStore = {
@@ -74,7 +76,11 @@ const selectedColumnSlice = createSlice({
   },
 })
 
+const noSelectedColumn = (state: RootState) => {
+  return state.selectedColumn.value.length === 0 && !columnSelectors.isEmpty(state)
+}
+
 export const { add, remove, rearrange, setQuery, setSort, reset } = selectedColumnSlice.actions
-export const selectedColSelectors = selectedColumnSlice.selectors
+export const selectedColSelectors = { ...selectedColumnSlice.selectors, noSelectedColumn }
 
 export default selectedColumnSlice.reducer

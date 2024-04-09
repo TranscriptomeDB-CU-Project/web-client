@@ -31,7 +31,11 @@ const sampleSlice = createSlice({
     },
     reset: () => initialState,
   },
+  selectors: {
+    noSample: (state) => state.value.length === 0 && !state.isFetching,
+  },
 })
 
 export const { setSample, setPage, setMaxPage, setFetching, setLimit, reset } = sampleSlice.actions
+export const sampleSelectors = sampleSlice.selectors
 export default sampleSlice.reducer
