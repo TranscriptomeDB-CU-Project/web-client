@@ -44,4 +44,10 @@ export const StyledButton = styled.button<ButtonVariants>`
   &:hover {
     background-color: ${getHoverColor};
   }
+
+  &:disabled {
+    background-color: ${PALETTE.BLACK[100]};
+    color: ${PALETTE.BLACK[500]};
+    cursor: not-allowed;
+  }
 `
