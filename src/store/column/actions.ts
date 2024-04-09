@@ -28,6 +28,8 @@ const columnActions = {
   getSuggestion:
     (keyword: string, limit = 5): AppThunk<string[]> =>
     (dispatch, getState) => {
+      if (keyword.length === 0) return []
+
       const columns = getState().column.value
       const selectedColumns = getState().selectedColumn.value
 
