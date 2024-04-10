@@ -31,6 +31,11 @@ const useContent = (content: any) => {
     return content
   }, [])
 
+  const getRange = useCallback((gte: number, lte: number) => {
+    if (gte === lte) return `${gte / 52} years`
+    return `${gte / 52} - ${lte / 52} years`
+  }, [])
+
   const getItem = useCallback(
     (content: any) => {
       if (Array.isArray(content)) {
@@ -45,9 +50,15 @@ const useContent = (content: any) => {
       if (typeof content === 'string') {
         return getLink(content)
       }
+      if (typeof content === 'object') {
+        if (content.gte && content.lte) {
+          return getRange(content.gte, content.lte)
+        }
+        return JSON.stringify(content)
+      }
       return content
     },
-    [getLink],
+    [getLink, getRange],
   )
 
   const packedContent = useMemo(() => pack(content), [content, pack])
