@@ -36,7 +36,7 @@ const TextField = (props: TextFieldProps) => {
           disabled={disabled}
         />
         {search && <Icon icon="mdi:magnify" fontSize={24} color={PALETTE.PRIMARY[700]} />}
-        {suggestionState.state && <Suggestion {...suggestionProps} isLoading={isLoading} />}
+        {suggestionState.state && <Suggestion {...suggestionProps} isLoading={isLoading && query.length > 0} />}
       </InputContainer>
     </OutsideClickHandler>
   )

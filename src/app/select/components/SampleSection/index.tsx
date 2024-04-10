@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import Text from '@/components/Text'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { sampleSelectors } from '@/store/sample'
 import sampleActions from '@/store/sample/actions'
-import { sampleDependency } from '@/store/sample/selector'
+import sampleSelectors from '@/store/sample/selector'
 import { selectedColSelectors } from '@/store/selectedColumn'
 import selectedSampleActions from '@/store/selectedSample/actions'
 
@@ -15,10 +14,11 @@ import Sample from './components/Sample'
 import { Container, FallBackContainer, Line, OuterTableContainer, TableContainer } from './styled'
 
 const SampleSection = () => {
-  const { data, shouldShowNoColumn, shouldShowNoSample } = useAppSelector((state) => ({
+  const { data, showNoColumn, showNoSample, showSample } = useAppSelector((state) => ({
     data: state.sample.value,
-    shouldShowNoColumn: selectedColSelectors.noSelectedColumn(state),
-    shouldShowNoSample: sampleSelectors.noSample(state),
+    showNoColumn: selectedColSelectors.noSelectedColumn(state),
+    showNoSample: sampleSelectors.shouldShowNoSample(state),
+    showSample: sampleSelectors.shouldShowSample(state),
   }))
   const [isClient, setIsClient] = useState(false)
 
@@ -26,7 +26,7 @@ const SampleSection = () => {
     setIsClient(true)
   }, [])
 
-  const dependency = useAppSelector(sampleDependency)
+  const dependency = useAppSelector(sampleSelectors.sampleDependency)
 
   const dispatch = useAppDispatch()
   useEffect(() => {
@@ -52,30 +52,22 @@ const SampleSection = () => {
           </thead>
           <tbody>
             {isClient &&
-              (shouldShowNoSample ? (
-                <>
-                  <td />
-                  <FallBackContainer>
-                    <Text color="primary-700">No sample found for this query</Text>
-                  </FallBackContainer>
-                </>
-              ) : shouldShowNoColumn ? (
-                <FallBackContainer>
-                  <Text color="primary-700">Please select column from the left section</Text>
-                </FallBackContainer>
-              ) : (
-                <>
-                  {data.length > 0 &&
-                    data.map((row, index) => (
-                      <TableContainer key={index}>
-                        <Sample item={row} />
-                      </TableContainer>
-                    ))}
-                </>
+              showSample &&
+              data.map((row, index) => (
+                <TableContainer key={index}>
+                  <Sample item={row} />
+                </TableContainer>
               ))}
           </tbody>
         </table>
       </OuterTableContainer>
+      <FallBackContainer>
+        {showNoSample ? (
+          <Text color="primary-700">No sample found for this query</Text>
+        ) : (
+          showNoColumn && <Text color="primary-700">Please select column from the left section</Text>
+        )}
+      </FallBackContainer>
       <PaginationSection />
     </Container>
   )

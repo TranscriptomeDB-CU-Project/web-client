@@ -2,14 +2,14 @@ import React, { useMemo } from 'react'
 
 import Button from '@/components/Button'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { sampleSelectors } from '@/store/sample'
+import sampleSelectors from '@/store/sample/selector'
 import { selectedColSelectors } from '@/store/selectedColumn'
 import selectedSampleActions from '@/store/selectedSample/actions'
 
 const ActionButtons = () => {
   const dispatch = useAppDispatch()
 
-  const noSample = useAppSelector(sampleSelectors.noSample)
+  const noSample = useAppSelector(sampleSelectors.shouldShowNoSample)
   const isFiltered = useAppSelector(selectedColSelectors.getIsFiltered)
   const noSelected = useAppSelector((state) => state.selectedSample.count === 0)
 

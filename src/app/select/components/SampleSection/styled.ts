@@ -21,7 +21,7 @@ export const FallBackContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 35vh;
+  flex-grow: 1;
 `
 
 export const Line = styled.div`
@@ -34,7 +34,6 @@ export const TableContainer = styled.tr`
 `
 
 export const OuterTableContainer = styled.div`
-  flex-grow: 1;
   min-width: 0;
   overflow: auto;
 `

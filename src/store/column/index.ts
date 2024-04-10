@@ -7,6 +7,7 @@ import { ColumnStore } from './types'
 const initialState: ColumnStore = {
   value: {},
   isFetching: false,
+  isMainColFetching: true,
 }
 
 const columnSlice = createSlice({
@@ -21,6 +22,9 @@ const columnSlice = createSlice({
     setFetching: (state, action: PayloadAction<boolean>) => {
       state.isFetching = action.payload
     },
+    setMainColFetching: (state, action: PayloadAction<boolean>) => {
+      state.isMainColFetching = action.payload
+    },
     reset: () => initialState,
   },
   selectors: {
@@ -28,7 +32,7 @@ const columnSlice = createSlice({
   },
 })
 
-export const { addColumn, setFetching, reset } = columnSlice.actions
+export const { addColumn, setFetching, reset, setMainColFetching } = columnSlice.actions
 export const columnSelectors = columnSlice.selectors
 
 export default columnSlice.reducer
