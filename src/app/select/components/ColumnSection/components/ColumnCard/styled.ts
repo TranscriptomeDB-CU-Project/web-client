@@ -2,12 +2,12 @@ import styled from 'styled-components'
 
 export const ColumnCardContainer = styled.div`
   display: flex;
-  align-items: center;
+  width: 100%;
+  gap: 8px;
   justify-content: space-between;
 `
 
 export const ContentCardContainer = styled.div`
   display: flex;
-  align-items: center;
   gap: 4px;
 `

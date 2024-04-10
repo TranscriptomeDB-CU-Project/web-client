@@ -16,9 +16,9 @@ const Sample = ({ item }: SampleProps) => {
 
   return (
     <>
-      <TableCellCheckbox>
+      <TableCellCheckbox onClick={() => dispatch(selectedSampleActions.toggle(item.id))}>
         <CheckboxContainer>
-          <Checkbox checked={isSelected} handleChecked={() => dispatch(selectedSampleActions.toggle(item.id))} />
+          <Checkbox checked={isSelected} />
         </CheckboxContainer>
       </TableCellCheckbox>
       {column.map(({ column: { colname } }) => (

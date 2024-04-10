@@ -9,7 +9,6 @@ export const GroupBySelectionContainer = styled.div`
 export const SelectionTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   gap: 8px;
 `
 

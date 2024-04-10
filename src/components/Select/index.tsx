@@ -28,7 +28,7 @@ const Select = ({ value, items, onChange, disabled }: SelectProps) => {
   return (
     <OutsideClickHandler onOutsideClick={suggestionState.setOff}>
       <SelectContainer onClick={disabled ? undefined : suggestionState.setOn} disabled={disabled}>
-        <div style={{ flexGrow: 1, textAlign: 'center' }}>{label}</div>
+        <div style={{ flexGrow: 1, textAlign: 'center', wordBreak: 'break-all' }}>{label}</div>
         <Icon
           icon="mdi:expand-more"
           fontSize={24}
