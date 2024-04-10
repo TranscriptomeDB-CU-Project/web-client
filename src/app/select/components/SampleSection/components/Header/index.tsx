@@ -29,16 +29,18 @@ const Header = () => {
               />
             )}
           </TitleContainer>
-          <TextField
-            value={query}
-            onChange={dispatch(selectedColActions.setQuery(colname))}
-            search
-            inputProps={{
-              style: {
-                width: '100%',
-              },
-            }}
-          />
+          {!colname.endsWith('<interval>') && (
+            <TextField
+              value={query}
+              onChange={dispatch(selectedColActions.setQuery(colname))}
+              search
+              inputProps={{
+                style: {
+                  width: '100%',
+                },
+              }}
+            />
+          )}
         </HeaderContainer>
       ))}
     </tr>

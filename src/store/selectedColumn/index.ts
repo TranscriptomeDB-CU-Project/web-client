@@ -68,10 +68,12 @@ const selectedColumnSlice = createSlice({
       return state.value.some(({ query }) => query !== '')
     },
     getSelectable: (state) => {
-      return state.value.map(({ column }) => ({
-        label: column.colname,
-        value: column.colname,
-      }))
+      return state.value
+        .filter(({ column }) => !column.colname.endsWith('<interval>'))
+        .map(({ column }) => ({
+          label: column.colname,
+          value: column.colname,
+        }))
     },
   },
 })
