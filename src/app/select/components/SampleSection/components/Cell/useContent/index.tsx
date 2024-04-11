@@ -31,9 +31,13 @@ const useContent = (content: any) => {
     return content
   }, [])
 
-  const getRange = useCallback((gte: number, lte: number) => {
-    if (gte === lte) return `${gte / 52} years`
-    return `${gte / 52} - ${lte / 52} years`
+  const getRange = useCallback((gte?: number, lte?: number) => {
+    const lteYear = lte ? Number((lte / 52).toFixed(2)) : undefined
+    const gteYear = gte ? Number((gte / 52).toFixed(2)) : undefined
+    if (!lteYear) return `>= ${gteYear} years`
+    if (!gteYear) return `<= ${lteYear} years`
+    if (gteYear === lteYear) return `${gteYear} years`
+    return `${gteYear} - ${lteYear} years`
   }, [])
 
   const getItem = useCallback(
@@ -51,7 +55,7 @@ const useContent = (content: any) => {
         return getLink(content)
       }
       if (typeof content === 'object') {
-        if (content.gte && content.lte) {
+        if (content.gte || content.lte) {
           return getRange(content.gte, content.lte)
         }
         return JSON.stringify(content)

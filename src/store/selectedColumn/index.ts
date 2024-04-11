@@ -51,7 +51,6 @@ const selectedColumnSlice = createSlice({
       state.toSelect = []
     },
     addToSelect: (state, action: PayloadAction<string>) => {
-      console.log('added')
       state.toSelect.push(action.payload)
     },
   },

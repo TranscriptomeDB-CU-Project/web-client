@@ -14,7 +14,6 @@ const baseAddInitialColumns =
       })
     } else {
       const key = (query as ParameterCondition).key
-      console.log('key', key)
       dispatch(addToSelect(key))
     }
   }
