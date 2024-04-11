@@ -3,6 +3,7 @@ import { Column } from '@/dto/types'
 
 import { AppThunk } from '..'
 import loadingActions from '../loading/actions'
+import selectedColActions from '../selectedColumn/actions'
 import { addColumn, reset, setFetching, setMainColFetching } from '.'
 
 const columnActions = {
@@ -21,6 +22,11 @@ const columnActions = {
     dispatch(addColumn(main))
     dispatch(setMainColFetching(false))
     onFinishBlockingFetch()
+    const toSelect = new Set(getState().selectedColumn.toSelect)
+    toSelect.forEach((colname) => {
+      dispatch(selectedColActions.add(colname))
+    })
+    dispatch(selectedColActions.resetToSelect())
 
     // secondary columns
     const secondary = await ColumnApi.getSecondaryByToken(token)

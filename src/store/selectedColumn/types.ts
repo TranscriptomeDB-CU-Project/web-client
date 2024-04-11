@@ -9,4 +9,5 @@ export interface SelectedColumnStore {
     column: Column
     direction: OrderDirection
   }
+  toSelect: string[]
 }

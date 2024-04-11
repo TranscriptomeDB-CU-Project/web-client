@@ -17,7 +17,7 @@ export const ItemContainer = styled(Text).attrs<{ $selected?: boolean; $disabled
   color: $selected ? 'primary-700' : 'primary-950',
   bg: $selected ? 'primary-100' : 'white',
 }))`
-  width: 30px;
+  min-width: 30px;
   height: 30px;
   display: flex;
   justify-content: center;
@@ -26,6 +26,7 @@ export const ItemContainer = styled(Text).attrs<{ $selected?: boolean; $disabled
   user-select: none;
   cursor: ${({ $disabled }) => ($disabled ? 'cursor' : 'pointer')};
   pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
+  padding: 0 5px;
 `
 
 export const StyledIcon = styled(Icon).attrs({
