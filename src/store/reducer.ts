@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 
 import column from './column'
 import loading from './loading'
+import popup from './popup'
 import sample from './sample'
 import sampleGroup from './sampleGroup'
 import selectedColumn from './selectedColumn'
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   sample,
   selectedSample,
   sampleGroup,
+  popup,
 })
 
 const rootReducer = (state: any, action: any) => {

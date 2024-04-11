@@ -3,22 +3,29 @@ import { Column, ColumnQuery } from '@/dto/types'
 
 import { AppThunk } from '..'
 import loadingActions from '../loading/actions'
+import { popupActions } from '../popup'
 import { selectedColSelectors } from '../selectedColumn'
 import { processIds, reset } from '.'
 
 const baseSelect =
   (select: boolean, query: ColumnQuery[], exact?: ColumnQuery): AppThunk<void> =>
   async (dispatch, getState) => {
-    const token = getState().token.sampleToken
+    dispatch(
+      popupActions.show({
+        onAccept: async () => {
+          const token = getState().token.sampleToken
 
-    if (!token) return
+          if (!token) return
 
-    const onFinish = dispatch(loadingActions.onLoading())
+          const onFinish = dispatch(loadingActions.onLoading())
 
-    const ids = await SampleApi.getIds(token, query, exact)
-    dispatch(processIds({ ids, select }))
+          const ids = await SampleApi.getIds(token, query, exact)
+          dispatch(processIds({ ids, select }))
 
-    onFinish()
+          onFinish()
+        },
+      }),
+    )
   }
 
 const selectedSampleActions = {
