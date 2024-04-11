@@ -3,9 +3,9 @@ import React from 'react'
 import Checkbox from '@/components/Checkbox'
 import { useAppDispatch, useAppSelector } from '@/store'
 import selectedSampleActions from '@/store/selectedSample/actions'
-import { BLACK, WHITE } from '@/theme'
 
-import { CheckboxContainer, TableCell, TableCellCheckbox, TextCell } from './styled'
+import Cell from '../Cell'
+import { CheckboxContainer, TableCellCheckbox } from './styled'
 import { SampleProps } from './types'
 
 const Sample = ({ item }: SampleProps) => {
@@ -22,9 +22,7 @@ const Sample = ({ item }: SampleProps) => {
         </CheckboxContainer>
       </TableCellCheckbox>
       {column.map(({ column: { colname } }) => (
-        <TableCell style={{ backgroundColor: !item[colname] ? BLACK[50] : WHITE }} key={colname}>
-          <TextCell>{item[colname]}</TextCell>
-        </TableCell>
+        <Cell content={item[colname]} key={colname} />
       ))}
     </>
   )
