@@ -10,7 +10,8 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     const generalQuery = constructGeneral()
     const conditionQuery = actions.complex.state ? constructComplex('root') : constructSimple()
 
-    if (generalQuery.length === 0) return { query: conditionQuery }
+    if (!conditionQuery) return { query: { params: generalQuery, op: Operator.AND } }
+    if (generalQuery.length === 0) return { query: conditionQuery! }
     return {
       query: {
         params: [...generalQuery, conditionQuery],
@@ -99,10 +100,10 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     }
   }
 
-  const constructSimple = (): ParamsWithOps | ParameterCondition => {
+  const constructSimple = (): ParamsWithOps | ParameterCondition | undefined => {
     const { conditions } = actions.getItem('root') as ConditionGroup
 
-    if (conditions.length === 0) return {} as ParameterCondition
+    if (conditions.length === 0) return undefined
     if (conditions.length === 1) return constructCondition(conditions[0])
 
     let currentGroup: ParamsWithOps = {
@@ -125,7 +126,7 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     return currentGroup
   }
 
-  const validate = () => {
+  const validate = (isComplex?: boolean) => {
     // gender
     const { gender, age } = generalParam
     if (gender.enabled) {
@@ -143,17 +144,19 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     }
 
     // conditions
-    return validateCondition('root')
+    return validateCondition('root', isComplex)
   }
 
-  const validateCondition = (id: string): string | null => {
+  const validateCondition = (id: string, isComplex?: boolean): string | null => {
     const item = actions.getItem(id)
     if (item.type === ConditionType.SINGLE) {
       const condition = item as Condition
       if (condition.key === '' || condition.value === '') return 'Please fill all Columns and Keywords'
     } else {
       const group = item as ConditionGroup
-      if (group.conditions.length === 0) return 'Please remove the group with no conditions'
+      if (group.conditions.length === 0) {
+        if (id !== 'root' && isComplex !== true) return 'Please remove the group with no conditions'
+      }
       for (const childId of group.conditions) {
         const error = validateCondition(childId)
         if (error) return error
