@@ -19,11 +19,11 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     }
   }
 
-  const constructGeneral = (): ParameterCondition[] => {
+  const constructGeneral = () => {
     const { age, gender, cellLine } = generalParam
 
-    const query: ParameterCondition[] = cellLine.data.map((cell) => ({
-      key: 'cell line',
+    let query: (ParameterCondition | ParamsWithOps)[] = cellLine.data.map((cell) => ({
+      key: 'cell_line',
       valuetype: ValueType.STRING,
       condition: {
         include: true,
@@ -31,6 +31,15 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
         value: cell,
       },
     }))
+
+    if (query.length > 1) {
+      query = [
+        {
+          params: query,
+          op: Operator.OR,
+        },
+      ]
+    }
 
     if (age.enabled) {
       const { min, max, unitMin, unitMax } = age.value

@@ -3,8 +3,10 @@
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 
-import { useAppDispatch } from '@/store'
+import WarningDialog from '@/components/WarningDialog'
+import { useAppDispatch, useAppSelector } from '@/store'
 import columnActions from '@/store/column/actions'
+import { popupActions, popupSelectors } from '@/store/popup'
 import selectedColActions from '@/store/selectedColumn/actions'
 import { tokenActions } from '@/store/token'
 
@@ -27,11 +29,21 @@ const SelectPage = () => {
     }
   }, [dispatch, token])
 
+  const popupState = useAppSelector((state) => popupSelectors.current(state))
+
   return (
     <Container>
       <ColumnSection />
       <SampleSection />
       <GroupBySection />
+      <WarningDialog
+        handleSubmit={() => {
+          dispatch(popupActions.close())
+          popupState?.onAccept?.()
+        }}
+        isOpen={!!popupState}
+        onClose={() => dispatch(popupActions.close())}
+      />
     </Container>
   )
 }

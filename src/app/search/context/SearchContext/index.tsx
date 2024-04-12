@@ -3,6 +3,8 @@ import { createContext, PropsWithChildren, useContext } from 'react'
 import toast from 'react-hot-toast'
 
 import SampleApi from '@/api/SampleApi'
+import { useAppDispatch } from '@/store'
+import selectedColActions from '@/store/selectedColumn/actions'
 
 import { ISearchContext } from './types'
 import useCondition from './useCondition'
@@ -18,6 +20,7 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
   const generalParam = useGeneralParam()
   const { constructQuery, validate } = useQuery(actions, generalParam)
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const getToken = async () => {
     const error = validate()
@@ -27,7 +30,10 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
       return
     }
 
-    const token = await SampleApi.getToken(constructQuery())
+    const query = constructQuery()
+
+    dispatch(selectedColActions.addInitialColumns(query))
+    const token = await SampleApi.getToken(query)
     router.push(`/select?token=${token}`)
   }
 

@@ -1,7 +1,22 @@
+import { GetTokenRequestDTO, ParameterCondition, ParamsWithOps } from '@/dto/types'
+
 import { AppThunk } from '..'
 import columnActions from '../column/actions'
-import { add, rearrange, remove, reset, setQuery, setSort } from '.'
+import { add, addToSelect, rearrange, remove, reset, resetToSelect, setQuery, setSort } from '.'
 
+const baseAddInitialColumns =
+  (query: ParamsWithOps | ParameterCondition): AppThunk<void> =>
+  (dispatch) => {
+    if ((query as ParamsWithOps).params) {
+      const params = (query as ParamsWithOps).params
+      params.forEach((param) => {
+        dispatch(baseAddInitialColumns(param))
+      })
+    } else {
+      const key = (query as ParameterCondition).key
+      dispatch(addToSelect(key))
+    }
+  }
 const selectedColActions = {
   add:
     (name: string): AppThunk<void> =>
@@ -31,8 +46,14 @@ const selectedColActions = {
         dispatch(setQuery({ colname, query }))
       }
     },
+  addInitialColumns:
+    (query: GetTokenRequestDTO): AppThunk<void> =>
+    async (dispatch) => {
+      dispatch(baseAddInitialColumns(query.query))
+    },
   remove,
   reset,
+  resetToSelect,
 }
 
 export default selectedColActions
