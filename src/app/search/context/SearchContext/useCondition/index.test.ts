@@ -17,19 +17,9 @@ describe('useCondition', () => {
       root: {
         id: 'root',
         parentId: 'root',
-        conditions: ['1'],
+        conditions: [],
         operator: 'AND',
         type: ConditionType.GROUP,
-      },
-      '1': {
-        id: '1',
-        parentId: 'root',
-        key: '',
-        value: '',
-        matchType: MatchType.CONTAINS,
-        include: true,
-        operator: Operator.AND,
-        type: ConditionType.SINGLE,
       },
     })
   })
@@ -50,19 +40,9 @@ describe('useCondition', () => {
         root: {
           id: 'root',
           parentId: 'root',
-          conditions: ['1', id],
+          conditions: [id],
           operator: 'AND',
           type: ConditionType.GROUP,
-        },
-        '1': {
-          id: '1',
-          parentId: 'root',
-          key: '',
-          value: '',
-          matchType: MatchType.CONTAINS,
-          include: true,
-          operator: Operator.AND,
-          type: ConditionType.SINGLE,
         },
         [id]: {
           id,
@@ -82,6 +62,7 @@ describe('useCondition', () => {
 
       const { result } = renderHook(() => useCondition())
 
+      result.current.addItem(ConditionType.SINGLE, 'root')
       const id = result.current.addItem(ConditionType.GROUP, 'root')
 
       expect(result.current.conditionMap).toStrictEqual({
@@ -171,19 +152,9 @@ describe('useCondition', () => {
         root: {
           id: 'root',
           parentId: 'root',
-          conditions: ['1', id],
+          conditions: [id],
           operator: 'AND',
           type: ConditionType.GROUP,
-        },
-        '1': {
-          id: '1',
-          parentId: 'root',
-          key: '',
-          value: '',
-          matchType: MatchType.CONTAINS,
-          include: true,
-          operator: Operator.AND,
-          type: ConditionType.SINGLE,
         },
         [id]: newItem,
       })
@@ -195,6 +166,7 @@ describe('useCondition', () => {
       const { default: useCondition } = await import('.')
 
       const { result } = renderHook(() => useCondition())
+      result.current.addItem(ConditionType.SINGLE, 'root')
 
       const id = result.current.addItem(ConditionType.SINGLE, 'root')
 
@@ -215,6 +187,7 @@ describe('useCondition', () => {
       const { default: useCondition } = await import('.')
 
       const { result } = renderHook(() => useCondition())
+      result.current.addItem(ConditionType.SINGLE, 'root')
 
       const id = result.current.addItem(ConditionType.SINGLE, 'root')
 
@@ -245,6 +218,7 @@ describe('useCondition', () => {
       const { default: useCondition } = await import('.')
 
       const { result } = renderHook(() => useCondition())
+      result.current.addItem(ConditionType.SINGLE, 'root')
 
       const group1 = result.current.addItem(ConditionType.GROUP, 'root')
       const group2 = result.current.addItem(ConditionType.GROUP, group1)
@@ -310,19 +284,9 @@ describe('useCondition', () => {
           root: {
             id: 'root',
             parentId: 'root',
-            conditions: ['22'],
+            conditions: [],
             operator: 'AND',
             type: ConditionType.GROUP,
-          },
-          '22': {
-            id: '22',
-            parentId: 'root',
-            key: '',
-            value: '',
-            matchType: MatchType.CONTAINS,
-            include: true,
-            operator: Operator.AND,
-            type: ConditionType.SINGLE,
           },
         })
       })
@@ -341,12 +305,12 @@ describe('useCondition', () => {
           root: {
             id: 'root',
             parentId: 'root',
-            conditions: ['22'],
+            conditions: ['21'],
             operator: 'AND',
             type: ConditionType.GROUP,
           },
-          '22': {
-            id: '22',
+          '21': {
+            id: '21',
             parentId: 'root',
             key: '',
             value: '',

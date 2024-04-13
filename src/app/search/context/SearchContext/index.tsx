@@ -23,7 +23,7 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
   const dispatch = useAppDispatch()
 
   const getToken = async () => {
-    const error = validate()
+    const error = validate(actions.complex.state)
 
     if (error) {
       toast.error(error)

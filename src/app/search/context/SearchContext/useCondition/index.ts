@@ -8,9 +8,11 @@ import { Condition, ConditionGroup, ConditionType, MatchType, Operator } from '.
 const useCondition = () => {
   const [conditionMap, setConditionMap] = useState<{ [key: string]: Condition | ConditionGroup }>({})
   const complex = useSwitch()
+  const complexRef = useRef(false)
 
   useEffect(() => {
     reset()
+    complexRef.current = complex.state
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complex.state])
 
@@ -115,7 +117,7 @@ const useCondition = () => {
       type: ConditionType.GROUP,
     })
 
-    addItem(ConditionType.SINGLE, 'root')
+    if (complexRef.current) addItem(ConditionType.SINGLE, 'root')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [justReset.state])
 
