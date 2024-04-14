@@ -8,7 +8,6 @@ import { SelectedColumnStore } from './types'
 
 const initialState: SelectedColumnStore = {
   value: [],
-  toSelect: [],
 }
 
 const selectedColumnSlice = createSlice({
@@ -16,6 +15,7 @@ const selectedColumnSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<Column>) => {
+      if (state.value.some(({ column }) => column.colname === action.payload.colname)) return
       state.value.push({ column: action.payload, query: '' })
     },
     remove: (state, action: PayloadAction<string>) => {
@@ -46,12 +46,6 @@ const selectedColumnSlice = createSlice({
     },
     reset: (state) => {
       state.value = []
-    },
-    resetToSelect: (state) => {
-      state.toSelect = []
-    },
-    addToSelect: (state, action: PayloadAction<string>) => {
-      state.toSelect.push(action.payload)
     },
   },
   selectors: {
@@ -91,8 +85,7 @@ const noSelectedColumn = (state: RootState) => {
   return state.selectedColumn.value.length === 0 && !columnSelectors.isEmpty(state)
 }
 
-export const { add, remove, rearrange, setQuery, setSort, reset, addToSelect, resetToSelect } =
-  selectedColumnSlice.actions
+export const { add, remove, rearrange, setQuery, setSort, reset } = selectedColumnSlice.actions
 export const selectedColSelectors = { ...selectedColumnSlice.selectors, noSelectedColumn }
 
 export default selectedColumnSlice.reducer

@@ -1,5 +1,11 @@
 import { Column } from '@/app/select/types'
-import { ColumnType, GetColumnsCountResponseDTO, SuggestColumnRequestDTO, SuggestColumnResponseDTO } from '@/dto/types'
+import {
+  ColumnType,
+  GetColumnsCountResponseDTO,
+  GetInitialColumnResponseDTO,
+  SuggestColumnRequestDTO,
+  SuggestColumnResponseDTO,
+} from '@/dto/types'
 import { apiClient } from '@/utils/apiClient'
 import { handleError } from '@/utils/error/handleError'
 import { id } from '@/utils/id'
@@ -48,5 +54,16 @@ export default class ColumnApi {
         count: column.count,
       }
     })
+  }
+
+  @handleError({ fallback: [] })
+  static async getInitialColumn(token: string): Promise<string[]> {
+    const res = await apiClient.get<GetInitialColumnResponseDTO>('/samples/columns/initial', {
+      params: {
+        token,
+      },
+    })
+
+    return res.data.columns
   }
 }

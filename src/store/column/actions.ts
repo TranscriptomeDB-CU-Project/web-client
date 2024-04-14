@@ -18,15 +18,16 @@ const columnActions = {
 
     // main columns
     const main = await ColumnApi.getByToken(token)
-
     dispatch(addColumn(main))
-    dispatch(setMainColFetching(false))
-    onFinishBlockingFetch()
-    const toSelect = new Set(getState().selectedColumn.toSelect)
-    toSelect.forEach((colname) => {
+
+    // selected columns
+    const selectedCol = await ColumnApi.getInitialColumn(token)
+    selectedCol.forEach((colname) => {
       dispatch(selectedColActions.add(colname))
     })
-    dispatch(selectedColActions.resetToSelect())
+
+    dispatch(setMainColFetching(false))
+    onFinishBlockingFetch()
 
     // secondary columns
     const secondary = await ColumnApi.getSecondaryByToken(token)
