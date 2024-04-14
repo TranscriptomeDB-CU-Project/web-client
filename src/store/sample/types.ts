@@ -7,4 +7,5 @@ export interface SampleStore {
   maxPage: number
   limit: number
   isFetching: boolean
+  maxReachedPage: number
 }

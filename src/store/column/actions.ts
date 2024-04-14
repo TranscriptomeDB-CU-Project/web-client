@@ -3,7 +3,8 @@ import { Column } from '@/dto/types'
 
 import { AppThunk } from '..'
 import loadingActions from '../loading/actions'
-import { addColumn, reset, setFetching } from '.'
+import selectedColActions from '../selectedColumn/actions'
+import { addColumn, reset, setFetching, setMainColFetching } from '.'
 
 const columnActions = {
   fetchColumns: (): AppThunk<void> => async (dispatch, getState) => {
@@ -13,11 +14,19 @@ const columnActions = {
     // set loading
     const onFinishBlockingFetch = dispatch(loadingActions.onLoading())
     dispatch(setFetching(true))
+    dispatch(setMainColFetching(true))
 
     // main columns
     const main = await ColumnApi.getByToken(token)
-
     dispatch(addColumn(main))
+
+    // selected columns
+    const selectedCol = await ColumnApi.getInitialColumn(token)
+    selectedCol.forEach((colname) => {
+      dispatch(selectedColActions.add(colname))
+    })
+
+    dispatch(setMainColFetching(false))
     onFinishBlockingFetch()
 
     // secondary columns
@@ -28,6 +37,8 @@ const columnActions = {
   getSuggestion:
     (keyword: string, limit = 5): AppThunk<string[]> =>
     (dispatch, getState) => {
+      if (keyword.length === 0) return []
+
       const columns = getState().column.value
       const selectedColumns = getState().selectedColumn.value
 

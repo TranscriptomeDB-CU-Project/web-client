@@ -13,9 +13,13 @@ const useSuggestion = () => {
 
     setLoading(true)
     const res = await CellLineApi.getSuggestion(query)
-    const result = res['cell-line-list'].map((cellLine) => {
-      return cellLine['name-list'][0].value
-    })
+    const result = res['cell-line-list']
+      .map((cellLine) => {
+        return cellLine['name-list'][0].value
+      })
+      .filter((_cellLine) => {
+        return !cellLine.data.includes(_cellLine)
+      })
 
     setLoading(false)
 

@@ -20,14 +20,15 @@ export const SearchProvider = ({ children }: PropsWithChildren<{}>) => {
   const router = useRouter()
 
   const getToken = async () => {
-    const error = validate()
+    const error = validate(actions.complex.state)
 
     if (error) {
       toast.error(error)
       return
     }
 
-    const token = await SampleApi.getToken(constructQuery())
+    const query = constructQuery()
+    const token = await SampleApi.getToken(query)
     router.push(`/select?token=${token}`)
   }
 

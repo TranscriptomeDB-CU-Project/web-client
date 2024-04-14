@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Column, OrderDirection } from '@/dto/types'
 
+import { RootState } from '..'
+import { columnSelectors } from '../column'
 import { SelectedColumnStore } from './types'
 
 const initialState: SelectedColumnStore = {
@@ -13,6 +15,7 @@ const selectedColumnSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<Column>) => {
+      if (state.value.some(({ column }) => column.colname === action.payload.colname)) return
       state.value.push({ column: action.payload, query: '' })
     },
     remove: (state, action: PayloadAction<string>) => {
@@ -41,7 +44,9 @@ const selectedColumnSlice = createSlice({
         }
       }
     },
-    reset: () => initialState,
+    reset: (state) => {
+      state.value = []
+    },
   },
   selectors: {
     getQuery: (state) => {
@@ -66,15 +71,21 @@ const selectedColumnSlice = createSlice({
       return state.value.some(({ query }) => query !== '')
     },
     getSelectable: (state) => {
-      return state.value.map(({ column }) => ({
-        label: column.colname,
-        value: column.colname,
-      }))
+      return state.value
+        .filter(({ column }) => !column.colname.endsWith('<interval>'))
+        .map(({ column }) => ({
+          label: column.colname,
+          value: column.colname,
+        }))
     },
   },
 })
 
+const noSelectedColumn = (state: RootState) => {
+  return state.selectedColumn.value.length === 0 && !columnSelectors.isEmpty(state)
+}
+
 export const { add, remove, rearrange, setQuery, setSort, reset } = selectedColumnSlice.actions
-export const selectedColSelectors = selectedColumnSlice.selectors
+export const selectedColSelectors = { ...selectedColumnSlice.selectors, noSelectedColumn }
 
 export default selectedColumnSlice.reducer

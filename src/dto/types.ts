@@ -29,6 +29,10 @@ export interface GetColumnsCountResponseDTO {
   }[]
 }
 
+export interface GetInitialColumnResponseDTO {
+  columns: string[]
+}
+
 export enum ValueType {
   STRING = 'STRING',
   NUMBER = 'NUMBER',

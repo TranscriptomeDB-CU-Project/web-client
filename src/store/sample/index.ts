@@ -8,6 +8,7 @@ const initialState: SampleStore = {
   maxPage: 1,
   limit: 20,
   isFetching: false,
+  maxReachedPage: 0,
 }
 
 const sampleSlice = createSlice({
@@ -27,11 +28,15 @@ const sampleSlice = createSlice({
       state.isFetching = action.payload
     },
     setLimit: (state, action: PayloadAction<number>) => {
+      state.maxReachedPage = 1
       state.limit = action.payload
+    },
+    setMaxReachedPage: (state, action: PayloadAction<number>) => {
+      state.maxReachedPage = Math.max(state.maxReachedPage, action.payload)
     },
     reset: () => initialState,
   },
 })
 
-export const { setSample, setPage, setMaxPage, setFetching, setLimit, reset } = sampleSlice.actions
+export const { setSample, setPage, setMaxPage, setFetching, setLimit, reset, setMaxReachedPage } = sampleSlice.actions
 export default sampleSlice.reducer

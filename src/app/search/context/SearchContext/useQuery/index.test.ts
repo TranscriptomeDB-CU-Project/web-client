@@ -214,7 +214,7 @@ describe('useQuery', async () => {
             op: Operator.AND,
             params: [
               {
-                key: 'cell line',
+                key: 'cell_line',
                 valuetype: 'STRING',
                 condition: {
                   include: true,

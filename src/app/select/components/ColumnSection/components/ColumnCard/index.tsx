@@ -13,11 +13,11 @@ const ColumnCard = ({ name, count }: ColumnCardProps) => {
   return (
     <ColumnCardContainer>
       <ContentCardContainer>
-        <Icon icon="mdi:hamburger-menu" />
-        <Text>{name}</Text>
+        <Icon style={{ marginTop: '4px', minWidth: '16px', minHeight: '16px' }} icon="mdi:hamburger-menu" />
+        <Text style={{ wordBreak: 'break-all' }}>{name}</Text>
       </ContentCardContainer>
-      <ContentCardContainer>
-        <Text variant="body2" color="black-400">
+      <ContentCardContainer style={{ marginTop: '4px', height: 'fit-content', alignItems: 'center' }}>
+        <Text style={{ marginTop: '-1px' }} variant="body2" color="black-400">
           {count}
         </Text>
         <Icon

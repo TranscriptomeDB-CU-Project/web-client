@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import Select from '@/components/Select'
 import Text from '@/components/Text'
 import { useAppDispatch, useAppSelector } from '@/store'
-import { sampleGroupDependency } from '@/store/sample/selector'
+import sampleSelectors from '@/store/sample/selector'
 import sampleGroupActions from '@/store/sampleGroup/actions'
 import { selectedColSelectors } from '@/store/selectedColumn'
 import selectedSampleActions from '@/store/selectedSample/actions'
@@ -18,7 +18,7 @@ const GroupBySection = () => {
     column: state.sampleGroup.column,
   }))
   const dispatch = useAppDispatch()
-  const dependency = useAppSelector(sampleGroupDependency)
+  const dependency = useAppSelector(sampleSelectors.sampleGroupDependency)
 
   useEffect(() => {
     dispatch(sampleGroupActions.fetch())
