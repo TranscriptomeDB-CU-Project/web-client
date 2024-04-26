@@ -27,8 +27,16 @@ const PaginationSection = () => {
 
   const handleLimitChange = () => {
     const val = Number(value)
-    if (val < 10) toast.error('Minimum sample per page is 10')
-    if (val > 50) toast.error('Maximum sample per page is 50')
+
+    if (val < 10) {
+      toast.error('Minimum sample per page is 10')
+      return
+    }
+
+    if (val > 50) {
+      toast.error('Maximum sample per page is 50')
+      return
+    }
 
     dispatch(sampleActions.setLimit(val))
   }
