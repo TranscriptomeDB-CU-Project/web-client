@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Transcriptome DB Web Client
 
-## Getting Started
+This web client serves as a user-friendly interface for querying, selecting, and downloading genetic samples from our database. You can explore the design of the website by visiting the [Figma project](https://www.figma.com/file/mxBhmxHTbRjoWCol12IGCs/Transcriptome-DB-Project-Design).
 
-First, run the development server:
+## Prerequisites
+
+Before you start, ensure you have the following installed on your machine:
+
+- Node.js
+- Yarn
+
+## Installation
+
+1. Clone this repository to your local machine.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/TranscriptomeDB-CU-Project/web-client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate into the project directory.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd web-client
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Install project dependencies using Yarn.
 
-## Learn More
+```bash
+yarn
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Prior to running or building the project, it's essential to create a new `.env` file by duplicating the `.env.example` file and completing the variables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Development
 
-## Deploy on Vercel
+To start the development server, run the following command:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+yarn dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This will start the development server, and you should be able to access your application at http://localhost:3000.
+
+## Testing
+
+As some of the logic in the project is complex, it's crucial to have tests in place to ensure the code's correctness.
+
+To run tests for the project, execute the following command:
+
+```bash
+yarn test
+```
