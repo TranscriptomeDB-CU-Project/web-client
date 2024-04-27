@@ -152,6 +152,8 @@ const useQuery = (actions: ReturnType<typeof useCondition>, generalParam: Return
     if (item.type === ConditionType.SINGLE) {
       const condition = item as Condition
       if (condition.key === '' || condition.value === '') return 'Please fill all Columns and Keywords'
+      if (condition.matchType === MatchType.FUZZY && !condition.include)
+        return 'FUZZY is not supported for "is not" conditions'
     } else {
       const group = item as ConditionGroup
       if (group.conditions.length === 0) {
